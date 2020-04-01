@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS `VenteChaussure`.`ville` (
   `nomVille` VARCHAR(45) NOT NULL,
   `codeVille` INT(5) NOT NULL,
   PRIMARY KEY (`idVille`),
-  UNIQUE INDEX `idVille_UNIQUE` (`idVille` ASC) VISIBLE)
+  UNIQUE INDEX `idVille_UNIQUE` (`idVille` ASC) )
 ENGINE = InnoDB;
 
 
@@ -47,8 +47,8 @@ CREATE TABLE IF NOT EXISTS `VenteChaussure`.`client` (
   `residenceClient` VARCHAR(255) NOT NULL,
   `ville_idVille` INT NOT NULL,
   PRIMARY KEY (`idClient`, `ville_idVille`),
-  UNIQUE INDEX `idClient_UNIQUE` (`idClient` ASC) VISIBLE,
-  INDEX `fk_client_ville1_idx` (`ville_idVille` ASC) VISIBLE,
+  UNIQUE INDEX `idClient_UNIQUE` (`idClient` ASC) ,
+  INDEX `fk_client_ville1_idx` (`ville_idVille` ASC) ,
   CONSTRAINT `fk_client_ville1`
     FOREIGN KEY (`ville_idVille`)
     REFERENCES `VenteChaussure`.`ville` (`idVille`)
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS `VenteChaussure`.`panier` (
   `idpanier` INT NOT NULL AUTO_INCREMENT,
   `validerPanier` INT(2) NULL DEFAULT 0,
   PRIMARY KEY (`idpanier`),
-  UNIQUE INDEX `idpanier_UNIQUE` (`idpanier` ASC) VISIBLE)
+  UNIQUE INDEX `idpanier_UNIQUE` (`idpanier` ASC) )
 ENGINE = InnoDB;
 
 
@@ -81,8 +81,8 @@ CREATE TABLE IF NOT EXISTS `VenteChaussure`.`commentaires` (
   `dateCommentaire` DATETIME NOT NULL,
   `client_idClient` INT NOT NULL,
   PRIMARY KEY (`idCommentaires`, `client_idClient`),
-  UNIQUE INDEX `idCommentaires_UNIQUE` (`idCommentaires` ASC) VISIBLE,
-  INDEX `fk_commentaires_client1_idx` (`client_idClient` ASC) VISIBLE,
+  UNIQUE INDEX `idCommentaires_UNIQUE` (`idCommentaires` ASC) ,
+  INDEX `fk_commentaires_client1_idx` (`client_idClient` ASC) ,
   CONSTRAINT `fk_commentaires_client1`
     FOREIGN KEY (`client_idClient`)
     REFERENCES `VenteChaussure`.`client` (`idClient`)
@@ -101,7 +101,7 @@ CREATE TABLE IF NOT EXISTS `VenteChaussure`.`variante` (
   `couleurVariante` VARCHAR(45) NOT NULL,
   `tailleVariante` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idVariante`),
-  UNIQUE INDEX `idVariante_UNIQUE` (`idVariante` ASC) VISIBLE)
+  UNIQUE INDEX `idVariante_UNIQUE` (`idVariante` ASC) )
 ENGINE = InnoDB;
 
 
@@ -117,9 +117,9 @@ CREATE TABLE IF NOT EXISTS `VenteChaussure`.`produit` (
   `commentaires_idCommentaires` INT NOT NULL,
   `variante_idVariante` INT NOT NULL,
   PRIMARY KEY (`idproduit`, `commentaires_idCommentaires`, `variante_idVariante`),
-  UNIQUE INDEX `idproduit_UNIQUE` (`idproduit` ASC) VISIBLE,
-  INDEX `fk_produit_commentaires1_idx` (`commentaires_idCommentaires` ASC) VISIBLE,
-  INDEX `fk_produit_variante1_idx` (`variante_idVariante` ASC) VISIBLE,
+  UNIQUE INDEX `idproduit_UNIQUE` (`idproduit` ASC) ,
+  INDEX `fk_produit_commentaires1_idx` (`commentaires_idCommentaires` ASC) ,
+  INDEX `fk_produit_variante1_idx` (`variante_idVariante` ASC) ,
   CONSTRAINT `fk_produit_commentaires1`
     FOREIGN KEY (`commentaires_idCommentaires`)
     REFERENCES `VenteChaussure`.`commentaires` (`idCommentaires`)
@@ -142,7 +142,7 @@ CREATE TABLE IF NOT EXISTS `VenteChaussure`.`detenir` (
   `client_idClient` INT NOT NULL,
   `panier_idpanier` INT NOT NULL,
   PRIMARY KEY (`client_idClient`, `panier_idpanier`),
-  INDEX `fk_detenir_panier1_idx` (`panier_idpanier` ASC) VISIBLE,
+  INDEX `fk_detenir_panier1_idx` (`panier_idpanier` ASC) ,
   CONSTRAINT `fk_detenir_client`
     FOREIGN KEY (`client_idClient`)
     REFERENCES `VenteChaussure`.`client` (`idClient`)
@@ -165,7 +165,7 @@ CREATE TABLE IF NOT EXISTS `VenteChaussure`.`contenir` (
   `produit_idproduit` INT NOT NULL,
   `panier_idpanier` INT NOT NULL,
   PRIMARY KEY (`produit_idproduit`, `panier_idpanier`),
-  INDEX `fk_contenir_panier1_idx` (`panier_idpanier` ASC) VISIBLE,
+  INDEX `fk_contenir_panier1_idx` (`panier_idpanier` ASC) ,
   CONSTRAINT `fk_contenir_produit1`
     FOREIGN KEY (`produit_idproduit`)
     REFERENCES `VenteChaussure`.`produit` (`idproduit`)
@@ -189,8 +189,8 @@ CREATE TABLE IF NOT EXISTS `VenteChaussure`.`facture` (
   `dateFacture` DATE NOT NULL,
   `panier_idpanier` INT NOT NULL,
   PRIMARY KEY (`idFacture`, `panier_idpanier`),
-  UNIQUE INDEX `idFacture_UNIQUE` (`idFacture` ASC) VISIBLE,
-  INDEX `fk_facture_panier1_idx` (`panier_idpanier` ASC) VISIBLE,
+  UNIQUE INDEX `idFacture_UNIQUE` (`idFacture` ASC) ,
+  INDEX `fk_facture_panier1_idx` (`panier_idpanier` ASC) ,
   CONSTRAINT `fk_facture_panier1`
     FOREIGN KEY (`panier_idpanier`)
     REFERENCES `VenteChaussure`.`panier` (`idpanier`)
@@ -212,9 +212,9 @@ CREATE TABLE IF NOT EXISTS `VenteChaussure`.`fournisseurs` (
   `produit_variante_idVariante` INT NOT NULL,
   `ville_idVille` INT NOT NULL,
   PRIMARY KEY (`idFournisseur`, `produit_idproduit`, `produit_variante_idVariante`, `ville_idVille`),
-  UNIQUE INDEX `idFournisseur_UNIQUE` (`idFournisseur` ASC) VISIBLE,
-  INDEX `fk_fournisseurs_produit1_idx` (`produit_idproduit` ASC, `produit_variante_idVariante` ASC) VISIBLE,
-  INDEX `fk_fournisseurs_ville1_idx` (`ville_idVille` ASC) VISIBLE,
+  UNIQUE INDEX `idFournisseur_UNIQUE` (`idFournisseur` ASC) ,
+  INDEX `fk_fournisseurs_produit1_idx` (`produit_idproduit` ASC, `produit_variante_idVariante` ASC) ,
+  INDEX `fk_fournisseurs_ville1_idx` (`ville_idVille` ASC) ,
   CONSTRAINT `fk_fournisseurs_produit1`
     FOREIGN KEY (`produit_idproduit` , `produit_variante_idVariante`)
     REFERENCES `VenteChaussure`.`produit` (`idproduit` , `variante_idVariante`)
@@ -238,7 +238,7 @@ CREATE TABLE IF NOT EXISTS `VenteChaussure`.`utilisateur` (
   `loginUtilisateur` VARCHAR(320) NOT NULL,
   `mdpUtilisateur` VARCHAR(40) NOT NULL,
   PRIMARY KEY (`idUtilisateur`),
-  UNIQUE INDEX `idUtilisateur_UNIQUE` (`idUtilisateur` ASC) VISIBLE)
+  UNIQUE INDEX `idUtilisateur_UNIQUE` (`idUtilisateur` ASC) )
 ENGINE = InnoDB;
 
 
@@ -253,8 +253,8 @@ CREATE TABLE IF NOT EXISTS `VenteChaussure`.`privilege` (
   `descriptionPrivilege` VARCHAR(255) NOT NULL,
   `utilisateur_idUtilisateur` INT NOT NULL,
   PRIMARY KEY (`idPrivilege`, `utilisateur_idUtilisateur`),
-  UNIQUE INDEX `idPrivilege_UNIQUE` (`idPrivilege` ASC) VISIBLE,
-  INDEX `fk_privilege_utilisateur1_idx` (`utilisateur_idUtilisateur` ASC) VISIBLE,
+  UNIQUE INDEX `idPrivilege_UNIQUE` (`idPrivilege` ASC) ,
+  INDEX `fk_privilege_utilisateur1_idx` (`utilisateur_idUtilisateur` ASC) ,
   CONSTRAINT `fk_privilege_utilisateur1`
     FOREIGN KEY (`utilisateur_idUtilisateur`)
     REFERENCES `VenteChaussure`.`utilisateur` (`idUtilisateur`)
