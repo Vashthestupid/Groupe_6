@@ -25,7 +25,7 @@ SELECT prod.product_name AS Nom,
        tva.valeur_tva,
        
        
-/!\ Je préfère voir la correction pour celui-ci /!\
+-- Je préfère voir la correction pour celui-ci 
     
 
 -- Question 3
