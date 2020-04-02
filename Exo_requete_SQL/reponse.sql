@@ -24,6 +24,8 @@ SELECT prod.product_name AS Nom,
        prod.list_price AS Prix HT,
        tva.valeur_tva,
        
+       
+/!\ Je préfère voir la correction pour celui-ci /!\
     
 
 -- Question 3
