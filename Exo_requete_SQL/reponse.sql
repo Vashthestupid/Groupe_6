@@ -13,6 +13,7 @@ AND brands.brand_name = 'Haro'
 
 -- Question 2
 
+<<<<<<< HEAD
 -- Rémi
 
 SELECT prod.name AS Nom, 
@@ -39,6 +40,21 @@ SELECT  products.name,
 FROM products
 INNER JOIN categories ON products.category_id = categories.idCat
 INNER JOIN brands ON products.brand_id = brands.brand_id
+=======
+Create table tva
+(
+	id_tva INT PRIMARY KEY NOT NULL,
+	valeur_tva INT NOT NULL,
+),
+
+SELECT prod.product_name AS Nom,
+       prod.model_year AS Année,
+       prod.list_price AS Prix HT,
+       tva.valeur_tva,
+       
+       
+-- Je préfère voir la correction pour celui-ci 
+>>>>>>> 6ff768e4315775bc6301ff56534c029bb6937835
     
 
 -- Question 3
