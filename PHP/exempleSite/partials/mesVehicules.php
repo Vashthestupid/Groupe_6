@@ -8,9 +8,6 @@
 </head>
 <body>
 <?php
-
-$b = "<br>";
-
 $mesVehicules = array(
     'Citroen' => 'C4',
     'Renault' => 'Clio',
