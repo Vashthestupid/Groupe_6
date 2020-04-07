@@ -1,26 +1,51 @@
 <?php
+error_reporting(E_ALL ^ E_NOTICE);
+
+require '../config/config.php';
 include_once 'elements/head.php';
 include_once 'elements/footer.php';
 require '../models/connect.php';
 
 $db = connection();
-
-var_dump($db);
-
-$vehiculeMarque = array(
-    "Audi" => "A1",
-    "Audi" => "A4",
-    "Audi" => "A6",
-    "BMW" => "Serie 4",
-    "BMW" => "Serie 7",
-    "BMW" => "Serie X6",
-    "PEUGEOT" => "208",
-    "PEUGEOT" => "5008",
-    "Ford" => "Fiesta",
-    "PEUGEOT" => "S-Max",
-);
-
 head();
+
+
+if(isset($_POST['mode']) AND isset($_POST['mark'])){
+    $modele = htmlspecialchars(trim($_POST['mode']));
+    $marque = htmlspecialchars(trim($_POST['mark']));
+
+    $sqlInsertModele = "INSERT INTO modele(nomModele) VALUES(:modele)";
+    $sqlInsertMarque = "INSERT INTO marque(nomMarque) VALUES(:marque)";
+
+    $reqInsertModele = $db->prepare($sqlInsertModele);
+    $reqInsertMarque = $db->prepare($sqlInsertMarque);
+
+    $reqInsertModele->bindParam(":modele", $modele);
+    $reqInsertMarque->bindParam(":marque", $marque);
+
+    $reqInsertModele->execute();
+    $reqInsertMarque->execute();
+}
+
+$marques = array();
+$modeles = array();
+
+$sqlSelectModele = "SELECT modele.nomModele FROM modele ORDER BY id DESC";
+$sqlSelectMarque = "SELECT marque.nomMarque FROM marque ORDER BY id DESC";
+
+$reqSelectModele = $db->prepare($sqlSelectModele);
+$reqSelectMarque = $db->prepare($sqlSelectMarque);
+
+$reqSelectModele->execute();
+$reqSelectMarque->execute();
+
+while($dataModele = $reqSelectModele->fetchObject()){
+    array_push($modele, $dataModele);
+}
+
+while($dataMarque = $reqSelectMarque->fetchObject()){
+    array_push($marque, $dataMarque);
+}
 ?>
 
     <h1>Liste de mes véhicules</h1>
@@ -33,17 +58,19 @@ head();
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <?php
-            foreach ($vehiculeMarque as $marque=>$modele){
-            ?>
-            <td><?= $marque ?></td>
-            <td><?= $modele ?></td>
-        </tr>
         <?php
-        }
+            foreach($modeles as $modele){
+        ?>      
+                <tr>
+                    <td><?php $modeles->modele;?></td>
+            }
+        <?php
+            foreach($marques as $marque){
         ?>
-
+                    <td><?php $marques->marque;?></td>
+        <?php
+            }
+        ?>
         </tbody>
     </table>
     <div>
@@ -53,6 +80,5 @@ head();
             </button>
         </a>
     </div>
-
 <?php
 footer();
