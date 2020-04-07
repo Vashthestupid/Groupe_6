@@ -5,7 +5,10 @@ require 'src/models/connect.php';
 
 
 head();
+
 $db=Connection();
+
+
 if(isset($_POST["mod"])) {
     $modele = htmlspecialchars(trim($_POST["mod"]));
     $sqlInsert="INSERT INTO modele(nomModele) VALUE(:modele)";
@@ -28,7 +31,7 @@ if(isset($_POST['mark'])){
     <h1>Mes Vehicules</h1>
     <hr>
     <div>
-        <form method="POST" method="\src\views\mesVehicules.php">
+        <form method="POST">
 
             <div class="form-group">
                 <label for="modele">Modele</label>
