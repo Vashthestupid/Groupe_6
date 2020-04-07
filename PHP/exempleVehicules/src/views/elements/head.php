@@ -3,7 +3,7 @@
 function head(){
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <title>Exemple Site - affichage véhicule</title>
