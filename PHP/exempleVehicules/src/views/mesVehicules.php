@@ -1,17 +1,26 @@
 <?php
 include_once 'elements/head.php';
 include_once 'elements/footer.php';
+require '../models/connect.php';
+
+$db = connection();
+
+var_dump($db);
+
+$vehiculeMarque = array(
+    "Audi" => "A1",
+    "Audi" => "A4",
+    "Audi" => "A6",
+    "BMW" => "Serie 4",
+    "BMW" => "Serie 7",
+    "BMW" => "Serie X6",
+    "PEUGEOT" => "208",
+    "PEUGEOT" => "5008",
+    "Ford" => "Fiesta",
+    "PEUGEOT" => "S-Max",
+);
+
 head();
-
-/*
-$vehicules = array();
-$sqlSelect = "SELECT marque.nomMarque modele.nomModele FROM marque,modele";
-$reqSelect = $db->prepare($sqlSelect);
-$reqSelect->execute();
-
-while($date = $reqSelect->fetchObject()){
-    array_push($vehicules, $data);
-}
 ?>
 
     <h1>Liste de mes véhicules</h1>
@@ -26,10 +35,10 @@ while($date = $reqSelect->fetchObject()){
         <tbody>
         <tr>
             <?php
-            foreach ($vehicules as $vehicule){
+            foreach ($vehiculeMarque as $marque=>$modele){
             ?>
-            <td><?php $marque->nomMarque;?></td>
-            <td><?php $modele->nomModele;?></td>
+            <td><?= $marque ?></td>
+            <td><?= $modele ?></td>
         </tr>
         <?php
         }

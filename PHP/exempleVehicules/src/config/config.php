@@ -1,7 +1,7 @@
 <?php
 
 define('LOCALHOST', 'localhost');
-define('DBNAME', 'vehicule');
+define('DBNAME', 'products');
 define('DBID', 'root');
-define('DBMDP', '7deadlyClover62&');
+define('DBMDP', '');
 
