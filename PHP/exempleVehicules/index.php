@@ -7,6 +7,28 @@ head();
     <h1>Site de mes véhicules</h1>
     <hr>
     <div>
+        <?php
+            if(isset($_GET['empty'])){
+                if($_GET['empty'] == true){
+                    ?>
+                    <div class="alert alert-danger" role="alert">
+                        Ces champs ne peuvent pas être vides.
+                    </div>
+                    <?php
+                }
+            }
+        ?>
+        <?php
+        if(isset($_GET['existe'])){
+            if($_GET['existe'] == true){
+            ?>
+            <div class="alert alert-danger">
+                La marque et le modèle existent déjà.
+            </div>
+            <?php
+            }
+        }
+        ?>
         <form action="src/views/mesVehicules.php" method="post">
             <div class="form-group">
                 <label for="modele">Modele</label>
