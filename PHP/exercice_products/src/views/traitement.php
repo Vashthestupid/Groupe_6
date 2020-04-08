@@ -1,25 +1,20 @@
 <?php
 
-include 'src/views/elements/header.php';
-include 'src/views/elements/footer.php';
-include 'src/config/config.php';
-include 'src/models/connect.php';
+include '../views/elements/header.php';
+include '../views/elements/footer.php';
+include '../config/config.php';
+include '../models/connect.php';
 
 head();
 
 $db= connection();
 
-if(!isset($_GET['id']) || !isset($_GET['name'])){
-    header('Location: ../../products.php?');
-}
+if(isset($_GET['name'])){
+    $name = $_GET['name'];
 
-if($_GET['action']=="delete"){
-    $sqlSupprime = "DELETE FROM products
-    WHERE id=".$_GET['id'];
-    $reqSupprime = $db->prepare($sqlSupprime);
-    $reqSupprime->execute;
-    echo '<p class="alert-danger>Produit supprimé</p>
-          <a href="../../products.php" class="btn-dark">Retour à la liste des produits</a>';
+    $delete = "DELETE FROM products WHERE products.name = $name";
+    $reqDelete = $db->prepare($delete);
+    $reqDelete->execute();
 }
 
 ?>
