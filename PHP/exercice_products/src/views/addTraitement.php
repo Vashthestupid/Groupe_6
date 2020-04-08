@@ -11,7 +11,7 @@ var_dump($db);
 
 
 if(empty($_POST['name']) || empty($_POST['describe']) || empty($_POST['price']) || empty($_POST['cat'])){
-    header('Location: addProd.php');
+    header('Location: ../../products.php');
     echo "Tous les champs doivent être renseignés";
 }
 
@@ -44,8 +44,9 @@ if($nb->nb == 0){
     $reqInsertProducts->bindParam(':price',$prix);
     $reqInsertProducts->bindParam(':idCategory',$cat);
     $reqInsertProducts->execute();
-} else {
     header('Location: ../../products.php');
+} else {
+    echo 'Votre produit n\'a pas été ajouté';
 }
 
 ?>

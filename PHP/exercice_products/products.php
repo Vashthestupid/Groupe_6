@@ -19,6 +19,13 @@ while($data=$reqSelect->fetchObject())
     array_push($listeProduits,$data);
 }
 
+//Supression du produit
+
+$id = $_GET['id'];
+$delete = "DELETE FROM products WHERE id= $id";
+$reqDelete = $db->prepare($delete);
+$reqDelete->execute();
+
 ?>
 
 <div class="container">
@@ -44,11 +51,21 @@ while($data=$reqSelect->fetchObject())
                 <td><?= $produit->catName ?></td>
                 <td>
                     <div>
-						<form method="get" action="src/views/traitement.php?nom=<?=$_GET['name']?>" class="form-inline">
-                            <button class="btn btn-primary" type="submit" name='lire'><i class="fa fa-bars" aria-hidden="true"></i> Lire</button>
-                            <button class="btn btn-warning" type="submit" name='modifier'><i class="fa fa-spinner" aria-hidden="true"></i> Modifier</button>
-                            <button class="btn btn-danger" type="submit" name="supprimer"><i class="fa fa-minus-square" aria-hidden="true"></i> Supprimer</button>
-                        </form>
+						<form method="get" action="products.php" class="form-inline">
+							<input type="number" name="id" value="<?= $produit->id ?>" readonly>
+							<input type="text" name="action" value="read" readonly>
+							<button class="btn btn-primary mr-1" type="submit"><i class="fa fa-bars" aria-hidden="true"></i> Lire</button>
+						</form>
+						<form method="get" action="products.php" class="form-inline">
+							<input type="number" name="id" value="<?= $produit->id ?>" readonly>
+							<input type="text" name="action" value="modify" readonly>
+							<button class="btn btn-warning mr-1" type="submit"><i class="fa fa-spinner" aria-hidden="true"></i> Modifier</button>
+						</form>
+						<form method="get" action="products.php" class="form-inline">
+							<input type="number" name="id" value="<?= $produit->id ?>"  readonly>
+							<input type="text" name="action" value="delete" readonly>
+							<button class="btn btn-danger mr-1" type="submit"><i class="fa fa-minus-square" aria-hidden="true"></i> Supprimer</button>
+						</form>	
                     </div>
                 </td>
             </tr>
@@ -57,7 +74,7 @@ while($data=$reqSelect->fetchObject())
 			?>
 		</tbody>
 	</table>
-	<a href="src/views/addProd.php">Cliquez ici pour ajouter un produit</a>
+	<a href="src/views/addProd.php">Cliquez ici pour ajouter un produit.</a>
 </div>
 
 <?php footer(); ?>
