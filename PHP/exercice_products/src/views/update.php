@@ -68,7 +68,6 @@ if(isset($_POST['nvName']) && isset($_POST['nvDescribe']) && isset($_POST['nvPri
     $newCat = htmlspecialchars(trim($_POST['nvCat']));
 }
 
-$modif = "  UPDATE products
-            SET "
+
 
 ?>
