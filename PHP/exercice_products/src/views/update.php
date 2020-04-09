@@ -9,6 +9,7 @@ head();
 $db = connection();
 
 $id = $_GET['id'];
+var_dump($id);
 $recup = "  SELECT *
             FROM products
             WHERE id = $id ";
@@ -30,15 +31,15 @@ foreach($produits as $produit){
         <form action='updateTraitement.php' method="post">
             <div class="form-group">
                 <label for="nom"><?= $produit->name?></label>
-                <input class="form-control" type="text" name="name" id="nom">
+                <input class="form-control" type="text" name="nvName" id="nom">
             </div>
             <div class="form-group">
                 <label for="description"><?= $produit->description?></label>
-                <input class="form-control" type="text" name="describe" id="description">
+                <input class="form-control" type="text" name="nvDescribe" id="description">
             </div>
             <div class="form-group">
                 <label for="prix"><?= $produit->price?></label>
-                <input class="form-control" type="number" name="price" id="prix">
+                <input class="form-control" type="number" name="nvPrice" id="prix">
             </div>
             <input class="btn btn-dark" type="submit" value="Valider">
         </form>

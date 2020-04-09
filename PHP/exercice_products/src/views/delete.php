@@ -5,8 +5,6 @@ include '../views/elements/footer.php';
 include '../config/config.php';
 include '../models/connect.php';
 
-head();
-
 $db= connection();
 
 $id = $_GET['id'];
