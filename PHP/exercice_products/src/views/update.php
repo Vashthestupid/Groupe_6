@@ -10,9 +10,13 @@ $db = connection();
 
 $id = $_GET['id'];
 var_dump($id);
-$recup = "  SELECT *
+$recup = "  SELECT products.name,
+            products.description,
+            products.price,
+            categories.name as catName
             FROM products
-            WHERE id = $id ";
+            INNER JOIN categories ON products.category_id = categories.id
+            WHERE products.id = $id ";
 $reqRecup = $db->prepare($recup);
 $reqRecup->execute();
 
@@ -28,7 +32,7 @@ while ($data = $reqRecup->fetchObject()) {
 foreach($produits as $produit){
 ?>
 
-        <form action='updateTraitement.php' method="post">
+        <form method="post">
             <div class="form-group">
                 <label for="nom"><?= $produit->name?></label>
                 <input class="form-control" type="text" name="nvName" id="nom">
@@ -41,11 +45,30 @@ foreach($produits as $produit){
                 <label for="prix"><?= $produit->price?></label>
                 <input class="form-control" type="number" name="nvPrice" id="prix">
             </div>
-            <input class="btn btn-dark" type="submit" value="Valider">
+            <div class="form-group row">	
+            <label for="categorie"><?= $produit->catName?></label>
+            <select name="nvCat" id="categorie" class="form-control">
+                <option value="1">Fashion</option>
+                <option value="2" >Electronics</option>
+                <option value="3" >Motors</option>
+            </select>
+        </div>
+            <input class="btn btn-dark" type="submit" value="Modifier">
         </form>
         <br>
         <a href="../../products.php">Retourner à la liste des produits.</a>
 <?php
 }
 footer();
+
+if(isset($_POST['nvName']) && isset($_POST['nvDescribe']) && isset($_POST['nvPrice']) && isset($_POST['nvCat'])){
+    $newName = htmlspecialchars(trim($_POST['nvName']));
+    $newDescribe = htmlspecialchars(trim($_POST['nvDescribe']));
+    $newPrice = intval($_POST['nvPrice']);
+    $newCat = htmlspecialchars(trim($_POST['nvCat']));
+}
+
+$modif = "  UPDATE products
+            SET "
+
 ?>
