@@ -1,6 +1,8 @@
 <?php
 include 'src/views/elements/header.php';
 include 'src/views/elements/footer.php';
+include 'src/config/config.php';
+include 'src/models/connect.php';
 
 head();
 ?>
@@ -21,6 +23,9 @@ head();
             <li class="nav-item">
                 <a class="nav-link" href="src/views/contact.php">Contact</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="src/views/ajoutAgence.php">Ajouter une agence</a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -38,12 +43,10 @@ head();
                     <p class="card-text">Le site de ventes et locations de biens immobiliers de Bernard Blier!</p>
 
                         <p>"Chez moi on ne vends pas, on ventile!!"</p>
-                    <a href="src/views/contact.html" class="btn btn-outline-secondary">Nous contacter</a>
+                    <a href="src/views/contact.php" class="btn btn-outline-secondary">Nous contacter</a>
                 </div>
             </div>
         </div>
     </div>
-</body>
-</html>
 <?php
 footer();

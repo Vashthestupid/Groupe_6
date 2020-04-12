@@ -1,6 +1,8 @@
 <?php
 include 'elements/header.php';
 include 'elements/footer.php';
+include '../config/config.php';
+include '../models/connect.php';
 
 head();
 ?>
@@ -19,6 +21,9 @@ head();
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="#">Contact<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="ajoutAgence.php">Ajouter une agence</a>
             </li>
         </ul>
     </div>
@@ -56,7 +61,7 @@ head();
                     <div class="form-group col-md-12">
                         <label for="inputState">State</label>
                         <select id="inputState" class="form-control">
-                            <option selected>Choose...</option>
+                            <option selected>Selectionnez le pays</option>
                             <option>...</option>
                         </select>
                     </div>
