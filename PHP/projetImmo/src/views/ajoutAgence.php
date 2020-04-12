@@ -60,6 +60,9 @@ if($nb->nb == 0){
             <li class="nav-item active">
                 <a class="nav-link" href="#">Ajouter une agence <span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
+            </li>
         </ul>
     </div>
 </nav>

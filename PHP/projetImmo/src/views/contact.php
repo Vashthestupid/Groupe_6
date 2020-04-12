@@ -7,7 +7,7 @@ include '../models/connect.php';
 head();
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="../../index.html">DamienLocation</a>
+    <a class="navbar-brand" href="/">DamienLocation</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -24,6 +24,9 @@ head();
             </li>
             <li class="nav-item ">
                 <a class="nav-link" href="ajoutAgence.php">Ajouter une agence</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
             </li>
         </ul>
     </div>

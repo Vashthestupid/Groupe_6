@@ -26,6 +26,9 @@ head();
             <li class="nav-item">
                 <a class="nav-link" href="src/views/ajoutAgence.php">Ajouter une agence</a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="src/views/ajoutLocation.php">Ajouter une location</a>
+            </li>
         </ul>
     </div>
 </nav>

@@ -47,6 +47,9 @@ while($data = $reqDetail->fetchObject()){
             <li class="nav-item">
                 <a class="nav-link" href="./ajoutAgence.php">Ajouter une agence</a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
+            </li>
         </ul>
     </div>
 </nav>
