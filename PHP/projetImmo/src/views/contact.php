@@ -5,6 +5,59 @@ include '../config/config.php';
 include '../models/connect.php';
 
 head();
+
+$db = connection();
+
+// Verifie si les champs existent.
+if(isset($_POST['mail']) && isset($_POST['mess']) && isset($_POST['adress']) && isset($_POST['adress2']) && isset($_POST['cp']) && isset($_POST['state'])){
+    $mail = htmlspecialchars(trim($_POST['mail']));
+    $mess = htmlspecialchars(trim($_POST['mess']));
+    $adresse = htmlspecialchars(trim($_POST['adress']));
+    $adresse2 = htmlspecialchars(trim($_POST['adress2']));
+    $code = htmlspecialchars(trim($_POST['cp']));
+    $pays = htmlspecialchars(trim($_POST['state']));
+}
+
+//verifie si les champs envoyés n'existent pas déjà dans la base de données.
+
+$verif =  " SELECT COUNT(*) as nb
+            FROM contact
+            INNER JOIN adresse ON contact.adresse_idadresse = adresse.idadresse
+            WHERE contact.Email = :email";
+
+$reqVerif = $db->prepare($verif);
+$reqVerif->bindParam(':email', $mail);
+$reqVerif->execute();
+
+$nb = $reqVerif->fetchObject();
+
+if($nb->nb == 0){
+    //On ajoute l'adresse
+     $insertAdresse = "INSERT INTO adresse (adresse1,adresse2,codepostal,pays) VALUES (:adresse,:adresse2,:codepostal,:pays)";
+    
+    $reqInsertAdresse = $db->prepare($insertAdresse);
+    $reqInsertAdresse->bindParam(':adresse',$adresse);
+    $reqInsertAdresse->bindParam(':adresse2',$adresse2);
+    $reqInsertAdresse->bindParam(':codepostal',$code);
+    $reqInsertAdresse->bindParam(':pays',$pays);
+    $reqInsertAdresse->execute();
+
+    $lastInsertIDAdresse = $db->lastInsertId();
+
+    //Puis le message
+
+    $insertContact = "INSERT INTO contact (Email,messageContact,adresse_idadresse) VALUES (:mail,:message,$lastInsertIDAdresse)";
+    $reqInsertMessage = $db->prepare($insertContact);
+    $reqInsertMessage->bindParam(':mail', $mail);
+    $reqInsertMessage->bindParam(':message', $mess);
+    $reqInsertMessage->execute();
+
+    $listeContacts = array();
+
+    while($data = $reqInsertMessage->fetchObject()){
+        array_push($listeContacts, $data);
+    }
+}
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">DamienLocation</a>
@@ -33,49 +86,56 @@ head();
 </nav>
 
 <div class="container">
+    <div class="row"></div>
+    <div class="alert alert-danger">
+        <?php
+            if(empty($_POST['mail'])|| empty($_POST['mess']) || empty($_POST['adress']) || empty($_POST['cp']) || empty($_POST['state'])){
+                echo 'Tous les champs doivent être renseignés.';
+            } else {
+                echo 'Votre formulaire a bien été envoyé.';
+            }
+        ?>
+    </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6  col-lg-6  col-xl-6">
-            <form class="mt-5">
+            <form method ='post' action="contact.php"  class="mt-5">
                 <div class="row">
                     <div class="form-group col-md-12">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Email">
+                        <input type="email" name="mail" class="form-control" id="email">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label for="adresse">Address</label>
-                        <input type="text" class="form-control" id="adresse" placeholder="1234 Main St">
+                        <label for="message">Message</label>
+                        <input type="text" name="mess" class="form-control" id="message">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label for="inputAddress2">Address 2</label>
-                        <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+                        <label for="adresse">Adresse</label>
+                        <input type="text" name="adress" class="form-control" id="adresse">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label for="inputCity">City</label>
-                        <input type="text" class="form-control" id="inputCity">
+                        <label for="adresse2">Adresse2</label>
+                        <input type="text" name="adress2" class="form-control" id="adresse">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label for="inputState">State</label>
-                        <select id="inputState" class="form-control">
-                            <option selected>Selectionnez le pays</option>
-                            <option>...</option>
-                        </select>
+                        <label for="codepostal">Code Postal</label>
+                        <input type="text" name="cp" class="form-control" id="codepostal">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-12">
-                        <label for="inputZip">Zip</label>
-                        <input type="text" class="form-control" id="inputZip">
+                        <label for="pays">Pays</label>
+                        <input type="text" name="state" class="form-control" id="pays">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-outline-secondary">Sign in</button>
+                <input type="submit" value="Envoyer">
             </form>
         </div>
         <div class="col-xs-12 col-sm-12 col-md-6  col-lg-6  col-xl-6 mt-5">

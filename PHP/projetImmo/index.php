@@ -51,5 +51,6 @@ head();
             </div>
         </div>
     </div>
+</div>
 <?php
 footer();
