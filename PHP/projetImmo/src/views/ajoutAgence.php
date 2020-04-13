@@ -11,16 +11,23 @@ $db = connection();
 
 //Verifier si les champs envoyés sont null ou pas.
 
-if(isset($_POST['nomAgence']) && isset($_POST['nom']) && isset($_POST['prenom'])){
-    $agence = htmlspecialchars(trim($_POST['nomAgence']));
+if(isset($_POST['nameAgence']) && isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mdp']) && isset($_POST['adress'])
+&& isset($_POST['adress2']) && isset($_POST['code']) && isset($_POST['state'])){
+    $nomAgence = htmlspecialchars(trim($_POST['nameAgence']));
     $nomRep = htmlspecialchars(trim($_POST['nom']));
     $prenomRep = htmlspecialchars(trim($_POST['prenom']));
+    $mdp = htmlspecialchars(trim($_POST['mdp']));
+    $adresse = htmlspecialchars(trim($_POST['adress']));
+    $adresse2 = htmlspecialchars(trim($_POST['adress2']));
+    $codepostal = htmlspecialchars(trim($_POST['code']));
+    $pays = htmlspecialchars(trim($_POST['state']));
 }
 
 // Verifier si les valeurs ne sont pas déjà présentes dans la base de données.
 
 $verif =  " SELECT COUNT(*) as nb
             FROM agence
+            INNER JOIN adresse ON agence.adresse_idadresse = adresse.idadresse
             WHERE agence.nomAgence = :nomAgence";
 $reqVerif = $db->prepare($verif);
 $reqVerif->bindParam(':nomAgence',$agence);
@@ -30,15 +37,40 @@ $nb = $reqVerif->fetchObject();
 if($nb->nb == 0){
     // Si les champs envoyés ne correspondent à aucun champs présents dans la base de données, alors insérer les champs
     //envoyés via le formulaire.
-    $insert = "INSERT INTO agence (nomAgence,nomRepreAgence,prenomRepreAgence) VALUES (:nameAgence,:nameRep,:firstnameRep)";
-    $reqInsert = $db->prepare($insert);
-    $reqInsert->bindParam(':nameAgence', $agence);
-    $reqInsert->bindParam(':nameRep', $nomRep);
-    $reqInsert->bindParam(':firstnameRep', $prenomRep);
-    $reqInsert->execute();
-} else {
-    echo 'Les champs envoyés sont déjà présents dans la base de données.';
+   
+    // On commence par l'adresse
+
+    $insertAdresse = "INSERT INTO adresse (adresse1,adresse2,codepostal,pays) VALUES (:adresse,:adresse2,:codepostal,:pays)";
+    
+    $reqInsertAdresse = $db->prepare($insertAdresse);
+    $reqInsertAdresse->bindParam(':adresse',$adresse);
+    $reqInsertAdresse->bindParam(':adresse2',$adresse2);
+    $reqInsertAdresse->bindParam(':codepostal',$codepostal);
+    $reqInsertAdresse->bindParam(':pays',$pays);
+    $reqInsertAdresse->execute();
+
+    $lastInsertIdAdresse = $db->lastInsertId();
+
+    // Puis l'agence
+
+    $insertAgence = "INSERT INTO agence (nomAgence,nomRepreAgence,prenomRepreAgence,mdpAgence,adresse_idadresse) VALUES (:nom,:nomRepre,:prenom,:mdp,$lastInsertIdAdresse)";
+
+    $reqInsertAgence = $db->prepare($insertAgence);
+    $reqInsertAgence->bindParam(':nom', $nomAgence);
+    $reqInsertAgence->bindParam(':nomRepre', $nomRep);
+    $reqInsertAgence->bindParam(':prenom', $prenomRep);
+    $reqInsertAgence->bindParam(':mdp', $mdp);
+    $reqInsertAgence->execute();
+
+    $listeAgences = array();
+
+    while($data = $reqInsertAgence->fetchObject()){
+        array_push($listeAgences, $data);
+        var_dump($data);
+        die();
+    }
 }
+
 
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -63,6 +95,12 @@ if($nb->nb == 0){
             <li class="nav-item">
                 <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="ajoutClient.php">Ajouter un client</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="gerer_les_biens.php">Gérer les biens</a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -71,7 +109,8 @@ if($nb->nb == 0){
     <div class="alert alert-danger">
         <?php
         // Verifier si les champs sont remplis.
-        if(empty($_POST['nomAgence']) || empty($_POST['nom']) || empty($_POST['prenom'])){
+        if(empty($_POST['nameAgence']) || empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['mdp']) || empty($_POST['adress'])
+         || empty($_POST['adress2']) || empty($_POST['code']) || empty($_POST['state'])){
             echo 'Tous les champs doivent être renseignés.';
         } else {
             echo 'Votre formulaire a bien été envoyé.';
@@ -84,7 +123,7 @@ if($nb->nb == 0){
     <form method="post" action="ajoutAgence.php">
         <div class="form-group">
             <label for="nomAgence">Nom de l'agence</label>
-            <input class="form-inline" type="text" name="nomAgence" id="nomAgence">
+            <input class="form-inline" type="text" name="nameAgence" id="nomAgence">
         </div>
         <div class="form-group">
             <label for="nomRep">Nom du representant</label>
@@ -93,6 +132,26 @@ if($nb->nb == 0){
         <div class="form-group">
             <label for="prenomrep">Prénom du représentant</label>
             <input class="form-inline" type="text" name="prenom" id="prenomRep">
+        </div>
+        <div class="form-group">
+            <label for="mot_de_passe">Mot de passe</label>
+            <input class="form-inline" type="password" name="mdp" id="mot_de_passe">
+        </div>
+        <div class="form-group">
+            <label for="adresse">Adresse</label>
+            <input class="form-inline" type="text" name="adress" id="adresse">
+        </div>
+        <div class="form-group">
+            <label for="adresse2">Adresse2</label>
+            <input class="form-inline" type="text" name="adress2" id="adresse2">
+        </div>
+        <div class="form-group">
+            <label for="codepostal">Code Postal</label>
+            <input class="form-inline" type="text" name="code" id="codepostal">
+        </div>
+        <div class="form-group">
+            <label for="pays">Pays</label>
+            <input class="form-inline" type="text" name="state" id="pays">
         </div>
         <input type="submit" value="Envoyer">
     </form>

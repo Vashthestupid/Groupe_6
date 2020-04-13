@@ -29,6 +29,12 @@ head();
             <li class="nav-item ">
                 <a class="nav-link" href="src/views/ajoutLocation.php">Ajouter une location</a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="src/views/ajoutClient.php">Ajouter un client</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="src/views/gérer_les_biens.php">Gérer les biens</a>
+            </li>
         </ul>
     </div>
 </nav>

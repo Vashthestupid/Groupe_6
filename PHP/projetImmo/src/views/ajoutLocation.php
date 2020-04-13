@@ -9,10 +9,11 @@ head();
 $db = connection();
 
 //Si les champs envoyés existent.
-if(isset($_POST['name']) && isset($_POST['resume']) && isset($_POST['img']) && isset($_POST['status']) && isset($_POST['superficie']) && isset($_POST['nbrePiece'])
+if(isset($_POST['name']) && isset($_POST['resume']) && isset($_POST['price']) && isset($_POST['img']) && isset($_POST['status']) && isset($_POST['superficie']) && isset($_POST['nbrePiece'])
     && isset($_POST['desc'])){
         $nom = htmlspecialchars(trim($_POST['name']));
         $resume = htmlspecialchars(trim($_POST['resume']));
+        $prix = intval($_POST['price']);
         $img = htmlspecialchars(trim($_POST['img']));
         $status = intval($_POST['nbrePiece']);
         $superficie = intval($_POST['superficie']);
@@ -49,12 +50,13 @@ if($nb->nb == 0){
 
     //Puis la location
 
-    $insertLocation = "INSERT INTO location (titreLocation,resumeLocation,imageLocation,statusLocation,dateCreaLocation,dateModifLocation,detail_iddetail)
-     VALUES(:nomLocation,:resume,:img,:status,NOW(),NULL,$lastInsertIdDetail)";
+    $insertLocation = "INSERT INTO location (titreLocation,resumeLocation,prixLocation,imageLocation,statusLocation,dateCreaLocation,dateModifLocation,detail_iddetail)
+     VALUES(:nomLocation,:resume,:prix,:img,:status,NOW(),NULL,$lastInsertIdDetail)";
 
     $reqInsertLocation = $db->prepare($insertLocation);
     $reqInsertLocation->bindParam(':nomLocation', $nom);
     $reqInsertLocation->bindParam(':resume', $resume);
+    $reqInsertLocation->bindParam(':prix', $prix);
     $reqInsertLocation->bindParam(':img', $img);
     $reqInsertLocation->bindParam(':status', $status);
     $reqInsertLocation->execute();
@@ -93,6 +95,12 @@ if($nb->nb == 0){
             <li class="nav-item active">
                 <a class="nav-link" href="#">Ajouter une location <span class="sr-only">(current)</span></a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="ajoutClient.php">Ajouter un client</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="gerer_les_biens.php">Gérer les biens</a>
+            </li>
         </ul>
     </div>
 </nav>
@@ -102,7 +110,7 @@ if($nb->nb == 0){
     <div class="alert alert-danger">
         <?php
         // Verifier si les champs sont remplis.
-        if(empty($_POST['name']) || empty($_POST['resume']) || empty($_POST['img']) || empty($_POST['status']) || empty($_POST['superficie'])
+        if(empty($_POST['name']) || empty($_POST['resume']) ||empty($_POST['price']) || empty($_POST['img']) || empty($_POST['status']) || empty($_POST['superficie'])
             || empty($_POST['nbrePiece']) || empty($_POST['desc'])){
 
             echo 'Tous les champs doivent être renseignés.';
@@ -121,6 +129,10 @@ if($nb->nb == 0){
         <div class="form-group">
             <label for="resumé">Résumé du bien</label>
             <input type="text" class="form-inline" name="resume" id="resumé">
+        </div>
+        <div class="form-group">
+            <label for="prix">Prix</label>
+            <input type="number" class="form-inline" name="price" id="prix">
         </div>
         <div class="form-group">
             <label for="image">Photo du bien</label>

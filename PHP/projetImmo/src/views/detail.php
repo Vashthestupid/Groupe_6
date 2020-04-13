@@ -50,6 +50,12 @@ while($data = $reqDetail->fetchObject()){
             <li class="nav-item ">
                 <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="ajoutClient.php">Ajouter un client</a>
+            </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="gerer_les_biens">Gérer les biens</a>
+            </li>
         </ul>
     </div>
 </nav>
