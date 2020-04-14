@@ -63,11 +63,6 @@ if($nb->nb == 0){
 
     $listeLocations = array();
 
-    while($data = $reqInsertLocation->fetchObject()){
-        array_push($listeLocations, $data);
-        var_dump($listeLocations);
-    }
-  
 }
 
 
@@ -136,7 +131,7 @@ if($nb->nb == 0){
         </div>
         <div class="form-group">
             <label for="image">Photo du bien</label>
-            <input type="text" class="form_inline" name="img" id="image">
+            <input type="text" class="form-inline" name="img" id="image">
         </div>
         <div class="form-group">
             <select name="status" >Disponibilité

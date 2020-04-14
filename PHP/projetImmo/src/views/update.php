@@ -1,118 +1,60 @@
-<?php 
-include '../views/elements/header.php';
-include '../views/elements/footer.php';
+<?php
+include 'elements/header.php';
+include 'elements/footer.php';
 include '../config/config.php';
 include '../models/connect.php';
 
 head();
+$db=connection();
 
-$db = connection();
-
-$select = "SELECT location.idlocation,
-location.titreLocation,
-location.resumeLocation,
-location.prixLocation,
-location.imageLocation,
-location.statusLocation,
-detail.Superficiecdetail,
-detail.nbPiecedetail,
-detail.descdetail
-FROM location
-INNER JOIN detail ON location.detail_iddetail = detail.iddetail
-WHERE location.idlocation = :idLocation";
-
-$reqSelect = $db->prepare($select);
-$reqSelect->bindParam(':idLocation', $_GET['id']);
-$reqSelect->execute();
-
-$listelocations = array();
-
-while($data = $reqSelect->fetchObject()){
-    array_push($listelocations, $data);
-}
-
-?>
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <a class="navbar-brand" href="/">DamienLocation</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-            <li class="nav-item">
-                <a class="nav-link" href="../../index.php">Home</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="location.php">Location</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="contact.php">Contact</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="ajoutAgence.php">Ajouter une agence</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="ajoutClient.php">Ajouter un client</a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="gerer_les_biens.php">Gérer les biens</a>
-            </li>
-        </ul>
-    </div>
-</nav>
-
-<div class="container">
-    <br>
-    <?php
-    foreach($listelocations as $location){
-    ?>
-    <h2>Modifier une location</h2>
-    <hr>
-    <form method="post" action="modifier.php">
-        <div class="form-group">
-            <input type="text" class="form-inline" name="name" id="nom" value="<?= $location->idlocation?>" hidden>
-        </div>
-        <div class="form-group">
-            <label for="nom">Nom du bien</label>
-            <input type="text" class="form-inline" name="name" id="nom">
-        </div>
-        <div class="form-group">
-            <label for="resumé">Résumé du bien</label>
-            <input type="text" class="form-inline" name="resume" id="resumé">
-        </div>
-        <div class="form-group">
-            <label for="prix">Prix</label>
-            <input type="number" class="form-inline" name="price" id="prix">
-        </div>
-        <div class="form-group">
-            <label for="image">Photo du bien</label>
-            <input type="text" class="form_inline" name="img" id="image">
-        </div>
-        <div class="form-group">
-            <select name="status" >Disponibilité
-                <option value="0">Indisponible</option>
-                <option value="1">Disponible</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="mesure">Superficie</label>
-            <input type="number" class="form-inline" name="superficie" id="mesure">
-        </div>
-        <div class="form-group">
-            <label for="nbrePieces">Nombre de pièces</label>
-            <input type="number" class="form-inline" name="nbrePiece" id="nbrePieces">
-        </div>
-        <div class="form-group">
-            <label for="description">Description du bien</label>
-            <textarea name="desc" class="form-inline" id="description" cols="30" rows="2"></textarea>
-        </div>
-        
-        <input type="submit" value="Envoyer">
-    </form>
-    <?php
+if (isset($_POST['titre']) && isset($_POST['resume']) && isset($_POST['superficie']) && isset($_POST['nbpiece']) && isset($_POST['prix']) && isset($_POST['description']))
+{
+    $sqlAffloc2='SELECT *
+                    FROM location
+                    INNER JOIN detail ON detail_iddetail=iddetail
+                    WHERE idlocation=:idloc';
+    $reqAffloc2=$db->prepare($sqlAffloc2);
+    $reqAffloc2->bindParam(':idloc',$_POST['id']);
+    $reqAffloc2->execute();
+    $affLoc2=array();
+    while($data=$reqAffloc2->fetchObject())
+    {
+        array_push($affLoc2,$data);
     }
-    ?>
-</div>
+    foreach ($affLoc2 as $location)
+    {
+        $idDet=intval($location->detail_iddetail);
+    }
+
+    $updateDetail='UPDATE detail
+                        SET Superficiecdetail = :super,
+                            nbPiecedetail = :nb,
+                            descdetail = :descr
+                            WHERE iddetail = :id';
+    $reqUpDateDetail=$db->prepare($updateDetail);
+    $reqUpDateDetail->bindParam(':super',$_POST['superficie']);
+    $reqUpDateDetail->bindParam(':nb',$_POST['nbpiece']);
+    $reqUpDateDetail->bindParam(':descr',$_POST['description']);
+    $reqUpDateDetail->bindParam(':id',$idDet);
+    $reqUpDateDetail->execute();
+
+    $updateLocation='UPDATE location
+                        SET titreLocation = :titre,
+                            resumeLocation = :resume,
+                            prixLocation = :prix,
+                            imageLocation = :image,
+                            dateModifLocation = NOW()
+                            WHERE idlocation = :id_l';
+    $reqUpDateLocation=$db->prepare($updateLocation);
+    $reqUpDateLocation->bindParam(':titre',$_POST['titre']);
+    $reqUpDateLocation->bindParam(':resume',$_POST['resume']);
+    $reqUpDateLocation->bindParam(':prix',$_POST['prix']);
+    $reqUpDateLocation->bindParam(':image',$_FILES['image']['name']);
+    $reqUpDateLocation->bindParam(':id_l',$_POST['id']);
+    $reqUpDateLocation->execute();
+
+    header('Location:gerer_les_biens.php?modify=done');
+
+
+
+}

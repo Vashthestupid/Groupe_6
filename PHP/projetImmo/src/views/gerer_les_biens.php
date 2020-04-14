@@ -86,14 +86,14 @@ while($data = $reqSelect->fetchObject()){
                                 <input type="text" name="action" value="lire" readonly hidden>
                                 <button class="btn btn-primary mr-1" type="submit"><i class="fa fa-bars" aria-hidden="true"></i> Lire</button>
                             </form>
-                            <form method="get" action="update.php">
+                            <form method="get" action="modifier.php">
                                 <input type="number" name="id" value="<?= $location->idlocation ?>" readonly hidden>
-                                <input type="text" name="action" value="modify" readonly hidden>
+                                <input type="text" name="action" value="modifier" readonly hidden>
                                 <button class="btn btn-warning mr-1" type="submit"><i class="fa fa-spinner" aria-hidden="true"></i> Modifier</button>
                             </form>
-                            <form method="get" action="delete.php">
+                            <form method="get" action="supprimer.php">
                                 <input type="number" name="id" value="<?= $location->idlocation?>"  readonly hidden>
-                                <input type="text" name="action" value="delete" readonly hidden>
+                                <input type="text" name="action" value="supprimer" readonly hidden>
                                 <button class="btn btn-danger mr-1" type="submit"><i class="fa fa-minus-square" aria-hidden="true"></i> Supprimer</button>
                             </form>	
                         </div>

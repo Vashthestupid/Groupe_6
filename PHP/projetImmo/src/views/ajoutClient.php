@@ -87,7 +87,7 @@ if($nb->nb == 0){
                 <a class="nav-link" href="ajoutAgence.php">Ajouter une agence</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="ajoutLocation">Ajouter une location</a>
+                <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link" href="#">Ajouter un client <span class="sr-only">(current)</span></a>
