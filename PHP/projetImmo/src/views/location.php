@@ -11,9 +11,10 @@ $db = connection();
 
 $select = "SELECT location.imageLocation,
             location.prixLocation,
-            location.titreLocation
+            location.titreLocation,
+            location.idlocation
             FROM location
-            ORDER BY location.idLocation
+            ORDER BY location.idlocation
             DESC
             LIMIT 0,3 ";
 $reqSelect = $db->prepare($select);
@@ -74,7 +75,7 @@ while($data = $reqSelect->fetchObject()){
                 <h5 class="card-title"><?= $location->titreLocation ?></h5>
                 <div class="row">
                     <form action="detail.php" method="get">
-                        <input type="number" name="id" value="<?= $location->idLocation?>" readonly hidden>
+                        <input type="number" name="id" value="<?= $location->idlocation?>" readonly hidden>
                         <input type="text" name="action" value="lire" readonly hidden>
                         <input type="submit" value="Voir +" class="btn btn-outline-secondary">
                     </form>         

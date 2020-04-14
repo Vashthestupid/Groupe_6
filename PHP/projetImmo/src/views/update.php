@@ -8,58 +8,28 @@ head();
 
 $db = connection();
 
-if(isset($_POST['name']) && isset($_POST['resume']) && isset($_POST['price']) && isset($_POST['img']) && isset($_POST['status']) && isset($_POST['superficie']) && isset($_POST['nbrePiece']) && isset($_POST['desc'])){
-    $nom = htmlspecialchars(trim($_POST['name']));
-    $resume = htmlspecialchars(trim($_POST['resume']));
-    $price = intval($_POST['name']);
-    $img = htmlspecialchars(trim($_POST['img']));
-    $status = intval($_POST['status']);
-    $superficie = htmlspecialchars(trim($_POST['superficie']));
-    $nbPiece = htmlspecialchars(trim($_POST['nbrePiece']));
-    $description = htmlspecialchars(trim($_POST['desc']));
-    $id = $_GET['id'];
+$select = "SELECT location.idlocation,
+location.titreLocation,
+location.resumeLocation,
+location.prixLocation,
+location.imageLocation,
+location.statusLocation,
+detail.Superficiecdetail,
+detail.nbPiecedetail,
+detail.descdetail
+FROM location
+INNER JOIN detail ON location.detail_iddetail = detail.iddetail
+WHERE location.idlocation = :idLocation";
+
+$reqSelect = $db->prepare($select);
+$reqSelect->bindParam(':idLocation', $_GET['id']);
+$reqSelect->execute();
+
+$listelocations = array();
+
+while($data = $reqSelect->fetchObject()){
+    array_push($listelocations, $data);
 }
-
-// On modifie d'abord le detail 
-
-$modifDetail = "UPDATE detail 
-                SET detail.Superficiecdetail = :superficie,
-                detail.nbPiecedetail = :nbPiece,
-                detail.descdetail = :description
-                WHERE detail.iddetail = :id";
-$reqModifDetail = $db->prepare($modifDetail);
-$reqModifDetail->bindParam(':superficie', $superficie);
-$reqModifDetail->bindParam(':nbPiece', $nbPiece);
-$reqModifDetail->bindParam(':description', $description);
-$reqModifDetail->bindParam(':id', $id);
-$reqModifDetail->execute();
-
-$lastModifIdDetail = $db->lastInsertId();
-
-// Puis la location
-
-$modifLocation = "  UPDATE location
-                    SET location.titreLocation = :nom,
-                    location.resumeLocation = :resume,
-                    location.prixLocation = :prix,
-                    location.imageLocation = :img,
-                    location.statusLocation = :status,
-                    location.dateCreaLocation = NOW(),
-                    location.dateModifLocation = NOW(),
-                    location.detail_iddetail = $lastModifIdDetail
-                    WHERE location.idlocation = :idLoc";
-$reqModifLocation = $db->prepare($modifLocation);
-$reqModifLocation->bindParam(':nom', $nom);
-$reqModifLocation->bindParam(':resume', $resume);
-$reqModifLocation->bindParam(':prix', $price);
-$reqModifLocation->bindParam(':img', $img);
-$reqModifLocation->bindParam(':status', $status);
-$reqModifLocation->bindParam(':idLoc', $id);
-$reqModifLocation->execute();
-
-
-
-
 
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -96,10 +66,15 @@ $reqModifLocation->execute();
 
 <div class="container">
     <br>
-
-    <h2>Ajout d'une location</h2>
+    <?php
+    foreach($listelocations as $location){
+    ?>
+    <h2>Modifier une location</h2>
     <hr>
-    <form method="post" action="update.php">
+    <form method="post" action="modifier.php">
+        <div class="form-group">
+            <input type="text" class="form-inline" name="name" id="nom" value="<?= $location->idlocation?>" hidden>
+        </div>
         <div class="form-group">
             <label for="nom">Nom du bien</label>
             <input type="text" class="form-inline" name="name" id="nom">
@@ -137,4 +112,7 @@ $reqModifLocation->execute();
         
         <input type="submit" value="Envoyer">
     </form>
+    <?php
+    }
+    ?>
 </div>
