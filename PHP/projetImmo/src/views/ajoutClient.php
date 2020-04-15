@@ -58,11 +58,6 @@ if($nb->nb == 0){
     $reqInsertClient->execute();
 
     $listeClients = array();
-
-    while($data = $reqInsertClient->fetchObject()){
-        array_push($listeClients, $data);
-    }
-
   
 }
 
@@ -101,18 +96,16 @@ if($nb->nb == 0){
 
 <div class="container">
     <br>
-    <div class="alert alert-danger">
-        <?php
-        // Verifier si les champs sont remplis.
-        if(empty($_POST['name']) || empty($_POST['firstname']) || empty($_POST['mail']) || empty($_POST['mdp']) || empty($_POST['adresse'])
-            || empty($_POST['adress2']) || empty($_POST['code']) || empty($_POST['state'])){
+    <?php
+    // Verifier si les champs sont remplis.
+    if(empty($_POST['name']) || empty($_POST['firstname']) || empty($_POST['mail']) || empty($_POST['mdp']) || empty($_POST['adresse'])
+        || empty($_POST['adress2']) || empty($_POST['code']) || empty($_POST['state'])){
 
-            echo 'Tous les champs doivent être renseignés.';
-        } else {
-            echo 'Votre formulaire a bien été envoyé.';
-        }
-        ?>
-    </div>
+        echo '<div class="alert alert-danger">"Tous les champs doivent être renseignés.</div>';
+    } else {
+        echo '<div class="alert alert-success>Votre formulaire a bien été envoyé.</div>';
+    }
+    ?>
     <h2>Ajout d'un client</h2>
     <hr>
     <form method="post" action="ajoutClient.php">

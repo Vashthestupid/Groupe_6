@@ -101,56 +101,71 @@ if($nb->nb == 0){
 </nav>
 
 <div class="container">
-<br>
-    <div class="alert alert-danger">
+    <br>
+    <div class="d-flex justify-content-center">
         <?php
         // Verifier si les champs sont remplis.
         if(empty($_POST['name']) || empty($_POST['resume']) ||empty($_POST['price']) || empty($_POST['img']) || empty($_POST['status']) || empty($_POST['superficie'])
             || empty($_POST['nbrePiece']) || empty($_POST['desc'])){
 
-            echo 'Tous les champs doivent être renseignés.';
+            echo '<div class="alert alert-danger d-flex justify-content-center w-50">Tous les champs doivent être renseignés.</div>';
         } else {
-            echo 'Votre formulaire a bien été envoyé.';
+            echo '<div class="alert alert-success d-flex justify-content-center w-50">Votre formulaire a bien été envoyé.</div>';
         }
         ?>
     </div>
-    <h2>Ajout d'une location</h2>
+    <h2 class="d-flex justify-content-center">Ajout d'une location</h2>
     <hr>
-    <form method="post" action="ajoutLocation.php">
-        <div class="form-group">
-            <label for="nom">Nom du bien</label>
-            <input type="text" class="form-inline" name="name" id="nom">
+    <form method="post" action="ajoutLocation.php" class="offset-md-2 col-md-8">
+        <p class="font-weight-bold">Informations Principales:</p>
+        <div class="form-row">
+            <div class="form-group offset-md-1 col-md-5">
+                <label for="nom" class="d-flex justify-content-center">Nom du bien</label>
+                <input type="text" class="form-inline w-100" name="name" id="nom">
+            </div>
+            <div class="form-group col-md-5">
+                <label for="resumé" class="d-flex justify-content-center">Résumé du bien</label>
+                <input type="text" class="form-inline w-100" name="resume" id="resumé">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="resumé">Résumé du bien</label>
-            <input type="text" class="form-inline" name="resume" id="resumé">
+        <div class="form-row">
+            <div class="form-group offset-md-1 col-md-5">
+                <label for="prix" class="d-flex justify-content-center">Prix</label>
+                <input type="number" class="form-inline w-100" name="price" id="prix">
+            </div>
+            <div class="form-group col-md-5">
+                <label for="image" class="d-flex justify-content-center">Photo du bien</label>
+                <input type="text" class="form-inline w-100" name="img" id="image">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="prix">Prix</label>
-            <input type="number" class="form-inline" name="price" id="prix">
-        </div>
-        <div class="form-group">
-            <label for="image">Photo du bien</label>
-            <input type="text" class="form-inline" name="img" id="image">
-        </div>
-        <div class="form-group">
-            <select name="status" >Disponibilité
+        <br>
+        <div class="form-group offset-md-4 col-md-5">
+            <label for="statut">Disponibilité:</label>
+            <select name="status" >
                 <option value="0">Indisponible</option>
                 <option value="1">Disponible</option>
             </select>
         </div>
-        <div class="form-group">
-            <label for="mesure">Superficie</label>
-            <input type="number" class="form-inline" name="superficie" id="mesure">
+        <p class="font-weight-bold">Détails:</p>
+        <div class="form-row">
+            <div class="form-group offset-md-1 col-md-5">
+                <label for="mesure" class="d-flex justify-content-center">Superficie</label>
+                <input type="number" class="form-inline w-100" name="superficie" id="mesure">
+            </div>
+            <div class="form-group col-md-5">
+                <label for="nbrePieces" class="d-flex justify-content-center">Nombre de pièces</label>
+                <input type="number" class="form-inline w-100" name="nbrePiece" id="nbrePieces">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="nbrePieces">Nombre de pièces</label>
-            <input type="number" class="form-inline" name="nbrePiece" id="nbrePieces">
+        <br>
+        <div class="form-group offset-md-3 col-md-6">
+            <label for="description" class="d-flex justify-content-center">Description du bien</label>
+            <textarea name="desc" class="form-inline w-100" id="description" cols="30" rows="2"></textarea>
         </div>
-        <div class="form-group">
-            <label for="description">Description du bien</label>
-            <textarea name="desc" class="form-inline" id="description" cols="30" rows="2"></textarea>
+        <div class="form-group offset-md-5 col-md-2">
+            <input type="submit" value="Envoyer">
         </div>
-        
-        <input type="submit" value="Envoyer">
     </form>
+</div>
+<?php
+footer();

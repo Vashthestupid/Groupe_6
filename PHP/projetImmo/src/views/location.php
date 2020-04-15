@@ -11,6 +11,7 @@ $db = connection();
 
 $select = "SELECT location.imageLocation,
             location.prixLocation,
+            location.resumeLocation,
             location.titreLocation,
             location.idlocation
             FROM location
@@ -62,18 +63,18 @@ while($data = $reqSelect->fetchObject()){
     <div class="row">
         <h1>Voici une sélection de nos biens immobiliers </h1>
     </div>
-
     <br>
-
     <div class="card-group">
         <?php
         foreach($locations as $location){
         ?>
-            <div class="card col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4">
+            <div class="card col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 border-0">
             <img class="card-img-top" src="<?= $location->imageLocation ?>" alt="Card image cap">
             <div class="card-body">
-                <h5 class="card-title"><?= $location->titreLocation ?></h5>
-                <div class="row">
+                <h5 class="card-title d-flex justify-content-center text-uppercase"><?= $location->titreLocation ?></h5>
+                <p class="font-weight-light d-flex justify-content-center"><?= $location->resumeLocation?></p>
+                <br>
+                <div class="row d-flex justify-content-center">
                     <form action="detail.php" method="get">
                         <input type="number" name="id" value="<?= $location->idlocation?>" readonly hidden>
                         <input type="text" name="action" value="lire" readonly hidden>
@@ -82,7 +83,7 @@ while($data = $reqSelect->fetchObject()){
                 </div>
             </div>
             <div class="card-footer">
-                <p>Prix: <?= $location->prixLocation?>€</p>
+                <p class="d-flex justify-content-center">Prix: <?= $location->prixLocation?>€</p>
             </div>
         </div>
         <?php

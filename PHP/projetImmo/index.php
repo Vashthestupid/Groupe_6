@@ -7,61 +7,6 @@ include 'src/models/connect.php';
 head();
 
 $db = connection();
-
-// On verifie si les champs email et mdp existent. Si c'est le cas on lance la requête
-
-if(isset($_POST['email']) && isset($_POST['mdp'])){
-    // On selectionne les élements de la table agence
-    $selectAgence = "SELECT adresse.idadresse,
-    agence.mdpAgence
-    FROM agence
-    INNER JOIN adresse ON agence.adresse_idadresse =  adresse.idadresse
-    WHERE email = :mail";
-
-    $reqSelectAgence = $db->prepare($selectAgence);
-    $reqSelectAgence->bindParam(':mail' , $_POST['email']);
-    $reqSelectAgence->execute();
-
-    $agences = array();
-
-    while($data = $reqSelectAgence->fetchObject()){
-        array_push($agences, $data);
-    }
-    if(empty($agences)){
-        $agenceValide = false;
-    } elseif (password_verify($_POST['mdp'], $agences[0]->mdpAgence)){
-        $agenceValide = true;
-    }
-
-    // Puis ceux de la table client
-
-    $selectClient = "SELECT adresse.idadresse;
-    client.mdpClient,
-    FROM adresse ON client.adresse_idadresse = adresse.idadresse 
-    WHERE email = :mail";
-
-    $reqSelectClient = $db->prepare($selectClient);
-    $reqSelectClient->bindParam(':mail', $_POST['email']);
-    $reqSelectClient->execute();
-
-    $clients = array();
-
-    while($data = $reqSelectClient->fetchObject()){
-        array_push($clients, $data);
-    }
-
-    if(empty($clients)){
-        $clientValide = false;
-    } elseif (password_verify($_POST['mdp'],$clients[0]->mdpClient)){
-        $clientValide = true;
-    }
-
-    if($agenceValide || $clientValide){
-        echo '<div class =" alert alert-success">Connexion réussie</div>';
-    } else {
-        echo '<div class="alert alert-danger"> La connexion a échouée</div>';
-    }
-}
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">DamienLocation</a>

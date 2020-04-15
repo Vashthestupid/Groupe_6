@@ -93,15 +93,14 @@ if($nb->nb == 0){
 
 <div class="container">
     <div class="row"></div>
-    <div class="alert alert-danger">
-        <?php
-            if(empty($_POST['mail'])|| empty($_POST['mess']) || empty($_POST['adress']) || empty($_POST['cp']) || empty($_POST['state'])){
-                echo 'Tous les champs doivent être renseignés.';
-            } else {
-                echo 'Votre formulaire a bien été envoyé.';
-            }
-        ?>
-    </div>
+    <br>
+    <?php
+        if(empty($_POST['mail'])|| empty($_POST['mess']) || empty($_POST['adress']) || empty($_POST['cp']) || empty($_POST['state'])){
+            echo '<div class="alert alert-danger w-50 d-flex justify-content-center">Tous les champs doivent être renseignés.</div>';
+        } else {
+            echo '<div class="alert alert-success w-50 d-flex justify-content-center">Votre formulaire a bien été envoyé.</div>';
+        }
+    ?>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-6  col-lg-6  col-xl-6">
             <form method ='post' action="contact.php"  class="mt-5">

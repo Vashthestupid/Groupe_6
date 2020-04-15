@@ -14,7 +14,7 @@ $select = " SELECT location.idlocation,
             location.prixLocation
             FROM location
             ORDER BY location.idLocation
-            DESC";
+            ASC";
 $reqSelect = $db->prepare($select);
 $reqSelect->execute();
 
@@ -80,7 +80,7 @@ while($data = $reqSelect->fetchObject()){
                     <td><?= $location->dateCreaLocation?></td>
                     <td><?= $location->prixLocation?> €</td>
                     <td>
-                        <div>
+                        <div class="d-flex flex-inline">
                             <form method="get" action="detail.php">
                                 <input type="number" name="id" value="<?= $location->idlocation?>" readonly hidden>
                                 <input type="text" name="action" value="lire" readonly hidden>

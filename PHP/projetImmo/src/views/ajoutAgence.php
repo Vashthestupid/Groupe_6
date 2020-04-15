@@ -106,21 +106,21 @@ if($nb->nb == 0){
 </nav>
 <div class="container">
     <br>
-    <div class="alert alert-danger">
-        <?php
-        // Verifier si les champs sont remplis.
-        if(empty($_POST['nameAgence']) || empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['mdp']) || empty($_POST['adress'])
-         || empty($_POST['adress2']) || empty($_POST['code']) || empty($_POST['state'])){
-            echo 'Tous les champs doivent être renseignés.';
-        } else {
-            echo 'Votre formulaire a bien été envoyé.';
-        }
-        ?>
+    <div class="d-flex justify-content-center">
+    <?php
+    // Verifier si les champs sont remplis.
+    if(empty($_POST['nameAgence']) || empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['mdp']) || empty($_POST['adress'])
+        || empty($_POST['adress2']) || empty($_POST['code']) || empty($_POST['state'])){
+        echo '<div class="alert alert-danger w-50 d-flex justify-content-center">Tous les champs doivent être renseignés.</div>';
+    } else {
+        echo '<div class="alert alert-success w-50 d-flex justify-content-center">Votre formulaire a bien été envoyé.</div>';
+    }
+    ?>
     </div>
     <br>
-    <h2>Ajout d'une agence</h2>
+    <h2 class="d-flex justify-content-center">Ajout d'une agence</h2>
     <hr>
-    <form method="post" action="ajoutAgence.php">
+    <form method="post" action="ajoutAgence.php" class="offset-md-2 col-md-8">
         <div class="form-group">
             <label for="nomAgence">Nom de l'agence</label>
             <input class="form-inline" type="text" name="nameAgence" id="nomAgence">
@@ -137,23 +137,29 @@ if($nb->nb == 0){
             <label for="mot_de_passe">Mot de passe</label>
             <input class="form-inline" type="password" name="mdp" id="mot_de_passe">
         </div>
-        <div class="form-group">
-            <label for="adresse">Adresse</label>
-            <input class="form-inline" type="text" name="adress" id="adresse">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="adresse" class="d-flex justify-content-center">Adresse</label>
+                <input class="form-inline w-100" type="text" name="adress" id="adresse">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="adresse2" class="d-flex justify-content-center">Adresse2</label>
+                <input class="form-inline w-100" type="text" name="adress2" id="adresse2">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="adresse2">Adresse2</label>
-            <input class="form-inline" type="text" name="adress2" id="adresse2">
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="codepostal" class="d-flex justify-content-center">Code Postal</label>
+                <input class="form-inline w-100" type="text" name="code" id="codepostal">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="pays" class="d-flex justify-content-center">Pays</label>
+                <input class="form-inline w-100" type="text" name="state" id="pays">
+            </div>
         </div>
-        <div class="form-group">
-            <label for="codepostal">Code Postal</label>
-            <input class="form-inline" type="text" name="code" id="codepostal">
+        <div class="form-group d-flex justify-content-center">
+            <input type="submit" value="Envoyer">
         </div>
-        <div class="form-group">
-            <label for="pays">Pays</label>
-            <input class="form-inline" type="text" name="state" id="pays">
-        </div>
-        <input type="submit" value="Envoyer">
     </form>
 <?php
 footer();

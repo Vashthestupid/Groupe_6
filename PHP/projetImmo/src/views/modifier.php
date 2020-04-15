@@ -59,6 +59,15 @@ foreach($afflocations as $location){
 
 <div class="container">
     <br>
+    <?php
+    
+    if (empty($_POST['titre']) && empty($_POST['resume']) && empty($_POST['superficie']) && empty($_POST['nbpiece']) && empty($_POST['prix']) && empty($_POST['description'])) {
+        echo '<div class="alert alert-danger">Tous les champs doivent être renseignés.</div>';
+    } else {
+        echo '<div class="alert alert-success">Votre formulaire a bien été envoyé.</div>';
+    }
+    ?>
+    <br>
     <h2>Modification du bien</h2>
     <div>
         <form method="post" action="update.php" enctype="multipart/form-data">
