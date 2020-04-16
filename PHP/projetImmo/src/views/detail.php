@@ -1,4 +1,12 @@
 <?php
+
+session_start();
+if(isset($_SESSION['login'])){
+    $email = $_SESSION['login'];
+}else{
+    $email = '';
+}
+
 include '../views/elements/header.php';
 include '../views/elements/footer.php';
 include '../config/config.php';
@@ -54,8 +62,20 @@ while($data = $reqDetail->fetchObject()){
                 <a class="nav-link" href="ajoutClient.php">Ajouter un client</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="gerer_les_biens">Gérer les biens</a>
+                <a class="nav-link" href="gerer_les_biens.php">Gérer les biens</a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="connexion.php">Connexion</a>
+            </li>
+            <?php
+            if ($email === 'mike.myers@gmail.com') {
+                ?>
+                <li class="nav-item">
+                    <a href="deconnexion.php" class="nav-link">Deconnexion</a>
+                </li>
+                <?php
+            }
+            ?>
         </ul>
     </div>
 </nav>

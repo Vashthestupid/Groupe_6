@@ -1,4 +1,12 @@
 <?php
+
+session_start();
+if(isset($_SESSION['login'])){
+    $email = $_SESSION['login'];
+}else{
+    $email = '';
+}
+
 include 'elements/header.php';
 include 'elements/footer.php';
 include '../config/config.php';
@@ -75,18 +83,48 @@ if($nb->nb == 0){
             <li class="nav-item active">
                 <a class="nav-link" href="#">Contact<span class="sr-only">(current)</span></a>
             </li>
+            <?php
+            if ($email === 'mike.myers@gmail.com') {
+                ?>
+                <li class="nav-item ">
+                    <a class="nav-link" href="ajoutAgence.php">Ajouter une agence</a>
+                </li>
+                <?php
+            }
+            ?>
+            <?php
+            if ($email === 'mike.myers@gmail.com') {
+                ?>
+                <li class="nav-item ">
+                    <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
+                </li>
+                <?php
+            }
+            ?>
+            <?php
+            if ($email === 'mike.myers@gmail.com') {
+                ?>
+                <li class="nav-item ">
+                    <a class="nav-link" href="ajoutClient.php">Ajouter un client</a>
+                </li>
+                <?php
+            }
+            ?>
             <li class="nav-item ">
-                <a class="nav-link" href="ajoutAgence.php">Ajouter une agence</a>
+                <a class="nav-link" href="gerer_les_biens.php">Gérer les biens</a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
+                <a class="nav-link" href="connexion.php">Connexion</a>
             </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="ajoutClient.php">Ajouter un client</a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="gerer_les_biens">Gérer les biens</a>
-            </li>
+            <?php
+            if ($email === 'mike.myers@gmail.com') {
+                ?>
+                <li class="nav-item">
+                    <a href="deconnexion.php" class="nav-link">Deconnexion</a>
+                </li>
+                <?php
+            }
+            ?>
         </ul>
     </div>
 </nav>

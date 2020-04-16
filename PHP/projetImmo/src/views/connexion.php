@@ -13,26 +13,6 @@ include '../config/config.php';
 include '../models/connect.php';
 
 head();
-
-$db = connection();
-
-
-$select = "SELECT location.imageLocation,
-            location.prixLocation,
-            location.resumeLocation,
-            location.titreLocation,
-            location.idlocation
-            FROM location
-            ORDER BY location.idlocation
-            DESC
-            LIMIT 0,3 ";
-$reqSelect = $db->prepare($select);
-$reqSelect->execute();
-$locations = array();
-
-while($data = $reqSelect->fetchObject()){
-    array_push($locations, $data);
-}
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="../../index.php">DamienLocation</a>
@@ -44,8 +24,8 @@ while($data = $reqSelect->fetchObject()){
             <li class="nav-item">
                 <a class="nav-link" href="../../index.php">Home</a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="location.php">Location<span class="sr-only">(current)</span></a>
+            <li class="nav-item ">
+                <a class="nav-link" href="location.php">Location</a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="contact.php">Contact</a>
@@ -80,45 +60,41 @@ while($data = $reqSelect->fetchObject()){
             <li class="nav-item ">
                 <a class="nav-link" href="gerer_les_biens.php">Gérer les biens</a>
             </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="connexion.php">Connexion</a>
+            <li class="nav-item active">
+                <a class="nav-link" href="connexion.php">Connexion<span class="sr-only">(current)</span></a>
             </li>
+            <?php
+            if ($email === 'mike.myers@gmail.com') {
+                ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="deconnexion.php">Deconnexion</a>
+                </li>
+                <?php
+            }
+            ?>
         </ul>
     </div>
 </nav>
 
 <div class="container">
     <br>
+    <h2 class="d-flex justify-content-center">Formulaire de connexion</h2>
     <div class="row">
-        <h1>Voici une sélection de nos biens immobiliers </h1>
-    </div>
-    <br>
-    <div class="card-group">
-        <?php
-        foreach($locations as $location){
-        ?>
-            <div class="card col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4 border-0">
-            <img class="card-img-top" src="<?= $location->imageLocation ?>" alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title d-flex justify-content-center text-uppercase"><?= $location->titreLocation ?></h5>
-                <p class="font-weight-light d-flex justify-content-center"><?= $location->resumeLocation?></p>
-                <br>
-                <div class="row d-flex justify-content-center">
-                    <form action="detail.php" method="get">
-                        <input type="number" name="id" value="<?= $location->idlocation?>" readonly hidden>
-                        <input type="text" name="action" value="lire" readonly hidden>
-                        <input type="submit" value="Voir +" class="btn btn-outline-secondary">
-                    </form>         
+        <div class="col-md-12">
+            <br>
+            <form method="post" action="../../index.php" class="offset-md-5 col-md-2">
+                <div class="form-group">
+                    <label for="identifiant" class="d-flex justify-content-center">Email</label>
+                    <input type="mail" name="mail" class="w-100">
                 </div>
-            </div>
-            <div class="card-footer">
-                <p class="d-flex justify-content-center">Prix: <?= $location->prixLocation?>€</p>
-            </div>
+                <div class="form-group">
+                    <label for="mot_de_passe" class="d-flex justify-content-center">Mot de passe</label>
+                    <input type="password" name="mdp" class="w-100">
+                </div>
+                <div class="d-flex justify-content-center">
+                    <input type="submit" value="Envoyer" class="btn btn-success">
+                </div>
+            </form>
         </div>
-        <?php
-        }
-        ?>
     </div>
 </div>
-<?php
-footer();

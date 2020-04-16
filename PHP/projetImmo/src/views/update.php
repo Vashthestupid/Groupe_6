@@ -7,14 +7,24 @@ include '../models/connect.php';
 head();
 $db=connection();
 
-if (isset($_POST['titre']) && isset($_POST['resume']) && isset($_POST['superficie']) && isset($_POST['nbpiece']) && isset($_POST['prix']) && isset($_POST['description']))
+if (isset($_POST['id'])&& isset($_POST['titre']) && isset($_POST['resume']) && isset($_POST['superficie']) && isset($_POST['nbpiece']) && isset($_POST['prix']) && isset($_POST['description']) && isset($_FILES['image']) && $_FILES['image']['error'] == 0)
 {
+    $id = intval($_POST['id']);
+    $titre = htmlspecialchars(trim($_POST['titre']));
+    $resume = htmlspecialchars(trim($_POST['resume']));
+    $superficie = intval($_POST['superficie']);
+    $nbPiece = intval($_POST['nbpiece']);
+    $prix = intval($_POST['prix']);
+    $description = htmlspecialchars(trim($_POST['description']));
+    $image = $_FILES['image'];
+
+
     $sqlAffloc2='SELECT *
                     FROM location
                     INNER JOIN detail ON detail_iddetail=iddetail
                     WHERE idlocation=:idloc';
     $reqAffloc2=$db->prepare($sqlAffloc2);
-    $reqAffloc2->bindParam(':idloc',$_POST['id']);
+    $reqAffloc2->bindParam(':idloc',$id);
     $reqAffloc2->execute();
     $affLoc2=array();
     while($data=$reqAffloc2->fetchObject())
@@ -32,9 +42,9 @@ if (isset($_POST['titre']) && isset($_POST['resume']) && isset($_POST['superfici
                             descdetail = :descr
                             WHERE iddetail = :id';
     $reqUpDateDetail=$db->prepare($updateDetail);
-    $reqUpDateDetail->bindParam(':super',$_POST['superficie']);
-    $reqUpDateDetail->bindParam(':nb',$_POST['nbpiece']);
-    $reqUpDateDetail->bindParam(':descr',$_POST['description']);
+    $reqUpDateDetail->bindParam(':super',$superficie);
+    $reqUpDateDetail->bindParam(':nb',$nbPiece);
+    $reqUpDateDetail->bindParam(':descr',$description);
     $reqUpDateDetail->bindParam(':id',$idDet);
     $reqUpDateDetail->execute();
 
@@ -46,11 +56,11 @@ if (isset($_POST['titre']) && isset($_POST['resume']) && isset($_POST['superfici
                             dateModifLocation = NOW()
                             WHERE idlocation = :id_l';
     $reqUpDateLocation=$db->prepare($updateLocation);
-    $reqUpDateLocation->bindParam(':titre',$_POST['titre']);
-    $reqUpDateLocation->bindParam(':resume',$_POST['resume']);
-    $reqUpDateLocation->bindParam(':prix',$_POST['prix']);
-    $reqUpDateLocation->bindParam(':image',$_FILES['image']['name']);
-    $reqUpDateLocation->bindParam(':id_l',$_POST['id']);
+    $reqUpDateLocation->bindParam(':titre',$titre);
+    $reqUpDateLocation->bindParam(':resume',$resume);
+    $reqUpDateLocation->bindParam(':prix',$prix);
+    $reqUpDateLocation->bindParam(':image',$image);
+    $reqUpDateLocation->bindParam(':id_l',$id);
     $reqUpDateLocation->execute();
 
     header('Location:gerer_les_biens.php?modify=done');

@@ -1,4 +1,11 @@
 <?php 
+session_start();
+if(isset($_SESSION['login'])){
+    $email = $_SESSION['login'];
+}else{
+    $email = '';
+}
+
 include '../views/elements/header.php';
 include '../views/elements/footer.php';
 include '../config/config.php';
@@ -41,23 +48,54 @@ while($data = $reqSelect->fetchObject()){
             <li class="nav-item">
                 <a class="nav-link" href="contact.php">Contact</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="ajoutAgence.php">Ajouter une agence</a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="ajoutClient.php">Ajouter un client</a>
-            </li>
+            <?php
+            if ($email === 'mike.myers@gmail.com') {
+                ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="ajoutAgence.php">Ajouter une agence</a>
+                </li>
+                <?php
+            }
+            ?>
+            <?php
+            if ($email === 'mike.myers@gmail.com') {
+                ?>
+                <li class="nav-item ">
+                    <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
+                </li>
+                <?php
+            }
+            ?>
+            <?php
+            if ($email === 'mike.myers@gmail.com') {
+                ?>
+                <li class="nav-item ">
+                    <a class="nav-link" href="ajoutClient.php">Ajouter un client</a>
+                </li>
+                <?php
+            }
+            ?>
             <li class="nav-item active ">
                 <a class="nav-link" href="#">Gérer les biens<span class="sr-only">(current)</a>
             </li> 
+            <li class="nav-item ">
+                <a class="nav-link" href="connexion.php">Connexion</a>
+            </li>
+            <?php
+            if ($email === 'mike.myers@gmail.com') {
+                ?>
+                <li class="nav-item">
+                    <a href="deconnexion.php" class="nav-link">Deconnexion</a>
+                </li>
+                <?php
+            }
+            ?>
         </ul>
     </div>
 </nav>
 
 <div class="container">
+    <br>
     <h2>Liste des locations</h2>
     <hr>
     <table class="table table-hover">
@@ -80,22 +118,29 @@ while($data = $reqSelect->fetchObject()){
                     <td><?= $location->dateCreaLocation?></td>
                     <td><?= $location->prixLocation?> €</td>
                     <td>
+                       
                         <div class="d-flex flex-inline">
                             <form method="get" action="detail.php">
                                 <input type="number" name="id" value="<?= $location->idlocation?>" readonly hidden>
                                 <input type="text" name="action" value="lire" readonly hidden>
                                 <button class="btn btn-primary mr-1" type="submit"><i class="fa fa-bars" aria-hidden="true"></i> Lire</button>
                             </form>
-                            <form method="get" action="modifier.php">
-                                <input type="number" name="id" value="<?= $location->idlocation ?>" readonly hidden>
-                                <input type="text" name="action" value="modifier" readonly hidden>
-                                <button class="btn btn-warning mr-1" type="submit"><i class="fa fa-spinner" aria-hidden="true"></i> Modifier</button>
-                            </form>
-                            <form method="get" action="supprimer.php">
-                                <input type="number" name="id" value="<?= $location->idlocation?>"  readonly hidden>
-                                <input type="text" name="action" value="supprimer" readonly hidden>
-                                <button class="btn btn-danger mr-1" type="submit"><i class="fa fa-minus-square" aria-hidden="true"></i> Supprimer</button>
-                            </form>	
+                            <?php
+                            if ($email === 'mike.myers@gmail.com') {
+                                ?>
+                                <form method="get" action="modifier.php">
+                                    <input type="number" name="id" value="<?= $location->idlocation ?>" readonly hidden>
+                                    <input type="text" name="action" value="modifier" readonly hidden>
+                                    <button class="btn btn-warning mr-1" type="submit"><i class="fa fa-spinner" aria-hidden="true"></i> Modifier</button>
+                                </form>
+                                <form method="get" action="supprimer.php">
+                                    <input type="number" name="id" value="<?= $location->idlocation?>"  readonly hidden>
+                                    <input type="text" name="action" value="supprimer" readonly hidden>
+                                    <button class="btn btn-danger mr-1" type="submit"><i class="fa fa-minus-square" aria-hidden="true"></i> Supprimer</button>
+                                </form>	
+                                <?php
+                            }
+                            ?>
                         </div>
                     </td>
                 </tr>

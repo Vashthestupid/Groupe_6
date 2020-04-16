@@ -1,4 +1,16 @@
 <?php
+error_reporting(E_ALL & ~ E_NOTICE);
+
+session_start();
+if(isset($_SESSION['login'])){
+    $email = $_SESSION['login'];
+    echo 'Vous êtes déjà connecté';
+}else{
+    $_SESSION['login'] = $_POST['mail'];
+    $email = $_SESSION['login'];
+}
+
+
 include 'src/views/elements/header.php';
 include 'src/views/elements/footer.php';
 include 'src/config/config.php';
@@ -24,22 +36,57 @@ $db = connection();
             <li class="nav-item">
                 <a class="nav-link" href="src/views/contact.php">Contact</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="src/views/ajoutAgence.php">Ajouter une agence</a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="src/views/ajoutLocation.php">Ajouter une location</a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="src/views/ajoutClient.php">Ajouter un client</a>
-            </li>
+            <?php
+            if ($email === 'mike.myers@gmail.com') {
+                ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="src/views/ajoutAgence.php">Ajouter une agence</a>
+                </li>
+                <?php
+            }
+            ?>
+            <?php
+            if ($email === 'mike.myers@gmail.com') {
+                ?>
+                <li class="nav-item ">
+                    <a class="nav-link" href="src/views/ajoutLocation.php">Ajouter une location</a>
+                </li>
+                <?php
+            }
+            ?>
+            <?php
+            if ($email === 'mike.myers@gmail.com') {
+                ?>
+                <li class="nav-item ">
+                    <a class="nav-link" href="src/views/ajoutClient.php">Ajouter un client</a>
+                </li>
+                <?php
+            }
+            ?>
             <li class="nav-item ">
                 <a class="nav-link" href="src/views/gerer_les_biens.php">Gérer les biens</a>
             </li>
+            <li class="nav-item ">
+                <a class="nav-link" href="src/views/connexion.php">Connexion</a>
+            </li>
+            <?php 
+            if($email === 'mike.myers@gmail.com'){
+               ?>
+               <li class="nav-item">
+                   <a href="src/views/deconnexion.php" class="nav-link">Deconnexion</a>
+               </li> 
+               <?php
+            }
+            ?>
         </ul>
     </div>
 </nav>
+<?php
+if($email){
+    echo '<div class="alert alert-success w-25"><p class="d-flex justify-content-center">Bienvenue ' . $_SESSION['login']. '</p></div>';
+}
 
+?>
 <div class="container">
     <div class="row mt-5 d-flex justify-content-center">
         <div class="col-xs-5 col-sm-5 col-md-5  col-lg-4  col-xl-4 ">
@@ -51,25 +98,9 @@ $db = connection();
                 <div class="card-body">
                     <h5 class="card-title">Bienvenue sur IMMO-Blier!!</h5>
                     <p class="card-text">Le site de ventes et locations de biens immobiliers de Bernard Blier!</p>
-
-                        <p>"Chez moi on ne vends pas, on ventile!!"</p>
+                    <p>"Chez moi on ne vends pas, on ventile!!"</p>
                     <a href="src/views/contact.php" class="btn btn-outline-secondary">Nous contacter</a>
                 </div>
-            </div>
-            <br>
-            <div>
-                <p>Se connecter</p>
-                <form action="index.php" method="post">
-                    <div class="form-group">
-                        <label for="mail">Email</label>
-                        <input type="mail" name="email" class="form-inline">
-                    </div>
-                    <div class="form-group">
-                        <label for="mot_de_passe">Mot de passe</label>
-                        <input type="password" class="form-inline" name="mdp" >
-                    </div>
-                    <input type="submit" value="Connexion" class="btn btn-success">
-                </form>
             </div>
         </div>
     </div>
