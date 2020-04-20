@@ -51,7 +51,7 @@ while($data = $reqSelect->fetchObject()){
                 <a class="nav-link" href="contact.php">Contact</a>
             </li>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item">
                     <a class="nav-link" href="ajoutAgence.php">Ajouter une agence</a>
@@ -60,7 +60,7 @@ while($data = $reqSelect->fetchObject()){
             }
             ?>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item ">
                     <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
@@ -69,7 +69,7 @@ while($data = $reqSelect->fetchObject()){
             }
             ?>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item ">
                     <a class="nav-link" href="ajoutClient.php">Ajouter un client</a>

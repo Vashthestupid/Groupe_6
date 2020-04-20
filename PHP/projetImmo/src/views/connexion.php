@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(E_ALL &~ E_NOTICE);
 session_start();
 if(isset($_SESSION['login'])){
     $email = $_SESSION['login'];
@@ -13,6 +13,7 @@ include '../config/config.php';
 include '../models/connect.php';
 
 head();
+
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="../../index.php">DamienLocation</a>
@@ -31,7 +32,7 @@ head();
                 <a class="nav-link" href="contact.php">Contact</a>
             </li>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item">
                     <a class="nav-link" href="ajoutAgence.php">Ajouter une agence</a>
@@ -40,7 +41,7 @@ head();
             }
             ?>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item ">
                     <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
@@ -49,7 +50,7 @@ head();
             }
             ?>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item ">
                     <a class="nav-link" href="ajoutClient.php">Ajouter un client</a>
@@ -64,7 +65,7 @@ head();
                 <a class="nav-link" href="connexion.php">Connexion<span class="sr-only">(current)</span></a>
             </li>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item">
                     <a class="nav-link" href="deconnexion.php">Deconnexion</a>
@@ -92,7 +93,7 @@ head();
                     <input type="password" name="mdp" class="w-100">
                 </div>
                 <div class="d-flex justify-content-center">
-                    <input type="submit" value="Envoyer" class="btn btn-success">
+                    <input type="submit" name="login" value="Envoyer" class="btn btn-success">
                 </div>
             </form>
         </div>

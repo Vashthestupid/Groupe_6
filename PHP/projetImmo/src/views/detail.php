@@ -47,20 +47,38 @@ while($data = $reqDetail->fetchObject()){
                 <a class="nav-link" href="/">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./location.php">Location</a>
+                <a class="nav-link" href="location.php">Location</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="./contact.php">Contact</a>
+                <a class="nav-link" href="contact.php">Contact</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="./ajoutAgence.php">Ajouter une agence</a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
-            </li>
-            <li class="nav-item ">
-                <a class="nav-link" href="ajoutClient.php">Ajouter un client</a>
-            </li>
+            <?php 
+            if ($_SESSION['login']) {
+                ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="ajoutAgence.php">Ajouter une agence</a>
+                </li>
+                <?php
+            }
+            ?>
+            <?php 
+            if ($_SESSION['login']) {
+                ?>
+                <li class="nav-item ">
+                    <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
+                </li>
+                <?php
+            }
+            ?>
+            <?php 
+            if ($_SESSION['login']) {
+                ?>
+                <li class="nav-item ">
+                    <a class="nav-link" href="ajoutClient.php">Ajouter un client</a>
+                </li>
+                <?php
+            }
+            ?>
             <li class="nav-item ">
                 <a class="nav-link" href="gerer_les_biens.php">Gérer les biens</a>
             </li>
@@ -68,10 +86,19 @@ while($data = $reqDetail->fetchObject()){
                 <a class="nav-link" href="connexion.php">Connexion</a>
             </li>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item">
                     <a href="deconnexion.php" class="nav-link">Deconnexion</a>
+                </li>
+                <?php
+            }
+            ?>
+            <?php
+            if ($_SESSION['login']) {
+                ?>
+                <li class="nav-item">
+                    <a href="ajoutUser.php" class="nav-link">Ajouter un utilisateur</a>
                 </li>
                 <?php
             }

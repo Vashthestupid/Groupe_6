@@ -108,7 +108,7 @@ if($nb->nb == 0){
                 <a class="nav-link" href="connexion.php">Connexion</a>
             </li>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item">
                     <a href="deconnexion.php" class="nav-link">Deconnexion</a>

@@ -1,24 +1,30 @@
 <?php
 error_reporting(E_ALL & ~ E_NOTICE);
 
-session_start();
-if(isset($_SESSION['login'])){
-    $email = $_SESSION['login'];
-    echo 'Vous êtes déjà connecté';
-}else{
-    $_SESSION['login'] = $_POST['mail'];
-    $email = $_SESSION['login'];
-}
-
-
 include 'src/views/elements/header.php';
 include 'src/views/elements/footer.php';
 include 'src/config/config.php';
 include 'src/models/connect.php';
-
 head();
 
 $db = connection();
+
+$select = "SELECT * FROM user";
+$reqSelect = $db->prepare($select);
+$reqSelect->execute();
+
+$data = $reqSelect->fetchObject();
+
+if(password_verify($_POST['mdp'], $data->mdpUser)){
+    session_start();
+    if(isset($_SESSION['login'])){
+        $mail = $_SESSION['login'];
+    } else {
+        $_SESSION['login'] = $_POST['mail'];
+        $email = $_SESSION['login'];
+    }
+}
+
 ?>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">DamienLocation</a>
@@ -37,7 +43,7 @@ $db = connection();
                 <a class="nav-link" href="src/views/contact.php">Contact</a>
             </li>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item">
                     <a class="nav-link" href="src/views/ajoutAgence.php">Ajouter une agence</a>
@@ -46,7 +52,7 @@ $db = connection();
             }
             ?>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item ">
                     <a class="nav-link" href="src/views/ajoutLocation.php">Ajouter une location</a>
@@ -55,7 +61,7 @@ $db = connection();
             }
             ?>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item ">
                     <a class="nav-link" href="src/views/ajoutClient.php">Ajouter un client</a>
@@ -70,12 +76,21 @@ $db = connection();
                 <a class="nav-link" href="src/views/connexion.php">Connexion</a>
             </li>
             <?php 
-            if($email === 'mike.myers@gmail.com'){
+            if($_SESSION['login']){
                ?>
                <li class="nav-item">
                    <a href="src/views/deconnexion.php" class="nav-link">Deconnexion</a>
                </li> 
                <?php
+            }
+            ?>
+            <?php 
+            if ($_SESSION['login']) {
+                ?>
+                <li class="nav-item ">
+                    <a href="src/views/ajoutUser.php" class="nav-link">Ajouter un utilisateur</a>
+                </li>
+                <?php
             }
             ?>
         </ul>

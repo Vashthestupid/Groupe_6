@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL &~ E_NOTICE);
 
 session_start();
 if(isset($_SESSION['login'])){
@@ -84,7 +85,7 @@ if($nb->nb == 0){
                 <a class="nav-link" href="#">Contact<span class="sr-only">(current)</span></a>
             </li>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item ">
                     <a class="nav-link" href="ajoutAgence.php">Ajouter une agence</a>
@@ -93,7 +94,7 @@ if($nb->nb == 0){
             }
             ?>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item ">
                     <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
@@ -102,7 +103,7 @@ if($nb->nb == 0){
             }
             ?>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item ">
                     <a class="nav-link" href="ajoutClient.php">Ajouter un client</a>
@@ -117,7 +118,7 @@ if($nb->nb == 0){
                 <a class="nav-link" href="connexion.php">Connexion</a>
             </li>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item">
                     <a href="deconnexion.php" class="nav-link">Deconnexion</a>

@@ -1,4 +1,6 @@
 <?php 
+error_reporting(E_ALL &~ E_NOTICE);
+
 session_start();
 if(isset($_SESSION['login'])){
     $email = $_SESSION['login'];
@@ -49,7 +51,7 @@ while($data = $reqSelect->fetchObject()){
                 <a class="nav-link" href="contact.php">Contact</a>
             </li>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item">
                     <a class="nav-link" href="ajoutAgence.php">Ajouter une agence</a>
@@ -58,7 +60,7 @@ while($data = $reqSelect->fetchObject()){
             }
             ?>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item ">
                     <a class="nav-link" href="ajoutLocation.php">Ajouter une location</a>
@@ -67,7 +69,7 @@ while($data = $reqSelect->fetchObject()){
             }
             ?>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item ">
                     <a class="nav-link" href="ajoutClient.php">Ajouter un client</a>
@@ -82,7 +84,7 @@ while($data = $reqSelect->fetchObject()){
                 <a class="nav-link" href="connexion.php">Connexion</a>
             </li>
             <?php
-            if ($email === 'mike.myers@gmail.com') {
+            if ($_SESSION['login']) {
                 ?>
                 <li class="nav-item">
                     <a href="deconnexion.php" class="nav-link">Deconnexion</a>
@@ -126,7 +128,7 @@ while($data = $reqSelect->fetchObject()){
                                 <button class="btn btn-primary mr-1" type="submit"><i class="fa fa-bars" aria-hidden="true"></i> Lire</button>
                             </form>
                             <?php
-                            if ($email === 'mike.myers@gmail.com') {
+                            if ($_SESSION['login']) {
                                 ?>
                                 <form method="get" action="modifier.php">
                                     <input type="number" name="id" value="<?= $location->idlocation ?>" readonly hidden>
