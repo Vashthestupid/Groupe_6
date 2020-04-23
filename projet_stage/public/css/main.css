@@ -5,3 +5,7 @@ body{
 #inscription, #connexion{
     display: none;
 }
+
+.titleForm{
+    font-size: 18px;
+}

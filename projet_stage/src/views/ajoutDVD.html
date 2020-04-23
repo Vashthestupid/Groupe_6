@@ -33,7 +33,7 @@
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
 					<a class="dropdown-item d-flex justify-content-center" href="ajoutLivre.html">Ajouter un livre</a>
-					<a class="dropdown-item d-flex justify-content-center" href="ajoutDvd.html">Ajouter un DVD</a>
+					<a class="dropdown-item d-flex justify-content-center bg-secondary text-white" href="ajoutDvd.html">Ajouter un DVD</a>
 					<a class="dropdown-item d-flex justify-content-center" href="ajoutJeu.html">Ajouter un Jeu</a>
 				</div>
 			</li>
@@ -50,59 +50,43 @@
 
     <div class="container">
 		<br>
-		<div class="d-flex justify-content-center">
-			<button id="btnInscription" type="button" class="btn btn-primary mr-3">Inscription</button>
-			<button id="btnConnexion" type="button" class="btn btn-primary">Connexion</button>
-		</div>
-		<br>
-        <div id="connexion" class="offset-md-2 col-md-8">
-            <h2 class=" titleForm d-flex justify-content-center">Formulaire de connexion</h2>
-            <form action="../../index.html" method="post" id="formConnexion">
-                <div class="form-group">
-                    <label for="email" class="d-flex justify-content-center">Email</label>
-                    <input class="form-inline d-flex mx-auto w-75" type="email" name="email" id="email">
-                </div>
-                <div class="form-group">
-                    <label for="mdp" class="d-flex justify-content-center">Mot de passe</label>
-                    <input class="form-inline d-flex mx-auto w-75" type="password" name="mdp" id="mdp">
-                </div>
-                <input type="submit" value="Valider" class="btn btn-success d-flex mx-auto">
-            </form> 
-        </div>
-		<div id="inscription">
-			<h2 class=" titleForm d-flex justify-content-center">Formulaire d'inscription</h2>
+		<h2 class="titleForm d-flex justify-content-center">Formulaire d'ajout d'un film</h2>
+		<div id="ajoutLivre">
 			<form method="post" class="offset-md-2 col-md-8">
 				<div class="form-group">
-					<label for="nom" class="d-flex justify-content-center">Nom</label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="nom" id="nom">
+					<label for="titre" class="d-flex justify-content-center">Titre du Film</label>
+					<input class="form-inline d-flex mx-auto w-75" type="text" name="titre" id="titre">
 				</div>
 				<div class="form-group">
-					<label for="prenom" class="d-flex justify-content-center">Prenom</label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="prenom" id="prenom">
+					<label for="realisateur" class="d-flex justify-content-center">Réalisateur du film</label>
+					<input class="form-inline d-flex mx-auto w-75" type="text" name="auteur" id="auteur">
 				</div>
 				<div class="form-group">
-					<label for="email" class="d-flex justify-content-center">Email</label>
-					<input class="form-inline d-flex mx-auto w-75" type="email" name="email" id="email">
+					<label for="resume" class="d-flex justify-content-center">Résumé du film</label>
+					<textarea class="form-inline d-flex mx-auto w-75" name="resume" id="resume"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="genre" class="d-flex justify-content-center">Genre</label>
+                    <select class="d-flex mx-auto w-75"name="genre" id="genre">
+                        <option value="Romance">Romance</option>
+                        <option value="Science-Fiction">Science-Fiction</option>
+                        <option value="Aventure">Aventure</option>
+                        <option value="Fantastique">Fantastique</option>
+                        <option value="Policier">Policier</option>
+                        <option value="Anticipation">Anticipation</option>
+                        <option value="Comédie">Comédie</option>
+                        <option value="Horreur">Horreur</option>
+                        <option value="Epouvante">Epouvante</option>
+                        <option value="animation">Animation</option>
+                    </select>
+                </div>
+				<div class="form-group">
+					<label for="prix" class="d-flex justify-content-center">Prix du film</label>
+					<input class="form-inline d-flex mx-auto w-75" type="number" name="prix" id="prix">
 				</div>
 				<div class="form-group">
-					<label for="mdp" class="d-flex justify-content-center">Mot de passe</label>
-					<input class="form-inline d-flex mx-auto w-75" type="password" name="mdp" id="mdp">
-				</div>
-				<div class="form-group">
-					<label for="mdp2" class="d-flex justify-content-center">Confirmation du mot de passe </label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="mdp2" id="mdp2">
-				</div>
-				<div class="form-group">
-					<label for="adresse" class="d-flex justify-content-center">Adresse</label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="adresse" id="adresse">
-				</div>
-				<div class="form-group">
-					<label for="ville" class="d-flex justify-content-center">Ville</label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="ville" id="ville">
-				</div>
-				<div class="form-group">
-					<label for="pays" class="d-flex justify-content-center">Pays</label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="pays" id="pays">
+					<label for="image" class="d-flex justify-content-center">Image du film</label>
+					<input class="form-inline d-flex mx-auto w-75" type="file" name="image" id="image">
 				</div>
 				<input type="submit" value="Valider" class="btn btn-success d-flex mx-auto">
 			</form>
