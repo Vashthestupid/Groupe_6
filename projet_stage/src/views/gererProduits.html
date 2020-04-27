@@ -32,7 +32,7 @@
 					Ajouter un produit
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item d-flex justify-content-center" href="ajoutLivre.html">Ajouter un livre</a>
+					<a class="dropdown-item d-flex justify-content-center bg-secondary text-white" href="ajoutLivre.html">Ajouter un livre</a>
 					<a class="dropdown-item d-flex justify-content-center" href="ajoutDvd.html">Ajouter un DVD</a>
 					<a class="dropdown-item d-flex justify-content-center" href="ajoutJeu.html">Ajouter un Jeu</a>
 				</div>
@@ -52,23 +52,44 @@
     </nav>
 
     <div class="container">
-        <h3 class="titleForm mt-4 d-flex justify-content-center">Modification de l'adresse de livraison</h3>
-        <div class="col-sm-12 offset-md-2 col-md-8">
-            <form action="panier.html">
-                <div class="form-group">
-                    <label class="d-flex justify-content-center" for="adresse">Adresse</label>
-                    <input class="form-inline d-flex mx-auto w-75" type="text" name="adresse" id="adresse">
-                </div>
-                <div class="form-group">
-                    <label class="d-flex justify-content-center" for="ville">Ville</label>
-                    <input class="form-inline d-flex mx-auto w-75" type="text" name="ville" id="ville">
-                </div>
-                <div class="form-group">
-                    <label class="d-flex justify-content-center" for="pays">Pays</label>
-                    <input class="form-inline d-flex mx-auto w-75" type="text" name="Pays" id="Pays">
-                </div>
-                <input class="btn btn-success d-flex mx-auto mt-5" type="submit" value="Valider">
-            </form>
+        <h2 class="titleForm mt-4 d-flex justify-content-center">Liste des produits</h2>
+        <div class="row">
+            <div id="produits" class=" mt-5 d-flex mx-auto">
+                <table class="table">
+                    <thead class="thead-light">
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom du produit</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Final Fantasy VII Remake</td>
+                            <td>
+                                <div class="col-sm-12 col-md-12">
+                                    <form class="mt-2" action="detail.html" method="get">
+                                        <input type="number" name="id" id="id" value="id" hidden>
+                                        <input type="text" name="action" id="action" value="lire" hidden>
+                                        <input class="btn btn-primary" type="submit" value="Lire">
+                                    </form>
+                                    <form class="mt-2" action="modifier.html" method="get">
+                                        <input type="number" name="id" id="id" value="id" hidden>
+                                        <input type="text" name="action" id="action" value="modifier" hidden>
+                                        <input class=" btn btn-warning" type="submit" value="Modifier">
+                                    </form>
+                                    <form class="mt-2" method="get">
+                                        <input type="number" name="id" id="id" value="id" hidden>
+                                        <input type="text" name="action" id="action" value="supprimer" hidden>
+                                        <input class="btn btn-danger" type="submit" value="Supprimer">
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     
