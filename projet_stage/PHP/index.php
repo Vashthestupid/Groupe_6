@@ -1,7 +1,13 @@
 <?php
-include 'src/views/elements/header.php';
+include 'src/views/elements/header.php'; 
+include 'src/views/elements/footer.php';
+include 'src/views/elements/formulaires.php';
+include 'src/config/config.php';
+include 'src/models/connect.php';
 
 head();
+
+$db = connection()
 ?>
 	
 	<nav class="navbar navbar-expand-xl navbar-light bg-light">
@@ -12,32 +18,32 @@ head();
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 		<ul class="navbar-nav mr-auto">
 			<li class="nav-item">
-			<a class="nav-link" href="src/views/connexion.html">Inscription/Connexion</a>
+			<a class="nav-link" href="src/views/connexion.php">Inscription/Connexion</a>
 			</li>
 			<li class="nav-item">
-			<a class="nav-link" href="src/views/livre.html">Livres</a>
+			<a class="nav-link" href="src/views/livre.php">Livres</a>
 			</li>
 			<li class="nav-item">
-			<a class="nav-link" href="src/views/film.html">Film</a>
+			<a class="nav-link" href="src/views/film.php">Film</a>
 			</li>
 			<li class="nav-item">
-			<a class="nav-link" href="src/views/jeu.html">Jeux Video</a>
+			<a class="nav-link" href="src/views/jeu.php">Jeux Video</a>
 			</li>
 			<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Ajouter un produit
 				</a>
 				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item d-flex justify-content-center" href="src/views/ajoutLivre.html">Ajouter un livre</a>
-					<a class="dropdown-item d-flex justify-content-center" href="src/views/ajoutFilm.html">Ajouter un film</a>
-					<a class="dropdown-item d-flex justify-content-center" href="src/views/ajoutJeu.html">Ajouter un Jeu</a>
+					<a class="dropdown-item d-flex justify-content-center" href="src/views/ajoutLivre.php">Ajouter un livre</a>
+					<a class="dropdown-item d-flex justify-content-center" href="src/views/ajoutFilm.php">Ajouter un film</a>
+					<a class="dropdown-item d-flex justify-content-center" href="src/views/ajoutJeu.php">Ajouter un Jeu</a>
 				</div>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="src/views/panier.html">Panier</a>
+				<a class="nav-link" href="src/views/panier.php">Panier</a>
 			</li>
 			<li class="nav-item">
-				<a class="nav-link" href="src/views/gererProduits.html">Gérer les produits</a>
+				<a class="nav-link" href="src/views/gererProduits.php">Gérer les produits</a>
 			</li>
 		</ul>
 		<form class="form-inline my-2 my-lg-0">
@@ -58,11 +64,14 @@ head();
 						<p class="card-text">Superbe roman narrant les innombrables aventures du roi arthur et de ses chevaliers jusqu'a son tragique décès.</p>
 					</div>
 					<div class="card-footer">
-						<form action="src/views/detail.html" method="get">
+						<!-- <form action="src/views/detail.php" method="get">
 							<input type="number" name="id" id="id" value="" readonly hidden>
 							<input type="text" name="action" id="action" value="lire" readonly hidden>
 							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>					
+						</form>-->
+						<?php
+						formulaireLire();
+						?>					
 					</div>
 				</div>
 			</div>
@@ -148,12 +157,5 @@ head();
 			</div>
 		</div>
 	</div>
-
-
-
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
-	<script src="public/js/main.js"></script>
-	</body>
-</html>
+<?php
+footer();
