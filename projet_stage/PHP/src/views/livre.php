@@ -5,6 +5,31 @@ include '../config/config.php';
 include '../models/connect.php';
 
 head();
+
+$db = connection();
+
+// On récupère les données de la table 'livres' 
+
+$selectLivres = "SELECT livres.idLivre, 
+					livres.imageLivre,
+					livres.titreLivre,
+					livres.resumeLivre
+					FROM livres
+					ORDER BY livres.idLivre
+					DESC
+					LIMIT 0,6
+					";
+
+$reqSelectLivres = $db->prepare($selectLivres);
+$reqSelectLivres->execute();
+
+$listeLivres = array();
+
+while($data = $reqSelectLivres->fetchObject()){
+	array_push($listeLivres, $data);
+}
+
+
 ?>
 	<nav class="navbar navbar-expand-xl navbar-light bg-light">
 		<a class="navbar-brand" href="../../index.php">DivertiBuy</a>
@@ -51,6 +76,30 @@ head();
 	<br>
 	<div class="container">
 		<p class="d-flex justify-content-center lead">Liste des livres </p>
+		<?php
+		foreach($listeLivres as $livre){
+			?>
+			<div class="row">
+				<div class="col-sm-12 col-md-6 col-lg-4">
+					<div class="card h-100">
+						<img src="../../public/image/<?= $livre->imageLivre ?>" alt="<?= $livre->imageLivre ?>" class="card-img-top w-50 h-50 mx-auto">
+						<div class="card-body">
+							<h5 class="card-title d-flex justify-content-center "><?= $livre->titreLivre ?></h5>
+							<p class="card-text"><?= $livre->resumeLivre ?></p>
+						</div>
+						<div class="card-footer">
+							<form action="detail.php" method="get">
+								<input type="number" name="id" id="id" value="<?= $livre->idLivre ?>" readonly hidden>
+								<input type="text" name="action" id="action" value="lire" readonly hidden>
+								<input class="btn btn-secondary w-100" type="submit" value="Voir +">
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		<?php
+		}
+		?>
 		<div class="row">
 			<div class="col-sm-12 col-md-6 col-lg-4">
 				<div class="card h-100">
