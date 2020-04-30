@@ -5,6 +5,55 @@ include '../config/config.php';
 include '../models/connect.php';
 
 head();
+
+$db = connection();
+
+if(isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['nbre']) && isset($_POST['online']) && isset($_POST['image'])){
+	
+	$titre = htmlspecialchars(trim($_POST['titre']));
+	$studio = htmlspecialchars(trim($_POST['studio']));
+	$resume = htmlspecialchars(trim($_POST['resume']));
+	$genre = htmlspecialchars(trim($_POST['genre']));
+	$prix = intval($_POST['prix']);
+	$nbre = intval($_POST['nbre']);
+	$online = intval($_POST['online']);
+	$image = htmlspecialchars(trim($_POST['image']));
+
+	// On verifie si le produit n'est pas déjà présent dans la base de données
+
+	$selectExist = "SELECT COUNT(titreJeu) AS nb
+	FROM jeux
+	WHERE jeux.titreJeu = :titreJeu";
+
+	$reqSelectExist = $db->prepare($selectExist);
+	$reqSelectExist->bindParam('titreJeu', $titre);
+	$reqSelectExist->execute();
+
+	$nb = $reqSelectExist->fetchObject();
+
+	// Si le résultat est égal à 0 alors on insére le produit. Sinon on affiche un message d'erreur
+
+	if($nb->nb == 0){
+
+		$insertJeu = "INSERT INTO jeux (titreJeu,studioJeu,resumeJeu,prixJeu,nombreJoueurMax,onlineJeu,imageJeu,genreJeu,dateAjout) VALUES(:titre,:studio,:resume,:prix,:nbre,:online,:image,:genre, NOW())";
+
+		$reqInsertJeu = $db->prepare($insertJeu);
+		$reqInsertJeu->bindParam(':titre', $titre);
+		$reqInsertJeu->bindParam(':studio', $studio);
+		$reqInsertJeu->bindParam(':resume', $resume);
+		$reqInsertJeu->bindParam(':prix', $prix);
+		$reqInsertJeu->bindParam(':nbre', $nbre);
+		$reqInsertJeu->bindParam(':online', $online);
+		$reqInsertJeu->bindParam(':image', $image);
+		$reqInsertJeu->bindParam(':genre', $genre);
+		$reqInsertJeu->execute();
+
+		echo '<div class="alert alert-success">Votre produit a bien été ajouté</div>';
+	} else {
+		echo '<div class="alert alert-danger">Le produit existe déjà dans la base de données</div>';
+	}
+}
+
 ?>
 	<nav class="navbar navbar-expand-xl navbar-light bg-light">
 		<a class="navbar-brand" href="../../index.php">DivertiBuy</a>
@@ -85,7 +134,7 @@ head();
                     </select>
                 </div>
 				<div class="form-group">
-					<label for="prix" class="d-flex justify-content-center">Prix du film</label>
+					<label for="prix" class="d-flex justify-content-center">Prix du jeu</label>
 					<input class="form-inline d-flex mx-auto w-75" type="number" name="prix" id="prix">
                 </div>
                 <div class="form-group">

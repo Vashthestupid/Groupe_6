@@ -16,7 +16,7 @@ if(isset($_POST['titre']) && isset($_POST['auteur']) && isset($_POST['resume']) 
 	$image = htmlspecialchars(trim($_POST['image']));
 
 	// On verifie si le genre n'existe pas déjà 
-	$selectExist = "SELECT COUNT(titrelivre) AS nb FROM livres WHERE titreLivre = :titreLivre";
+	$selectExist = "SELECT COUNT(titreLivre) AS nb FROM livres WHERE titreLivre = :titreLivre";
 	$reqSelectExist = $db->prepare($selectExist);
 	$reqSelectExist->bindParam(':titreLivre', $titre);
 	$reqSelectExist->execute();
@@ -27,7 +27,7 @@ if(isset($_POST['titre']) && isset($_POST['auteur']) && isset($_POST['resume']) 
 	if($nb->nb == 0){
 		// Une fois que l'on a verifié si le genre existe, on ajoute le livre
 
-		$insertLivre = "INSERT INTO livres (titreLivre,auteurLivre,resumeLivre,prixLivre,imageLivre,genreLivre) VALUES (:titre,:auteur,:resume,:prix,:image,:genre) ";
+		$insertLivre = "INSERT INTO livres (titreLivre,auteurLivre,resumeLivre,prixLivre,imageLivre,genreLivre,dateAjout) VALUES (:titre,:auteur,:resume,:prix,:image,:genre, NOW())";
 		$reqInsertLivre = $db->prepare($insertLivre);
 		$reqInsertLivre->bindParam(':titre', $titre);
 		$reqInsertLivre->bindParam(':auteur', $auteur);

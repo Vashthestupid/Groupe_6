@@ -28,7 +28,7 @@ if (isset($_POST['titre']) && isset($_POST['realisateur']) && isset($_POST['resu
 	// Si le nombre retourné est égal à 0 alors on insère le produit dans la base de données. Sinoon on met un message d'erreur.
 	if($nb->nb == 0){
 
-		$insertFilm = 'INSERT INTO film (titreFilm,realisateurFilm,resumeFilm,prixFilm,imageFilm,genreFilm) VALUES(:titre,:real,:resume,:prix,:image,:genre)';
+		$insertFilm = 'INSERT INTO film (titreFilm,realisateurFilm,resumeFilm,prixFilm,imageFilm,genreFilm, dateAjout) VALUES(:titre,:real,:resume,:prix,:image,:genre, NOW())';
 		$reqInsertFilm = $db->prepare($insertFilm);
 		$reqInsertFilm->bindParam(':titre', $titre);
 		$reqInsertFilm->bindParam(':real', $realisateur);

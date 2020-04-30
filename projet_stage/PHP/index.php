@@ -7,7 +7,45 @@ include 'src/models/connect.php';
 
 head();
 
-$db = connection()
+$db = connection();
+
+// On récupère les données sur les 3 tables livres, film et jeux avec UNION
+
+$selectProduits = "SELECT
+livres.idLivre,
+livres.titreLivre,
+livres.resumeLivre,
+livres.imageLivre,
+livres.dateAjout
+FROM livres
+UNION
+SELECT
+film.idFilm,
+film.titreFilm,
+film.resumeFilm,
+film.imageFilm,
+film.dateAjout
+FROM film
+UNION
+SELECT
+jeux.idJeu,
+jeux.titreJeu,
+jeux.resumeJeu,
+jeux.imagejeu,
+jeux.dateAjout
+FROM jeux
+ORDER BY dateAjout
+DESC
+LIMIT 0,6";
+
+$reqSelectProduits = $db->prepare($selectProduits);
+$reqSelectProduits->execute();
+
+$listeProduits = array();
+
+while($data = $reqSelectProduits->fetchObject()){
+	array_push($listeProduits, $data);
+}
 ?>
 	
 	<nav class="navbar navbar-expand-xl navbar-light bg-light">
@@ -54,107 +92,31 @@ $db = connection()
 	</nav>
 	<br>
 	<div class="container">
+		<!-- <h1 class="titleForm">Bienvenue sur DIVERTIBUY</h1> -->
 		<p class="d-flex justify-content-center lead">Voici les 6 derniers produits ajoutés</p>
 		<div class="row">
-			<div class="col-sm-12 col-md-6 col-lg-4">
+		<?php
+		foreach($listeProduits as $produit){
+			?>
+			<div class="mt-5 col-sm-12 col-md-6 col-lg-4">
 				<div class="card h-100">
-					<img class="card-img-top w-50 h-50 mx-auto" src="public/image/le_morte_d_arthur.jpg" alt="Image livre le morte d'arthur">
+					<img src="../../public/image/<?= $produit->imageLivre ?>" alt="<?= $produit->imageLivre ?>" class="card-img-top w-50 h-50 mx-auto">
 					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">Le morte d'Arthur</h5>
-						<p class="card-text">Superbe roman narrant les innombrables aventures du roi arthur et de ses chevaliers jusqu'a son tragique décès.</p>
+						<h5 class="card-title d-flex justify-content-center "><?= $produit->titreLivre ?></h5>
+						<p class="card-text"><?= $produit->resumeLivre ?></p>
 					</div>
 					<div class="card-footer">
-						<!-- <form action="src/views/detail.php" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>-->
-						<?php
-						formulaireLire();
-						?>					
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50 h-50 mx-auto" src="public/image/joker.jpg" alt="Affiche du film 'JOKER'">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">JOKER</h5>
-						<p class="card-text">Film absolument génial que je n'ai pas vu.</p>
-					</div>
-					<div class="card-footer">
-						<form action="src/views/detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>					
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50 h-50 mx-auto" src="public/image/ff7.jpg" alt="jaquette final Fantasy 7 remake">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">Final Fantasy VII Remake</h5>
-						<p class="card-text">Magnifique jeu qui n'est pas juste un remake mais une réinterprétation du jeu originel de 1997</p>
-					</div>
-					<div class="card-footer">
-						<form action="src/views/detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>					
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50 h-50 mx-auto" src="public/image/harryPotter.jpg" alt="coffret intégral harry potter">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">Coffret intégral Harry Potter</h5>
-						<p class="card-text">Coffret qui réuni l'intégralité des films Harry Potter</p>
-					</div>
-					<div class="card-footer">
-						<form action="src/views/detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>					
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50  mx-auto" src="public/image/ZeldaOOT3D.png" alt="jaquette Zelda Ocarina Of time 3D">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">Zelda Ocarine Of Time 3D</h5>
-						<p class="card-text">Remake 3D du jeu Zelda le plus connu et le plus adulé par les fans de la license.</p>
-					</div>
-					<div class="card-footer">
-						<form action="src/views/detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
+						<form action="detail.php" method="get">
+							<input type="number" name="id" id="id" value="<?= $produit->idLivre ?>" readonly hidden>
 							<input type="text" name="action" id="action" value="lire" readonly hidden>
 							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
 						</form>
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50 h-50 mx-auto" src="public/image/silmarillon.jpg" alt="Photo du livre le Silmarillion">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">Le Silmarillion</h5>
-						<p class="card-text">Roman narrant la création de l'univers, la naissance des premiers hommes ainsi que la lutte contre l'infâme Melkor et son serviteur Sauron.</p>
-					</div>
-					<div class="card-footer">
-						<form action="src/views/detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>
-					</div>
-				</div>
-			</div>
+		<?php
+		}
+		?>
 		</div>
 	</div>
 <?php
