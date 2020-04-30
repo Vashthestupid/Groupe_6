@@ -106,11 +106,7 @@ while($data = $reqSelectProduits->fetchObject()){
 						<p class="card-text"><?= $produit->resumeLivre ?></p>
 					</div>
 					<div class="card-footer">
-						<form action="detail.php" method="get">
-							<input type="number" name="id" id="id" value="<?= $produit->idLivre ?>" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>
+						<p class="d-flex justify-content-center">Ajouté le <?= $produit->dateAjout?></p>
 					</div>
 				</div>
 			</div>
