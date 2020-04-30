@@ -5,6 +5,30 @@ include '../config/config.php';
 include '../models/connect.php';
 
 head();
+
+$db = connection();
+
+// On récupère les données de la table film
+
+$selectFilm = "SELECT film.idFilm,
+				film.titreFilm,
+				film.resumeFilm,
+				film.imageFilm
+				FROM film
+				ORDER BY film.idFilm
+				DESC
+				LIMIT 0,6
+";
+
+$reqSelectFilm = $db->prepare($selectFilm);
+$reqSelectFilm->execute();
+
+$listeFilms = array();
+
+while($data = $reqSelectFilm->fetchObject()){
+	array_push($listeFilms,$data);
+}
+
 ?>
 	<nav class="navbar navbar-expand-xl navbar-light bg-light">
 		<a class="navbar-brand" href="../../index.php">DivertiBuy</a>
@@ -52,102 +76,28 @@ head();
 	<div class="container">
 		<p class="d-flex justify-content-center lead">Liste des films </p>
 		<div class="row">
+		<?php
+		foreach($listeFilms as $film){
+			?>
 			<div class="col-sm-12 col-md-6 col-lg-4">
 				<div class="card h-100">
-					<img class="card-img-top w-50 h-50 mx-auto" src="../../public/image/joker.jpg" alt="Affiche du film Joker">
+					<img src="../../public/image/<?= $film->imageFilm ?>" alt="<?= $film->imageFilm ?>" class="card-img-top w-50 h-50 mx-auto">
 					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">JOKER</h5>
-						<p class="card-text">Film absolument génial que je n'ai pas vu.</p>
+						<h5 class="card-title d-flex justify-content-center "><?= $film->titreFilm ?></h5>
+						<p class="card-text"><?= $film->resumeFilm?></p>
 					</div>
 					<div class="card-footer">
-						<form action="detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
+						<form action="detail.php" method="get">
+							<input type="number" name="id" id="id" value="<?= $film->idFilm ?>" readonly hidden>
 							<input type="text" name="action" id="action" value="lire" readonly hidden>
 							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>						
-					</div>
-				</div>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50 h-50 mx-auto" src="../../public/image/HPIntegrale.png" alt="Photo du coffret dvd Harry Potter ">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">Coffret DVD Harry Potter</h5>
-						<p class="card-text">Intégrale des aventures d'Harry Potter contre Voldemort.</p>
-					</div>
-					<div class="card-footer">
-						<form action="detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>						
+						</form>
 					</div>
 				</div>
 			</div>
-			<div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50 h-50 mx-auto" src="../../public/image/fightClub.jpg" alt="Affiche du film Fight Club">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">Fight Club</h5>
-						<p class="card-text">Super film.</p>
-					</div>
-					<div class="card-footer">
-						<form action="detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>						
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50 h-50 mx-auto" src="../../public/image/tunetueraspoint.jpg" alt="Affiche du film Tu ne tueras point">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">Tu ne tueras point</h5>
-						<p class="card-text">Meilleur film de Mel Gibson avec en tête d'affiche Andrew Garfield</p>
-					</div>
-					<div class="card-footer">
-						<form action="detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>						
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50 h-50 mx-auto" src="../../public/image/Pulp_Fiction.jpg" alt="Affiche du film Pulp Fiction">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">Pulp Fiction</h5>
-						<p class="card-text">Un incontournable des films de Quentin Tarantino avec à l'affiche Samuel L Jackson, John Travoltat et Bruce Willis.</p>
-					</div>
-					<div class="card-footer">
-						<form action="detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>						
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50  mx-auto" src="../../public/image/LSDA.jpg" alt="Affiche du film le seigneur des anneaux : le retour du roi ">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">Le seigneur des anneaux: le retour du roi</h5>
-						<p class="card-text">Ultime episode de la lutte contre le seigneur du mal Sauron</p>
-					</div>
-					<div class="card-footer">
-						<form action="detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>						
-					</div>
-				</div>
-			</div>
+		<?php
+		}
+		?>
         </div>
         <br>
         <nav aria-label="Page navigation example" class="d-flex justify-content-center">

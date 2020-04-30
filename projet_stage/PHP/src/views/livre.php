@@ -76,128 +76,30 @@ while($data = $reqSelectLivres->fetchObject()){
 	<br>
 	<div class="container">
 		<p class="d-flex justify-content-center lead">Liste des livres </p>
+		<div class="row">
 		<?php
 		foreach($listeLivres as $livre){
 			?>
-			<div class="row">
-				<div class="col-sm-12 col-md-6 col-lg-4">
-					<div class="card h-100">
-						<img src="../../public/image/<?= $livre->imageLivre ?>" alt="<?= $livre->imageLivre ?>" class="card-img-top w-50 h-50 mx-auto">
-						<div class="card-body">
-							<h5 class="card-title d-flex justify-content-center "><?= $livre->titreLivre ?></h5>
-							<p class="card-text"><?= $livre->resumeLivre ?></p>
-						</div>
-						<div class="card-footer">
-							<form action="detail.php" method="get">
-								<input type="number" name="id" id="id" value="<?= $livre->idLivre ?>" readonly hidden>
-								<input type="text" name="action" id="action" value="lire" readonly hidden>
-								<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-							</form>
-						</div>
+			<div class="col-sm-12 col-md-6 col-lg-4">
+				<div class="card h-100">
+					<img src="../../public/image/<?= $livre->imageLivre ?>" alt="<?= $livre->imageLivre ?>" class="card-img-top w-50 h-50 mx-auto">
+					<div class="card-body">
+						<h5 class="card-title d-flex justify-content-center "><?= $livre->titreLivre ?></h5>
+						<p class="card-text"><?= $livre->resumeLivre ?></p>
+					</div>
+					<div class="card-footer">
+						<form action="detail.php" method="get">
+							<input type="number" name="id" id="id" value="<?= $livre->idLivre ?>" readonly hidden>
+							<input type="text" name="action" id="action" value="lire" readonly hidden>
+							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
+						</form>
 					</div>
 				</div>
 			</div>
 		<?php
 		}
 		?>
-		<div class="row">
-			<div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50 h-50 mx-auto" src="../../public/image/le_morte_d_arthur.jpg" alt="Image livre le morte d'arthur">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">Le morte d'Arthur</h5>
-						<p class="card-text">Superbe roman narrant les innombrables aventures du roi arthur et de ses chevaliers jusqu'a son tragique décès.</p>
-					</div>
-					<div class="card-footer">
-						<form action="detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>						
-					</div>
-				</div>
-            </div>
-            <div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50 h-50 mx-auto" src="../../public/image/silmarillon.jpg" alt="Photo du livre le Silmarillion">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">Le Silmarillion</h5>
-						<p class="card-text">Roman narrant la création de l'univers, la naissance des premiers hommes ainsi que la lutte contre l'infâme Melkor et son serviteur Sauron.</p>
-					</div>
-					<div class="card-footer">
-						<form action="detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>						
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50 h-50 mx-auto" src="../../public/image/titans.png" alt="Affiche du manga shingeki no kyojin tome 19">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">Shingeki no kyojin tome 19</h5>
-						<p class="card-text">Eren et Ymir ont été capturés par Reiner et Bertholt mais le bataillon d'expedition vole à leur secours.</p>
-					</div>
-					<div class="card-footer">
-						<form action="detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>						
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50 h-50 mx-auto" src="../../public/image/marvel.jpg" alt="Couverture du tome 2 de War of realms">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">War of the realms tome 2</h5>
-						<p class="card-text">La contre attaque contre Malekith commence !</p>
-					</div>
-					<div class="card-footer">
-						<form action="detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>						
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50 h-50 mx-auto" src="../../public/image/feu&sang.jpg" alt="couverture du livre Feu & Sang">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">Feu & Sang</h5>
-						<p class="card-text">L'origine des Targaryen et la création du trône de fer.</p>
-					</div>
-					<div class="card-footer">
-						<form action="detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>						
-					</div>
-				</div>
-			</div>
-			<div class="col-sm-12 col-md-6 col-lg-4">
-				<div class="card h-100">
-					<img class="card-img-top w-50  mx-auto" src="../../public/image/HP7.jpg" alt="Couverture du roman Harry Potter et les reliques de la mort">
-					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center">Harry Potter et les reliques de la mort</h5>
-						<p class="card-text">Ultime chapitre de la guerre contre Voldemort et ses partisans </p>
-					</div>
-					<div class="card-footer">
-						<form action="detail.html" method="get">
-							<input type="number" name="id" id="id" value="" readonly hidden>
-							<input type="text" name="action" id="action" value="lire" readonly hidden>
-							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-						</form>						
-					</div>
-				</div>
-			</div>
-        </div>
+		</div>
         <br>
         <nav aria-label="Page navigation example" class="d-flex justify-content-center">
             <ul class="pagination">

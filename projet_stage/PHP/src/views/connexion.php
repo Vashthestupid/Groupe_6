@@ -1,7 +1,7 @@
 <?php
 include 'elements/header.php'; 
 include 'elements/footer.php';
-include 'elements/formulaires.php';
+include 'elements/fonctions.php';
 include '../config/config.php';
 include '../models/connect.php';
 
