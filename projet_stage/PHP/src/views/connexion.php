@@ -10,84 +10,81 @@ head();
 $db = connection();
 
 // La partie inscription
+// On verifie si les champs ne sont pas vides
 
-if (isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['emailInsc']) && isset($_POST['mdpInsc']) && isset($_POST['adresse']) && isset($_POST['ville']) && isset($_POST['pays'])) {
-    $nom = htmlspecialchars(trim($_POST['nom']));
-    $prenom = htmlspecialchars(trim($_POST['prenom']));
-    $email = htmlspecialchars(trim($_POST['emailInsc']));
-    $mdp = password_hash(htmlspecialchars(trim($_POST['mdp'])), PASSWORD_BCRYPT);
-    $adresse = htmlspecialchars(trim($_POST['adresse']));
-    $ville = htmlspecialchars(trim($_POST['ville']));
-    $pays = htmlspecialchars(trim($_POST['pays']));
+if(empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['emailInsc']) || empty($_POST['mdpInsc']) || empty($_POST['mdp2']) || empty($_POST['adresse']) || empty($_POST['ville']) || empty($_POST['pays'])){
+	echo '<div class="alert alert-danger">Tous les champs doivent être remplis</div>';
+} else {
+	if(isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['emailInsc']) && isset($_POST['mdpInsc']) && isset($_POST['mdp2']) && isset($_POST['adresse']) && isset($_POST['ville']) && isset($_POST['pays'])){
+		$nom = htmlspecialchars(trim($_POST['nom']));
+		$prenom = htmlspecialchars(trim($_POST['prenom']));
+		$email = htmlspecialchars(trim($_POST['emailInsc']));
+		$mdp = htmlspecialchars(trim($_POST['mdpInsc']));
+		$mdp2 = htmlspecialchars(trim($_POST['mdp2']));
+		$adresse = htmlspecialchars(trim($_POST['adresse']));
+		$ville = htmlspecialchars(trim($_POST['ville']));
+		$pays = htmlspecialchars(trim($_POST['pays']));
 
-    // on ajoute d'abord la ville dans la base de données
-    // on verifie si la données existe dans la base de données
+		if($mdp === $mdp2){
+			$mdp_hash = password_hash(htmlspecialchars(trim($mdp)), PASSWORD_BCRYPT);
 
-    $selectVilleExiste = "SELECT COUNT(nomVille) as nbVille FROM ville WHERE nomVille = :nomVille";
+			// On commence les insertions
+			// On verifie d'abord si ce que l'on s'apprête à enregistrer n'existe pas déjà dans la BDD.
 
-    $reqSelectVilleExiste = $db->prepare($select);
-    $reqSelectVilleExiste->bindParam(':nomVille', $ville);
-    $reqSelectVilleExiste->execute();
+			$selectUserExiste = "SELECT COUNT(prenomUser) as nb
+			FROM users 
+			INNER JOIN ville ON users.ville_idVille = ville.idVille
+			INNER JOIN pays ON users.pays_idPays = pays.idPays
+			WHERE users.prenomUser = :prenomUser";
+			
+			$reqSelectUserExiste = $db->prepare($selectUserExiste);
+			$reqSelectUserExiste->bindParam(':prenomUser', $prenom);
+			$reqSelectUserExiste->execute();
 
-    $nb = $reqSelectVilleExiste->fetchObject();
+			$nb = $reqSelectUserExiste->fetchObject();
 
-    if ($nb->nb == 0) {
-        $insertVille = "INSERT INtO ville(nomVille) VALUES(:ville)";
+			// si le résultat est de 0 alors on insère les données 
+			if($nb->nb == 0){
+				// on commence par la ville
 
-        $reqInsertVille = $db->prepare($insertVille);
-        $reqInsertVille->bindParam(':ville', $ville);
-        $reqInsertVille->execute();
+				$insertVille = "INSERT INTO ville(nomVille) VALUES(:nomVille)";
 
-        $lastInsertIdVille = $db->lastInsertId();
-    }
+				$reqInsertVille = $db->prepare($insertVille);
+				$reqInsertVille->bindParam(':nomVille', $ville);
+				$reqInsertVille->execute();
 
-    // Puis on ajoute le pays
-    // on verifie si elle n'existe pas
+				$lastInsertIdVille = $db->lastInsertId();
 
-    $selectPaysExiste = "SELECT COUNT(nomPays) as nbPays FROM pays WHERE nomPays = :nomPays";
+				// Puis le pays
 
-    $reqSelectPaysExiste = $db->prepare($selectPaysExiste);
-    $reqSelectPaysExiste->bindParam(':nomPays', $pays);
-    $reqSelectPaysExiste->execute();
+				$insertPays = "INSERT INTO pays(nomPays) VALUES(:nomPays)";
+				
+				$reqInsertPays = $db->prepare($insertPays);
+				$reqInsertPays->bindParam(':nomPays', $pays);
+				$reqInsertPays->execute();
 
-    $nbPays = $reqSelectPaysExiste->fetchObject();
+				$lastInsertIdPays = $db->lastInsertId();
 
-    if ($nbPays->nbPays == 0) {
-        $insertPays = "INSERT INTO pays(nomPays) VALUES(:pays)";
+				//Et l'utilisateur
 
-        $reqInsertPays = $db->prepare($insertPays);
-        $reqInsertPays->bindParam(':pays', $pays);
-        $reqInsertPays->execute();
+				$insertUser = "INSERT INTO users(nomUser,prenomUser,mailUser,mdpUser,adresseUser,ville_idVille,pays_idPays) VALUES(:nom,:prenom,:mail,:mdp,:adresse,$lastInsertIdVille,$lastInsertIdPays)";
 
-        $lastInsertIdPays = $db->lastInsertId();
-    }
+				$reqInsertUser = $db->prepare($insertUser);
+				$reqInsertUser->bindParam(':nom',$nom);
+				$reqInsertUser->bindParam(':prenom',$prenom);
+				$reqInsertUser->bindParam(':mail',$email);
+				$reqInsertUser->bindParam(':mdp',$mdp_hash);
+				$reqInsertUser->bindParam(':adresse',$adresse);
+				$reqInsertUser->execute();
 
-    // Puis on ajoute l'utilisateur
-    // On verifie s'il n'existe pas
-
-    $selectUserExiste = "SELECT COUNT(mailUser) as nbUser FROM users WHERE mailUser = :mailUser";
-
-    $reqSelectUserExiste = $db->prepare($selectUserExiste);
-    $reqSelectUserExiste->bindParam(':mailUser', $email);
-    $reqSelectUserExiste->execute();
-
-    $nbUser = $reqSelectUserExiste->fetchObject();
-
-    if ($nbUser->nbUser == 0) {
-        $insertUser = "INSERT INTO users(nomUser,prenomUser,mailUser,mdpUser,adresseUser,ville_idville,pays_idPays) VALUES(:nomUser,:prenomUser,:mail,:mdp,:adresse,$lastInsertIdVille,$lastInsertIdPays";
-
-        $reqInsertUser = $db->prepare($insertUser);
-        $reqInsertUser->bindParam(':nomUser', $nom);
-        $reqInsertUser->bindParam(':prenomUser', $prenom);
-        $reqInsertUser->bindParam(':mail', $email);
-        $reqInsertUser->bindParam(':mdp', $mdp);
-        $reqInsertUser->bindParam(':adresse', $adresse);
-        $reqInsertUser->execute();
-
-        echo "<div class='alert alert-success'>Votre formulaire a bien été enregistré</div>";
-    } else {
-        echo "<div class='alert alert-danger'>L'adresse email est déjà utilisée</div>";
-    }
+				echo '<div class="alert alert-success">Votre formulaire a bien été enregistré</div>';
+			} else {
+				echo '<div class="alert alert-danger">L\'utilisateur existe déjà dans notre base de données</div>';
+			}
+		} else {
+			echo '<div class="alert alert-danger">Les deux mots de passe ne sont pas identiques</div>';
+		}
+	}
 }
 ?>
 	<nav class="navbar navbar-expand-xl navbar-light bg-light">
@@ -175,7 +172,7 @@ if (isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['emailInsc']
 				</div>
 				<div class="form-group">
 					<label for="mdp2" class="d-flex justify-content-center">Confirmation du mot de passe </label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="mdp2" id="mdp2">
+					<input class="form-inline d-flex mx-auto w-75" type="password" name="mdp2" id="mdp2">
 				</div>
 				<div class="form-group">
 					<label for="adresse" class="d-flex justify-content-center">Adresse</label>
