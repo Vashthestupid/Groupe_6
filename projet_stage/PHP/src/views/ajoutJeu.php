@@ -8,6 +8,10 @@ head();
 
 $db = connection();
 
+if (empty($_POST['titre']) || empty($_POST['studio']) || empty($_POST['resume']) || empty($_POST['genre'])|| empty($_POST['prix']) || empty($_POST['nbre']) || empty($_POST['online']) || empty($_POST['image'])) {
+	echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
+}
+
 if(isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['nbre']) && isset($_POST['online']) && isset($_POST['image'])){
 	
 	$titre = htmlspecialchars(trim($_POST['titre']));

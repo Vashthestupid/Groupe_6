@@ -7,6 +7,10 @@ include '../models/connect.php';
 head();
 $db = connection();
 
+if (empty($_POST['titre']) || empty($_POST['auteur']) || empty($_POST['resume']) || empty($_POST['genre'])|| empty($_POST['prix']) || empty($_POST['image'])) {
+	echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
+}
+
 if(isset($_POST['titre']) && isset($_POST['auteur']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['image'])){
 	$titre = htmlspecialchars(trim($_POST['titre']));
 	$auteur = htmlspecialchars(trim($_POST['auteur']));

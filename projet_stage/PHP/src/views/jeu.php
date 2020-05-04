@@ -23,6 +23,7 @@ $listeJeux = array();
 
 while($data = $reqSelectJeux->fetchObject()){
 	array_push($listeJeux, $data);
+	
 }
 ?>
 	<nav class="navbar navbar-expand-xl navbar-light bg-light">

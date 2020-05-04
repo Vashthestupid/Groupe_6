@@ -6,6 +6,89 @@ include '../config/config.php';
 include '../models/connect.php';
 
 head();
+
+$db = connection();
+
+// La partie inscription
+
+if (isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['emailInsc']) && isset($_POST['mdpInsc']) && isset($_POST['adresse']) && isset($_POST['ville']) && isset($_POST['pays'])) {
+    $nom = htmlspecialchars(trim($_POST['nom']));
+    $prenom = htmlspecialchars(trim($_POST['prenom']));
+    $email = htmlspecialchars(trim($_POST['emailInsc']));
+    $mdp = password_hash(htmlspecialchars(trim($_POST['mdp'])), PASSWORD_BCRYPT);
+    $adresse = htmlspecialchars(trim($_POST['adresse']));
+    $ville = htmlspecialchars(trim($_POST['ville']));
+    $pays = htmlspecialchars(trim($_POST['pays']));
+
+    // on ajoute d'abord la ville dans la base de données
+    // on verifie si la données existe dans la base de données
+
+    $selectVilleExiste = "SELECT COUNT(nomVille) as nbVille FROM ville WHERE nomVille = :nomVille";
+
+    $reqSelectVilleExiste = $db->prepare($select);
+    $reqSelectVilleExiste->bindParam(':nomVille', $ville);
+    $reqSelectVilleExiste->execute();
+
+    $nb = $reqSelectVilleExiste->fetchObject();
+
+    if ($nb->nb == 0) {
+        $insertVille = "INSERT INtO ville(nomVille) VALUES(:ville)";
+
+        $reqInsertVille = $db->prepare($insertVille);
+        $reqInsertVille->bindParam(':ville', $ville);
+        $reqInsertVille->execute();
+
+        $lastInsertIdVille = $db->lastInsertId();
+    }
+
+    // Puis on ajoute le pays
+    // on verifie si elle n'existe pas
+
+    $selectPaysExiste = "SELECT COUNT(nomPays) as nbPays FROM pays WHERE nomPays = :nomPays";
+
+    $reqSelectPaysExiste = $db->prepare($selectPaysExiste);
+    $reqSelectPaysExiste->bindParam(':nomPays', $pays);
+    $reqSelectPaysExiste->execute();
+
+    $nbPays = $reqSelectPaysExiste->fetchObject();
+
+    if ($nbPays->nbPays == 0) {
+        $insertPays = "INSERT INTO pays(nomPays) VALUES(:pays)";
+
+        $reqInsertPays = $db->prepare($insertPays);
+        $reqInsertPays->bindParam(':pays', $pays);
+        $reqInsertPays->execute();
+
+        $lastInsertIdPays = $db->lastInsertId();
+    }
+
+    // Puis on ajoute l'utilisateur
+    // On verifie s'il n'existe pas
+
+    $selectUserExiste = "SELECT COUNT(mailUser) as nbUser FROM users WHERE mailUser = :mailUser";
+
+    $reqSelectUserExiste = $db->prepare($selectUserExiste);
+    $reqSelectUserExiste->bindParam(':mailUser', $email);
+    $reqSelectUserExiste->execute();
+
+    $nbUser = $reqSelectUserExiste->fetchObject();
+
+    if ($nbUser->nbUser == 0) {
+        $insertUser = "INSERT INTO users(nomUser,prenomUser,mailUser,mdpUser,adresseUser,ville_idville,pays_idPays) VALUES(:nomUser,:prenomUser,:mail,:mdp,:adresse,$lastInsertIdVille,$lastInsertIdPays";
+
+        $reqInsertUser = $db->prepare($insertUser);
+        $reqInsertUser->bindParam(':nomUser', $nom);
+        $reqInsertUser->bindParam(':prenomUser', $prenom);
+        $reqInsertUser->bindParam(':mail', $email);
+        $reqInsertUser->bindParam(':mdp', $mdp);
+        $reqInsertUser->bindParam(':adresse', $adresse);
+        $reqInsertUser->execute();
+
+        echo "<div class='alert alert-success'>Votre formulaire a bien été enregistré</div>";
+    } else {
+        echo "<div class='alert alert-danger'>L'adresse email est déjà utilisée</div>";
+    }
+}
 ?>
 	<nav class="navbar navbar-expand-xl navbar-light bg-light">
 		<a class="navbar-brand" href="../../index.php">DivertiBuy</a>
@@ -109,7 +192,6 @@ head();
 				<input type="submit" value="Valider" class="btn btn-success d-flex mx-auto">
 			</form>
 		</div>
-    </div>
+	</div>
 <?php
-
 footer();

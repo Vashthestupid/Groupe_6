@@ -8,6 +8,10 @@ head();
 
 $db = connection();
 
+if (empty($_POST['titre']) || empty($_POST['realisateur']) || empty($_POST['resume']) || empty($_POST['genre'])|| empty($_POST['prix']) || empty($_POST['image'])) {
+	echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
+}
+
 if (isset($_POST['titre']) && isset($_POST['realisateur']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['image'])) {
     $titre = htmlspecialchars(trim($_POST['titre']));
     $realisateur = htmlspecialchars(trim($_POST['realisateur']));
@@ -92,10 +96,10 @@ if (isset($_POST['titre']) && isset($_POST['realisateur']) && isset($_POST['resu
 		<br>
 		<h2 class="titleForm d-flex justify-content-center">Formulaire d'ajout d'un film</h2>
 		<div id="ajoutLivre">
-			<form method="post" class="offset-md-2 col-md-8">
+			<form id="formFilm" method="post" class="offset-md-2 col-md-8">
 				<div class="form-group">
 					<label for="titre" class="d-flex justify-content-center">Titre du Film</label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="titre" id="titre">
+					<input class="form-inline d-flex mx-auto w-75" type="text" name="titre" id="titrefilm">
 				</div>
 				<div class="form-group">
 					<label for="realisateur" class="d-flex justify-content-center">Réalisateur du film</label>
@@ -103,11 +107,11 @@ if (isset($_POST['titre']) && isset($_POST['realisateur']) && isset($_POST['resu
 				</div>
 				<div class="form-group">
 					<label for="resume" class="d-flex justify-content-center">Résumé du film</label>
-					<textarea class="form-inline d-flex mx-auto w-75" name="resume" id="resume"></textarea>
+					<textarea class="form-inline d-flex mx-auto w-75" name="resume" id="resumeFilm"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="genre" class="d-flex justify-content-center">Genre</label>
-                    <select class="d-flex mx-auto w-75"name="genre" id="genre">
+                    <select class="d-flex mx-auto w-75"name="genre" id="genreFilm">
                         <option value="Romance">Romance</option>
                         <option value="Science-Fiction">Science-Fiction</option>
                         <option value="Aventure">Aventure</option>
@@ -122,14 +126,17 @@ if (isset($_POST['titre']) && isset($_POST['realisateur']) && isset($_POST['resu
                 </div>
 				<div class="form-group">
 					<label for="prix" class="d-flex justify-content-center">Prix du film</label>
-					<input class="form-inline d-flex mx-auto w-75" type="number" name="prix" id="prix">
+					<input class="form-inline d-flex mx-auto w-75" type="number" name="prix" id="prixFilm">
 				</div>
 				<div class="form-group">
 					<label for="image" class="d-flex justify-content-center">Image du film</label>
-					<input class="form-inline d-flex mx-auto w-75" type="file" name="image" id="image">
+					<input class="form-inline d-flex mx-auto w-75" type="file" name="image" id="imageFilm">
 				</div>
 				<input type="submit" value="Valider" class="btn btn-success d-flex mx-auto">
 			</form>
+			<div class="erreur">
+				<p id="message"></p>
+			</div>
 		</div>
     </div>
 <?php
