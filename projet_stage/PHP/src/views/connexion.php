@@ -31,43 +31,21 @@ if(empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['emailInsc'])
 			// On commence les insertions
 			// On verifie d'abord si ce que l'on s'apprête à enregistrer n'existe pas déjà dans la BDD.
 
-			$selectUserExiste = "SELECT COUNT(prenomUser) as nb
+			$selectUserExiste = "SELECT COUNT(mailUser) as nb
 			FROM users 
-			INNER JOIN ville ON users.ville_idVille = ville.idVille
-			INNER JOIN pays ON users.pays_idPays = pays.idPays
-			WHERE users.prenomUser = :prenomUser";
+			WHERE users.mailUser = :mailUser";
 			
 			$reqSelectUserExiste = $db->prepare($selectUserExiste);
-			$reqSelectUserExiste->bindParam(':prenomUser', $prenom);
+			$reqSelectUserExiste->bindParam(':mailUser', $email);
 			$reqSelectUserExiste->execute();
 
 			$nb = $reqSelectUserExiste->fetchObject();
 
 			// si le résultat est de 0 alors on insère les données 
 			if($nb->nb == 0){
-				// on commence par la ville
+				// On ajoute l'utilisateur dans la base de données
 
-				$insertVille = "INSERT INTO ville(nomVille) VALUES(:nomVille)";
-
-				$reqInsertVille = $db->prepare($insertVille);
-				$reqInsertVille->bindParam(':nomVille', $ville);
-				$reqInsertVille->execute();
-
-				$lastInsertIdVille = $db->lastInsertId();
-
-				// Puis le pays
-
-				$insertPays = "INSERT INTO pays(nomPays) VALUES(:nomPays)";
-				
-				$reqInsertPays = $db->prepare($insertPays);
-				$reqInsertPays->bindParam(':nomPays', $pays);
-				$reqInsertPays->execute();
-
-				$lastInsertIdPays = $db->lastInsertId();
-
-				//Et l'utilisateur
-
-				$insertUser = "INSERT INTO users(nomUser,prenomUser,mailUser,mdpUser,adresseUser,ville_idVille,pays_idPays) VALUES(:nom,:prenom,:mail,:mdp,:adresse,$lastInsertIdVille,$lastInsertIdPays)";
+				$insertUser = "INSERT INTO users(nomUser,prenomUser,mailUser,mdpUser,adresseUser,ville,pays) VALUES(:nom,:prenom,:mail,:mdp,:adresse,:ville,:pays)";
 
 				$reqInsertUser = $db->prepare($insertUser);
 				$reqInsertUser->bindParam(':nom',$nom);
@@ -75,6 +53,8 @@ if(empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['emailInsc'])
 				$reqInsertUser->bindParam(':mail',$email);
 				$reqInsertUser->bindParam(':mdp',$mdp_hash);
 				$reqInsertUser->bindParam(':adresse',$adresse);
+				$reqInsertUser->bindParam(':ville',$ville);
+				$reqInsertUser->bindParam(':pays',$pays);
 				$reqInsertUser->execute();
 
 				echo '<div class="alert alert-success">Votre formulaire a bien été enregistré</div>';
