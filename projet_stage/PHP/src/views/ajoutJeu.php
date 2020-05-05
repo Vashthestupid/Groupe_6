@@ -104,7 +104,7 @@ if(isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) 
 
     <div class="container">
 		<br>
-		<h2 class="titleForm d-flex justify-content-center">Formulaire d'ajout d'un film</h2>
+		<h2 class="titleForm d-flex justify-content-center">Formulaire d'ajout d'un Jeu</h2>
 		<div id="ajoutLivre">
 			<form method="post" class="offset-md-2 col-md-8">
 				<div class="form-group">

@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL &~ E_NOTICE);
 include 'elements/header.php'; 
 include 'elements/footer.php';
 include 'elements/fonctions.php';
@@ -8,6 +9,13 @@ include '../models/connect.php';
 head();
 
 $db = connection();
+
+session_start();
+if(isset($_SESSION['login'])){
+	$mail = $_SESSION['login'];
+} else {
+	$email = "";
+}
 
 // La partie inscription
 // On verifie si les champs ne sont pas vides
@@ -86,7 +94,10 @@ if(empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['emailInsc'])
 			<li class="nav-item">
 			<a class="nav-link" href="jeu.php">Jeux Video</a>
 			</li>
-			<li class="nav-item dropdown">
+			<?php
+			if($_SESSION['login']){
+				?>
+				<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Ajouter un produit
 				</a>
@@ -96,12 +107,36 @@ if(empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['emailInsc'])
 					<a class="dropdown-item d-flex justify-content-center" href="ajoutJeu.php">Ajouter un Jeu</a>
 				</div>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="panier.php">Panier</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="gererProduits.php">Gérer les produits</a>
-			</li>
+			<?php
+			}
+			?>
+			<?php
+            if ($_SESSION['login']) {
+                ?>
+				<li class="nav-item">
+					<a class="nav-link" href="panier.php">Panier</a>
+				</li>
+				<?php
+			}
+			?>
+			<?php
+			if($_SESSION['login']){
+				?>
+				<li class="nav-item">
+					<a class="nav-link" href="gererProduits.php">Gérer les produits</a>
+				</li>
+				<?php
+			}
+			?>
+			<?php
+			if($_SESSION['login']){
+				?>
+				<li class="nav-item">
+					<a class="nav-link" href="deconnexion.php">Deconnexion</a>
+				</li>
+				<?php
+			}
+			?>
 		</ul>
 		<form class="form-inline my-2 my-lg-0">
 			<input class="form-control mr-sm-2" type="search" placeholder="Recherche" aria-label="Search">
@@ -119,7 +154,7 @@ if(empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['emailInsc'])
 		<br>
         <div id="connexion" class="offset-md-2 col-md-8" >
             <h2 class=" titleForm d-flex justify-content-center">Formulaire de connexion</h2>
-            <form action="../../index.html" method="post" id="formConnexion">
+            <form action="../../index.php" method="post" id="formConnexion">
                 <div class="form-group">
                     <label for="email" class="d-flex justify-content-center">Email</label>
                     <input class="form-inline d-flex mx-auto w-75" type="email" name="email" id="email">
@@ -128,7 +163,7 @@ if(empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['emailInsc'])
                     <label for="mdp" class="d-flex justify-content-center">Mot de passe</label>
                     <input class="form-inline d-flex mx-auto w-75" type="password" name="mdp" id="mdp">
                 </div>
-                <input type="submit" value="Valider" class="btn btn-success d-flex mx-auto">
+                <input type="submit" name="login" value="Valider" class="btn btn-success d-flex mx-auto">
             </form> 
         </div>
 		<div id="inscription">

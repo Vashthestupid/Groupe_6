@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL &~ E_NOTICE);
 include '../views/elements/header.php';
 include '../views/elements/footer.php';
 include '../config/config.php';
@@ -7,6 +8,14 @@ include '../models/connect.php';
 head();
 
 $db = connection();
+
+session_start();
+if (isset($_SESSION['login'])) {
+	$mail = $_SESSION['login'];
+} else {
+	$email = "";
+}
+
 
 // On récupère les données de la table 'livres' 
 
@@ -50,7 +59,10 @@ while($data = $reqSelectLivres->fetchObject()){
 			<li class="nav-item">
 			<a class="nav-link" href="jeu.php">Jeux Video</a>
 			</li>
-			<li class="nav-item dropdown">
+			<?php
+			if($_SESSION['login']){
+				?>
+				<li class="nav-item dropdown">
 				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 					Ajouter un produit
 				</a>
@@ -60,12 +72,24 @@ while($data = $reqSelectLivres->fetchObject()){
 					<a class="dropdown-item d-flex justify-content-center" href="ajoutJeu.php">Ajouter un Jeu</a>
 				</div>
 			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="panier.php">Panier</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="gererProduits.php">Gérer les produits</a>
-			</li>
+			<?php
+			}
+			?>
+			<?php
+			if($_SESSION['login']){
+				?>
+				<li class="nav-item">
+					<a class="nav-link" href="panier.php">Panier</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="gererProduits.php">Gérer les produits</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="deconnexion.php">Deconnexion</a>
+				</li>
+				<?php
+			}
+			?>
 		</ul>
 		<form class="form-inline my-2 my-lg-0">
 			<input class="form-control mr-sm-2" type="search" placeholder="Recherche" aria-label="Search">
@@ -88,7 +112,7 @@ while($data = $reqSelectLivres->fetchObject()){
 						<p class="card-text"><?= $livre->resumeLivre ?></p>
 					</div>
 					<div class="card-footer">
-						<form action="detail.php" method="get">
+						<form action="detailLivre.php" method="get">
 							<input type="number" name="id" id="id" value="<?= $livre->idLivre ?>" readonly hidden>
 							<input type="text" name="action" id="action" value="lire" readonly hidden>
 							<input class="btn btn-secondary w-100" type="submit" value="Voir +">
