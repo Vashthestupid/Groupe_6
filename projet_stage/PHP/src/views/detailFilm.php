@@ -1,7 +1,8 @@
 <?php
 error_reporting(E_ALL &~ E_NOTICE);
-include '../views/elements/header.php';
-include '../views/elements/footer.php';
+include 'elements/header.php'; 
+include 'elements/footer.php';
+include 'elements/fonctions.php';
 include '../config/config.php';
 include '../models/connect.php';
 
@@ -10,34 +11,24 @@ head();
 $db = connection();
 
 session_start();
-if (isset($_SESSION['login'])) {
-	$mail = $_SESSION['login'];
+if(isset($_SESSION['login'])){
+    $mail = $_SESSION['login'];
 } else {
-	$email = "";
+    $email = "";
 }
 
+$idFilm = $_GET['id'];
+$selectFilm = "SELECT * FROM film WHERE idFilm = :id";
 
-// On récupère les données de la table 'livres' 
+$reqSelectFilm = $db->prepare($selectFilm);
+$reqSelectFilm->bindParam(':id', $idFilm);
+$reqSelectFilm->execute();
 
-$selectLivres = "SELECT livres.idLivre, 
-					livres.imageLivre,
-					livres.titreLivre,
-					livres.resumeLivre
-					FROM livres
-					ORDER BY livres.idLivre
-					DESC
-					LIMIT 0,6
-					";
+$films = array();
 
-$reqSelectLivres = $db->prepare($selectLivres);
-$reqSelectLivres->execute();
-
-$listeLivres = array();
-
-while($data = $reqSelectLivres->fetchObject()){
-	array_push($listeLivres, $data);
+while($data = $reqSelectFilm->fetchObject()){
+    array_push($films, $data);
 }
-
 
 ?>
 <nav class="navbar navbar-expand-xl navbar-light bg-light">
@@ -94,51 +85,43 @@ while($data = $reqSelectLivres->fetchObject()){
 	</form>
 	</div>
 </nav>
-<br>
 <div class="container">
-	<p class="d-flex justify-content-center lead">Liste des livres </p>
-	<div class="row">
-	<?php
-	foreach($listeLivres as $livre){
-		?>
-		<div class="col-sm-12 col-md-6 col-lg-4">
-			<div class="card h-100">
-				<img src="../../public/image/<?= $livre->imageLivre ?>" alt="<?= $livre->imageLivre ?>" class="card-img-top w-50 h-50 mx-auto">
-				<div class="card-body">
-					<h5 class="card-title d-flex justify-content-center "><?= $livre->titreLivre ?></h5>
-					<p class="card-text"><?= $livre->resumeLivre ?></p>
-				</div>
-				<div class="card-footer">
-					<form action="detailLivre.php" method="get">
-						<input type="number" name="id" id="id" value="<?= $livre->idLivre ?>" readonly hidden>
-						<input type="text" name="action" id="action" value="lire" readonly hidden>
-						<input class="btn btn-secondary w-100" type="submit" value="Voir +">
-					</form>
-				</div>
-			</div>
-		</div>
-	<?php
-	}
-	?>
-	</div>
-	<br>
-	<nav aria-label="Page navigation example" class="d-flex justify-content-center">
-		<ul class="pagination">
-			<li class="page-item">
-			<a class="page-link" href="#" aria-label="Previous">
-				<span aria-hidden="true">&laquo;</span>
-			</a>
-			</li>
-			<li class="page-item"><a class="page-link" href="#">1</a></li>
-			<li class="page-item"><a class="page-link" href="#">2</a></li>
-			<li class="page-item"><a class="page-link" href="#">3</a></li>
-			<li class="page-item">
-			<a class="page-link" href="#" aria-label="Next">
-				<span aria-hidden="true">&raquo;</span>
-			</a>
-			</li>
-		</ul>
-		</nav>
+    <div class="row mt-5">
+        <?php
+        foreach ($films as $film) {
+            ?>
+        <div class="image d-flex justify-content-center col-sm-12 col-md-7">
+            <img class="w-50" src="../../public/image/<?= $film->imageFilm?>" alt="Jaquette <?= $film->titreFilm?>">
+        </div>
+        <div class="titre&description col-sm-12 col-md-5">
+            <div class="titre col-sm-12 col-md-12">
+                <p class="d-flex mt-2 justify-content-center"><?= $film->titreFilm?></p>
+            </div>
+            <div class="desc mt-5 border border-secondary rounded bg-white col-sm-12 col-md-12">
+                <p class="d-flex justify-content-center">Description</p>
+                <p>Réalisateur: <?=$film->realisateurFilm?></p>
+                <p>Genre: <?=$film->genreFilm?></p>
+                <p>Prix: <?= $film->prixFilm?> €</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="mt-5 col-sm-12 offset-md-3 col-md-6">
+            <div class="col-sm-12 col-md-12 border border-secondary rounded bg-white">
+                <p class="d-flex justify-content-center">Résumé</p>
+                <p><?= $film->resumeFilm?></p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class=" mt-5 mx-auto">
+            <form action="panier.php" method="post">
+                <input type="number" name="id" id="id" value="<?= $film->idFilm?>" hidden>
+                <input type="submit" class="btn btn-secondary" value="Ajouter au panier">
+            </form>
+        </div>
+    </div>
+    <?php
+        }
+    ?>
 </div>
-<?php 
-footer();

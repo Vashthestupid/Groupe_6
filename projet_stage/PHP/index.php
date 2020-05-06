@@ -1,4 +1,6 @@
 <?php
+error_reporting(E_ALL &~ E_NOTICE);
+
 include 'src/views/elements/header.php'; 
 include 'src/views/elements/footer.php';
 include 'src/views/elements/fonctions.php';
@@ -8,6 +10,24 @@ include 'src/models/connect.php';
 head();
 
 $db = connection();
+
+//SESSION
+$selectUser = "SELECT * FROM users";
+
+$reqSelectUser = $db->prepare($selectUser);
+$reqSelectUser->execute();
+
+$data = $reqSelectUser->fetchObject();
+
+if(password_verify($_POST['mdp'], $data->mdpUser)){
+	session_start();
+	if(isset($_SESSION['login'])){
+		$mail = $_SESSION['login'];
+	} else {
+		$_SESSION['login'] = $_POST['email'];
+		$email = $_SESSION['login'];
+	}
+}
 
 // On récupère les données sur les 3 tables livres, film et jeux avec UNION
 
@@ -46,6 +66,7 @@ $listeProduits = array();
 while($data = $reqSelectProduits->fetchObject()){
 	array_push($listeProduits, $data);
 }
+
 ?>
 	
 	<nav class="navbar navbar-expand-xl navbar-light bg-light">
@@ -67,31 +88,54 @@ while($data = $reqSelectProduits->fetchObject()){
 			<li class="nav-item">
 			<a class="nav-link" href="src/views/jeu.php">Jeux Video</a>
 			</li>
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Ajouter un produit
-				</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item d-flex justify-content-center" href="src/views/ajoutLivre.php">Ajouter un livre</a>
-					<a class="dropdown-item d-flex justify-content-center" href="src/views/ajoutFilm.php">Ajouter un film</a>
-					<a class="dropdown-item d-flex justify-content-center" href="src/views/ajoutJeu.php">Ajouter un Jeu</a>
-				</div>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="src/views/panier.php">Panier</a>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="src/views/gererProduits.php">Gérer les produits</a>
-			</li>
+			<?php
+            if ($_SESSION['login']) {
+                ?>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Ajouter un produit
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item d-flex justify-content-center" href="src/views/ajoutLivre.php">Ajouter un livre</a>
+						<a class="dropdown-item d-flex justify-content-center" href="src/views/ajoutFilm.php">Ajouter un film</a>
+						<a class="dropdown-item d-flex justify-content-center" href="src/views/ajoutJeu.php">Ajouter un Jeu</a>
+					</div>
+				</li>
+				<?php
+			}
+			?>
+			<?php
+			if($_SESSION['login']){
+				?>
+				<li class="nav-item">
+					<a class="nav-link" href="src/views/panier.php">Panier</a>
+				</li>
+				<?php
+			}
+			?>
+			<?php
+			if($_SESSION['login']){
+				?>
+				<li class="nav-item">
+					<a class="nav-link" href="src/views/deconnexion.php">Deconnexion</a>
+				</li>
+				<?php
+			}
+			?>
 		</ul>
-		<form class="form-inline my-2 my-lg-0">
-			<input class="form-control mr-sm-2" type="search" placeholder="Recherche" aria-label="Search">
+		<form action="src/views/recherche.php" method="post" class="form-inline my-2 my-lg-0">
+			<input class="form-control mr-sm-2" name="search" type="search" placeholder="Recherche" aria-label="Search">
 			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">rechercher</button>
 		</form>
 		</div>
 	</nav>
 	<br>
 	<div class="container">
+		<?php
+		if($_SESSION['login']){
+			echo '<div class="alert alert-success d-flex justify-content-center">Bienvenue '.$mail.'</div>';
+		}
+		?>
 		<!-- <h1 class="titleForm">Bienvenue sur DIVERTIBUY</h1> -->
 		<p class="d-flex justify-content-center lead">Voici les 6 derniers produits ajoutés</p>
 		<div class="row">

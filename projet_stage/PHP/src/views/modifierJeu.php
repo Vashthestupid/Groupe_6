@@ -12,7 +12,7 @@ if (empty($_POST['titre']) || empty($_POST['studio']) || empty($_POST['resume'])
 	echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
 }
 
-if(isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['nbre']) && isset($_POST['online']) && isset($_POST['image'])){
+if(isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['nbre']) && isset($_POST['online']) && isset($_POST['image']) && isset($_GET['id'])){
 	
 	$titre = htmlspecialchars(trim($_POST['titre']));
 	$studio = htmlspecialchars(trim($_POST['studio']));
@@ -21,7 +21,8 @@ if(isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) 
 	$prix = intval($_POST['prix']);
 	$nbre = intval($_POST['nbre']);
 	$online = intval($_POST['online']);
-	$image = htmlspecialchars(trim($_POST['image']));
+    $image = htmlspecialchars(trim($_POST['image']));
+    $id = intval($_GET['id']);
 
 	// On verifie si le produit n'est pas déjà présent dans la base de données
 
@@ -39,22 +40,30 @@ if(isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) 
 
 	if($nb->nb == 0){
 
-		$insertJeu = "INSERT INTO jeux (titreJeu,studioJeu,resumeJeu,prixJeu,nombreJoueurMax,onlineJeu,imageJeu,genreJeu,dateAjout) VALUES(:titre,:studio,:resume,:prix,:nbre,:online,:image,:genre, NOW())";
+        $updateJeu = "UPDATE jeux 
+        SET titreJeu = :titre,
+        studioJeu = :studio,
+        resumeJeu = :resume,
+        prixJeu = :prix,
+        nombreJoueurMax = :nbre,
+        onlineJeu = :online,
+        imageJeu = :image,
+        genreJeu = :genre
+        WHERE idJeu = :id";
 
-		$reqInsertJeu = $db->prepare($insertJeu);
-		$reqInsertJeu->bindParam(':titre', $titre);
-		$reqInsertJeu->bindParam(':studio', $studio);
-		$reqInsertJeu->bindParam(':resume', $resume);
-		$reqInsertJeu->bindParam(':prix', $prix);
-		$reqInsertJeu->bindParam(':nbre', $nbre);
-		$reqInsertJeu->bindParam(':online', $online);
-		$reqInsertJeu->bindParam(':image', $image);
-		$reqInsertJeu->bindParam(':genre', $genre);
-		$reqInsertJeu->execute();
+		$reqUpdateJeu = $db->prepare($updateJeu);
+		$reqUpdateJeu->bindParam(':titre', $titre);
+		$reqUpdateJeu->bindParam(':studio', $studio);
+		$reqUpdateJeu->bindParam(':resume', $resume);
+		$reqUpdateJeu->bindParam(':prix', $prix);
+		$reqUpdateJeu->bindParam(':nbre', $nbre);
+		$reqUpdateJeu->bindParam(':online', $online);
+		$reqUpdateJeu->bindParam(':image', $image);
+		$reqUpdateJeu->bindParam(':genre', $genre);
+		$reqUpdateJeu->bindParam(':id', $id);
+		$reqUpdateJeu->execute();
 
-		echo '<div class="alert alert-success">Votre produit a bien été ajouté</div>';
-	} else {
-		echo '<div class="alert alert-danger">Le produit existe déjà dans la base de données</div>';
+		echo '<div class="alert alert-success">Votre produit a bien été modifié</div>';
 	}
 }
 
@@ -101,7 +110,7 @@ if(isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) 
 
     <div class="container">
 		<br>
-		<h2 class="titleForm d-flex justify-content-center">Formulaire d'ajout d'un Jeu</h2>
+		<h2 class="titleForm d-flex justify-content-center">Modifier un jeu</h2>
 		<div id="ajoutLivre">
 			<form method="post" class="offset-md-2 col-md-8">
 				<div class="form-group">

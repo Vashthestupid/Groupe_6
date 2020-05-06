@@ -38,12 +38,9 @@ head();
 			<li class="nav-item">
 				<a class="nav-link" href="panier.php">Panier</a>
             </li>
-            <li class="nav-item">
-				<a class="nav-link" href="gererProduits.php">Gérer les produits</a>
-			</li>
 		</ul>
-		<form class="form-inline my-2 my-lg-0">
-			<input class="form-control mr-sm-2" type="search" placeholder="Recherche" aria-label="Search">
+		<form action="recherche.php" method="post" class="form-inline my-2 my-lg-0">
+			<input class="form-control mr-sm-2" name="search" type="search" placeholder="Recherche" aria-label="Search">
 			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">rechercher</button>
 		</form>
 		</div>

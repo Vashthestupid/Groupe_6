@@ -123,23 +123,14 @@ if(empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['emailInsc'])
 			if($_SESSION['login']){
 				?>
 				<li class="nav-item">
-					<a class="nav-link" href="gererProduits.php">Gérer les produits</a>
-				</li>
-				<?php
-			}
-			?>
-			<?php
-			if($_SESSION['login']){
-				?>
-				<li class="nav-item">
 					<a class="nav-link" href="deconnexion.php">Deconnexion</a>
 				</li>
 				<?php
 			}
 			?>
 		</ul>
-		<form class="form-inline my-2 my-lg-0">
-			<input class="form-control mr-sm-2" type="search" placeholder="Recherche" aria-label="Search">
+		<form action="recherche.php" method="post" class="form-inline my-2 my-lg-0">
+			<input class="form-control mr-sm-2" name="search" type="search" placeholder="Recherche" aria-label="Search">
 			<button class="btn btn-outline-success my-2 my-sm-0" type="submit">rechercher</button>
 		</form>
 		</div>
