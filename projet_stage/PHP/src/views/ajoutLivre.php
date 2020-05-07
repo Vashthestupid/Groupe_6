@@ -7,46 +7,53 @@ include '../models/connect.php';
 head();
 $db = connection();
 
-if (empty($_POST['titre']) || empty($_POST['auteur']) || empty($_POST['resume']) || empty($_POST['genre'])|| empty($_POST['prix']) || empty($_POST['image'])) {
-	echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
+session_start();
+if(isset($_SESSION['login'])){
+	$mail = $_SESSION['login'];
+} else {
+	$email = "";
 }
 
-if(isset($_POST['titre']) && isset($_POST['auteur']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['image'])){
-	$titre = htmlspecialchars(trim($_POST['titre']));
-	$auteur = htmlspecialchars(trim($_POST['auteur']));
-	$resume = htmlspecialchars(trim($_POST['resume']));
-	$genre = htmlspecialchars(trim($_POST['genre']));
-	$prix = intval($_POST['prix']);
-	$image = htmlspecialchars(trim($_POST['image']));
+if (isset($_POST['valider'])) {
+    if (empty($_POST['titre']) || empty($_POST['auteur']) || empty($_POST['resume']) || empty($_POST['genre'])|| empty($_POST['prix']) || empty($_POST['image'])) {
+        echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
+    } else {
+        if (isset($_POST['titre']) && isset($_POST['auteur']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['image'])) {
+            $titre = htmlspecialchars(trim($_POST['titre']));
+            $auteur = htmlspecialchars(trim($_POST['auteur']));
+            $resume = htmlspecialchars(trim($_POST['resume']));
+            $genre = htmlspecialchars(trim($_POST['genre']));
+            $prix = intval($_POST['prix']);
+            $image = htmlspecialchars(trim($_POST['image']));
 
-	// On verifie si le genre n'existe pas déjà 
-	$selectExist = "SELECT COUNT(titreLivre) AS nb FROM livres WHERE titreLivre = :titreLivre";
-	$reqSelectExist = $db->prepare($selectExist);
-	$reqSelectExist->bindParam(':titreLivre', $titre);
-	$reqSelectExist->execute();
+            // On verifie si le genre n'existe pas déjà
+            $selectExist = "SELECT COUNT(titreLivre) AS nb FROM livres WHERE titreLivre = :titreLivre";
+            $reqSelectExist = $db->prepare($selectExist);
+            $reqSelectExist->bindParam(':titreLivre', $titre);
+            $reqSelectExist->execute();
 
-	//var_dump($reqSelectExist);
-	$nb = $reqSelectExist->fetchObject();
+            //var_dump($reqSelectExist);
+            $nb = $reqSelectExist->fetchObject();
 
-	if($nb->nb == 0){
-		// Une fois que l'on a verifié si le genre existe, on ajoute le livre
+            if ($nb->nb == 0) {
+                // Une fois que l'on a verifié si le genre existe, on ajoute le livre
 
-		$insertLivre = "INSERT INTO livres (titreLivre,auteurLivre,resumeLivre,prixLivre,imageLivre,genreLivre,dateAjout) VALUES (:titre,:auteur,:resume,:prix,:image,:genre, NOW())";
-		$reqInsertLivre = $db->prepare($insertLivre);
-		$reqInsertLivre->bindParam(':titre', $titre);
-		$reqInsertLivre->bindParam(':auteur', $auteur);
-		$reqInsertLivre->bindParam(':resume', $resume);
-		$reqInsertLivre->bindParam(':prix', $prix);
-		$reqInsertLivre->bindParam(':image', $image);
-		$reqInsertLivre->bindParam(':genre', $genre);
-		$reqInsertLivre->execute(); 
+                $insertLivre = "INSERT INTO livres (titreLivre,auteurLivre,resumeLivre,prixLivre,imageLivre,genreLivre,dateAjout) VALUES (:titre,:auteur,:resume,:prix,:image,:genre, NOW())";
+                $reqInsertLivre = $db->prepare($insertLivre);
+                $reqInsertLivre->bindParam(':titre', $titre);
+                $reqInsertLivre->bindParam(':auteur', $auteur);
+                $reqInsertLivre->bindParam(':resume', $resume);
+                $reqInsertLivre->bindParam(':prix', $prix);
+                $reqInsertLivre->bindParam(':image', $image);
+                $reqInsertLivre->bindParam(':genre', $genre);
+                $reqInsertLivre->execute();
 
-		echo '<div class="alert alert-success">Votre produit à bien été ajouté</div>';
-
-	} else {
-		echo '<div class="alert alert-danger">Le produit existe déjà dans notre base de données</div>';
-	}
-	
+                echo '<div class="alert alert-success">Votre produit à bien été ajouté</div>';
+            } else {
+                echo '<div class="alert alert-danger">Le produit existe déjà dans notre base de données</div>';
+            }
+        }
+    }
 }
 
 
@@ -70,19 +77,28 @@ if(isset($_POST['titre']) && isset($_POST['auteur']) && isset($_POST['resume']) 
 			<li class="nav-item">
 			<a class="nav-link" href="jeu.php">Jeux Video</a>
 			</li>
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Ajouter un produit
-				</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item d-flex justify-content-center bg-secondary text-white" href="ajoutLivre.php">Ajouter un livre</a>
-					<a class="dropdown-item d-flex justify-content-center" href="ajoutFilm.php">Ajouter un film</a>
-					<a class="dropdown-item d-flex justify-content-center" href="ajoutJeu.php">Ajouter un Jeu</a>
-				</div>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="panier.php">Panier</a>
-			</li>
+			<?php
+            if ($_SESSION['login']) {
+                ?>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Ajouter un produit
+					</a>
+					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+						<a class="dropdown-item d-flex justify-content-center bg-secondary text-white" href="ajoutLivre.php">Ajouter un livre</a>
+						<a class="dropdown-item d-flex justify-content-center" href="ajoutFilm.php">Ajouter un film</a>
+						<a class="dropdown-item d-flex justify-content-center" href="ajoutJeu.php">Ajouter un Jeu</a>
+					</div>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="panier.php">Panier</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="deconnexion.php">Deconnexion</a>
+				</li>
+				<?php
+			}
+			?>
 		</ul>
 		<form action="recherche.php" method="post" class="form-inline my-2 my-lg-0">
 			<input class="form-control mr-sm-2" name="search" type="search" placeholder="Recherche" aria-label="Search">
@@ -128,7 +144,7 @@ if(isset($_POST['titre']) && isset($_POST['auteur']) && isset($_POST['resume']) 
 					<label for="image" class="d-flex justify-content-center">Image du livre</label>
 					<input class="form-inline d-flex mx-auto w-75" type="file" name="image" id="image">
 				</div>
-				<input type="submit" value="Valider" class="btn btn-success d-flex mx-auto">
+				<input type="submit" name="valider" value="Valider" class="btn btn-success d-flex mx-auto">
 			</form>
 		</div>
     </div>

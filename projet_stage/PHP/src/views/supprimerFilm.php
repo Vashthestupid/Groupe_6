@@ -17,11 +17,11 @@ if(isset($_SESSION['login'])){
 if(isset($_GET['id'])){
     $id = intval($_GET['id']);
 
-    $deleteJeu = "DELETE FROM jeux WHERE idJeu = :id";
+    $deleteFilm = "DELETE FROM film WHERE idFilm = :id";
     
-    $reqDeleteJeu = $db->prepare($deleteJeu);
-    $reqDeleteJeu->bindParam(':id', $id);
-    $reqDeleteJeu->execute();
+    $reqDeleteFilm = $db->prepare($deleteFilm);
+    $reqDeleteFilm->bindParam(':id', $id);
+    $reqDeleteFilm->execute();
 }
 
 

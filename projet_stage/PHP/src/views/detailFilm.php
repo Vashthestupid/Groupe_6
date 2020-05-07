@@ -86,6 +86,20 @@ while($data = $reqSelectFilm->fetchObject()){
 	</div>
 </nav>
 <div class="container">
+	<?php
+	if($_SESSION['login']){
+		?>
+		<div class="d-flex justify-content-center">
+			<a class="mr-2" href="modifierFilm?id=<?= $idFilm?>">
+				<button class="btn btn-warning">Modifier le produit</button>
+			</a>
+			<a href="supprimerFilm?id=<?= $idFilm?>">
+				<button class="btn btn-danger text-dark">Supprimer le produit</button>
+			</a>
+		</div>
+		<?php
+	}
+	?>
     <div class="row mt-5">
         <?php
         foreach ($films as $film) {
@@ -114,12 +128,17 @@ while($data = $reqSelectFilm->fetchObject()){
         </div>
     </div>
     <div class="row">
+		<?php
+		if($_SESSION['login']){
+		?>
         <div class=" mt-5 mx-auto">
-            <form action="panier.php" method="post">
-                <input type="number" name="id" id="id" value="<?= $film->idFilm?>" hidden>
-                <input type="submit" class="btn btn-secondary" value="Ajouter au panier">
-            </form>
-        </div>
+			<a href="panier.php?id=<?= $idFilm ?>">
+				<button class="btn btn-secondary">Ajouter au panier</button>
+			</a>
+		</div>
+		<?php
+		}
+		?>
     </div>
     <?php
         }

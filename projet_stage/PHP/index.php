@@ -29,6 +29,12 @@ if(password_verify($_POST['mdp'], $data->mdpUser)){
 	}
 }
 
+if(isset($_SESSION['login'])){
+	$mail = $_SESSION['login'];
+} else {
+	$email = "";
+}
+
 // On récupère les données sur les 3 tables livres, film et jeux avec UNION
 
 $selectProduits = "SELECT

@@ -86,6 +86,20 @@ while($data = $reqSelectLivre->fetchObject()){
 	</div>
 </nav>
 <div class="container">
+	<?php
+    if ($_SESSION['login']) {
+        ?>
+	<div class="d-flex justify-content-center">
+		<a class="mr-2" href="modifierLivre.php?id=<?= $idLivre?>">
+			<button class="btn btn-warning">Modifier le produit</button>
+		</a>
+		<a href="supprimerLivre.php?id=<?= $idLivre?>">
+			<button class="btn btn-danger text-dark">Supprimer le produit</button>
+		</a>
+	</div>
+		<?php
+	}
+	?>
     <div class="row mt-5">
         <?php
         foreach ($livres as $livre) {

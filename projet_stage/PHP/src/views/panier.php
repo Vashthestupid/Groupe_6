@@ -5,6 +5,17 @@ include '../config/config.php';
 include '../models/connect.php';
 
 head();
+
+$db = connection();
+
+session_start();
+if(isset($_SESSION['login'])){
+    $mail = $_SESSION['login'];
+} else {
+    $email = "";
+}
+
+
 ?>
 	<nav class="navbar navbar-expand-xl navbar-light bg-light">
 		<a class="navbar-brand" href="../../index.php">DivertiBuy</a>

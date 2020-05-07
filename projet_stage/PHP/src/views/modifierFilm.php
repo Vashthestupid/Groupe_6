@@ -10,52 +10,66 @@ $db = connection();
 
 session_start();
 if(isset($_SESSION['login'])){
-	$mail = $_SESSION['login'];
+    $mail = $_SESSION['login'];
 } else {
-	$email = "";
+    $email = "";
 }
 
-if(isset($_POST['valider'])){
-	if (empty($_POST['titre']) || empty($_POST['realisateur']) || empty($_POST['resume']) || empty($_POST['genre'])|| empty($_POST['prix']) || empty($_POST['image'])) {
-		echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
-	} else {
-		if (isset($_POST['titre']) && isset($_POST['realisateur']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['image'])) {
-			$titre = htmlspecialchars(trim($_POST['titre']));
-			$realisateur = htmlspecialchars(trim($_POST['realisateur']));
-			$resume = htmlspecialchars(trim($_POST['resume']));
-			$genre = htmlspecialchars(trim($_POST['genre']));
-			$prix = intval($_POST['prix']);
-			$image = htmlspecialchars(trim($_POST['image']));
-			
-			// On verifie si le produit n'existe pas déjà dans la base de données.
-
-			$selectExist = "SELECT COUNT(titreFilm) AS nb FROM film WHERE film.titreFilm = :titreFilm";
-			$reqSelectExist = $db->prepare($selectExist);
-			$reqSelectExist->bindParam(':titreFilm', $titre);
-			$reqSelectExist->execute();
-
-			$nb = $reqSelectExist->fetchObject();
-
-			// Si le nombre retourné est égal à 0 alors on insère le produit dans la base de données. Sinoon on met un message d'erreur.
-			if ($nb->nb == 0) {
-				$insertFilm = 'INSERT INTO film (titreFilm,realisateurFilm,resumeFilm,prixFilm,imageFilm,genreFilm, dateAjout) VALUES(:titre,:real,:resume,:prix,:image,:genre, NOW())';
-				$reqInsertFilm = $db->prepare($insertFilm);
-				$reqInsertFilm->bindParam(':titre', $titre);
-				$reqInsertFilm->bindParam(':real', $realisateur);
-				$reqInsertFilm->bindParam(':resume', $resume);
-				$reqInsertFilm->bindParam(':prix', $prix);
-				$reqInsertFilm->bindParam(':image', $image);
-				$reqInsertFilm->bindParam(':genre', $genre);
-				$reqInsertFilm->execute();
-
-				echo '<div class="alert alert-success">Votre produit à bien été ajouté</div>';
-			} else {
-				echo '<div class="alert alert-danger">Le produit existe déjà dans notre base de données</div>';
-			}
-		}
-	}
+if (empty($_POST['titre']) || empty($_POST['realisateur']) || empty($_POST['resume']) || empty($_POST['genre'])|| empty($_POST['prix']) || empty($_POST['image'])) {
+	echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
 }
+
+if(isset($_POST['titre']) && isset($_POST['realisateur']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['image']) && isset($_GET['id'])){
 	
+	$titre = htmlspecialchars(trim($_POST['titre']));
+	$realisateur = htmlspecialchars(trim($_POST['realisateur']));
+	$resume = htmlspecialchars(trim($_POST['resume']));
+	$genre = htmlspecialchars(trim($_POST['genre']));
+	$prix = intval($_POST['prix']);
+    $image = htmlspecialchars(trim($_POST['image']));
+    $id = intval($_GET['id']);
+
+	// On verifie si le produit n'est pas déjà présent dans la base de données
+
+	$selectExist = "SELECT COUNT(titreFilm) AS nb
+	FROM film
+	WHERE film.titreFilm = :titreFilm";
+
+	$reqSelectExist = $db->prepare($selectExist);
+	$reqSelectExist->bindParam('titreFilm', $titre);
+	$reqSelectExist->execute();
+
+	$nb = $reqSelectExist->fetchObject();
+
+	// Si le résultat est égal à 0 alors on insére le produit. Sinon on affiche un message d'erreur
+
+	if($nb->nb == 0){
+
+        $updateFilm = "UPDATE film 
+        SET titreFilm = :titre,
+        realisateurFilm = :realisateur,
+        resumeFilm = :resume,
+        prixFilm = :prix,
+        imageFilm = :image,
+        genreFilm = :genre
+        WHERE idFilm = :id";
+
+		$reqUpdateFilm = $db->prepare($updateFilm);
+		$reqUpdateFilm->bindParam(':titre', $titre);
+		$reqUpdateFilm->bindParam(':realisateur', $realisateur);
+		$reqUpdateFilm->bindParam(':resume', $resume);
+		$reqUpdateFilm->bindParam(':prix', $prix);
+		$reqUpdateFilm->bindParam(':image', $image);
+		$reqUpdateFilm->bindParam(':genre', $genre);
+		$reqUpdateFilm->bindParam(':id', $id);
+		$reqUpdateFilm->execute();
+
+		echo '<div class="alert alert-success">Votre produit a bien été modifié</div>';
+	} else {
+        echo '<div class="alert alert-danger">Le produit existe déjà dans notre base de données</div>';
+    }
+}
+
 ?>
 	<nav class="navbar navbar-expand-xl navbar-light bg-light">
 		<a class="navbar-brand" href="../../index.php">DivertiBuy</a>
@@ -76,28 +90,19 @@ if(isset($_POST['valider'])){
 			<li class="nav-item">
 			<a class="nav-link" href="jeu.php">Jeux Video</a>
 			</li>
-			<?php
-            if ($_SESSION['login']) {
-                ?>
-				<li class="nav-item dropdown">
-					<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						Ajouter un produit
-					</a>
-					<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-						<a class="dropdown-item d-flex justify-content-center" href="ajoutLivre.php">Ajouter un livre</a>
-						<a class="dropdown-item d-flex justify-content-center bg-secondary text-white" href="ajoutFilm.php">Ajouter un film</a>
-						<a class="dropdown-item d-flex justify-content-center" href="ajoutJeu.php">Ajouter un Jeu</a>
-					</div>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="panier.php">Panier</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="deconnexion.php">Deconnexion</a>
-				</li>
-				<?php
-			}
-			?>
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+					Ajouter un produit
+				</a>
+				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+					<a class="dropdown-item d-flex justify-content-center" href="ajoutLivre.php">Ajouter un livre</a>
+					<a class="dropdown-item d-flex justify-content-center" href="ajoutFilm.php">Ajouter un film</a>
+					<a class="dropdown-item d-flex justify-content-center bg-secondary text-white" href="ajoutJeu.php">Ajouter un Jeu</a>
+				</div>
+			</li>
+			<li class="nav-item">
+				<a class="nav-link" href="panier.php">Panier</a>
+			</li>
 		</ul>
 		<form action="recherche.php" method="post" class="form-inline my-2 my-lg-0">
 			<input class="form-control mr-sm-2" name="search" type="search" placeholder="Recherche" aria-label="Search">
@@ -108,9 +113,9 @@ if(isset($_POST['valider'])){
 
     <div class="container">
 		<br>
-		<h2 class="titleForm d-flex justify-content-center">Formulaire d'ajout d'un film</h2>
-		<div id="ajoutFilm">
-			<form id="formFilm" method="post" class="offset-md-2 col-md-8">
+		<h2 class="titleForm d-flex justify-content-center">Modifier un film</h2>
+		<div id="modifierFilm">
+            <form id="formFilm" method="post" class="offset-md-2 col-md-8">
 				<div class="form-group">
 					<label for="titre" class="d-flex justify-content-center">Titre du Film</label>
 					<input class="form-inline d-flex mx-auto w-75" type="text" name="titre" id="titrefilm">
@@ -146,11 +151,8 @@ if(isset($_POST['valider'])){
 					<label for="image" class="d-flex justify-content-center">Image du film</label>
 					<input class="form-inline d-flex mx-auto w-75" type="file" name="image" id="imageFilm">
 				</div>
-				<input type="submit" name="valider" value="Valider" class="btn btn-success d-flex mx-auto">
-			</form>
-			<div class="erreur">
-				<p id="message"></p>
-			</div>
+				<input type="submit" value="Valider" class="btn btn-success d-flex mx-auto">
+			</form>>
 		</div>
     </div>
 <?php

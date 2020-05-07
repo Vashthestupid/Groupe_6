@@ -131,12 +131,17 @@ while($data = $reqSelectJeu->fetchObject()){
         </div>
     </div>
     <div class="row">
-        <div class=" mt-5 mx-auto">
-            <form action="panier.php" method="post">
-                <input type="number" name="id" id="id" value="<?= $jeu->idJeu?>" hidden>
-                <input type="submit" class="btn btn-secondary" value="Ajouter au panier">
-            </form>
-        </div>
+        <?php
+        if($_SESSION['login']){
+            ?>
+            <div class=" mt-5 mx-auto">
+                <a href="panier.php?id=<?=$idJeu?>">
+                    <button class="btn btn-secondary">Ajouter au panier</button>
+                </a>
+            </div>
+            <?php
+        }
+        ?>
     </div>
     <?php
         }

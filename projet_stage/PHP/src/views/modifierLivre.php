@@ -15,30 +15,28 @@ if(isset($_SESSION['login'])){
     $email = "";
 }
 
-if (empty($_POST['titre']) || empty($_POST['studio']) || empty($_POST['resume']) || empty($_POST['genre'])|| empty($_POST['prix']) || empty($_POST['nbre']) || empty($_POST['online']) || empty($_POST['image'])) {
+if (empty($_POST['titre']) || empty($_POST['auteur']) || empty($_POST['resume']) || empty($_POST['genre'])|| empty($_POST['prix']) || empty($_POST['image'])) {
 	echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
 }
 
-if(isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['nbre']) && isset($_POST['online']) && isset($_POST['image']) && isset($_GET['id'])){
+if(isset($_POST['titre']) && isset($_POST['auteur']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['image']) && isset($_GET['id'])){
 	
 	$titre = htmlspecialchars(trim($_POST['titre']));
-	$studio = htmlspecialchars(trim($_POST['studio']));
+	$auteur = htmlspecialchars(trim($_POST['auteur']));
 	$resume = htmlspecialchars(trim($_POST['resume']));
 	$genre = htmlspecialchars(trim($_POST['genre']));
 	$prix = intval($_POST['prix']);
-	$nbre = intval($_POST['nbre']);
-	$online = intval($_POST['online']);
     $image = htmlspecialchars(trim($_POST['image']));
     $id = intval($_GET['id']);
 
 	// On verifie si le produit n'est pas déjà présent dans la base de données
 
-	$selectExist = "SELECT COUNT(titreJeu) AS nb
-	FROM jeux
-	WHERE jeux.titreJeu = :titreJeu";
+	$selectExist = "SELECT COUNT(titreLivre) AS nb
+	FROM livres
+	WHERE livres.titreLivre = :titreLivre";
 
 	$reqSelectExist = $db->prepare($selectExist);
-	$reqSelectExist->bindParam('titreJeu', $titre);
+	$reqSelectExist->bindParam('titreLivre', $titre);
 	$reqSelectExist->execute();
 
 	$nb = $reqSelectExist->fetchObject();
@@ -47,31 +45,29 @@ if(isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) 
 
 	if($nb->nb == 0){
 
-        $updateJeu = "UPDATE jeux 
-        SET titreJeu = :titre,
-        studioJeu = :studio,
-        resumeJeu = :resume,
-        prixJeu = :prix,
-        nombreJoueurMax = :nbre,
-        onlineJeu = :online,
-        imageJeu = :image,
-        genreJeu = :genre
-        WHERE idJeu = :id";
-
-		$reqUpdateJeu = $db->prepare($updateJeu);
-		$reqUpdateJeu->bindParam(':titre', $titre);
-		$reqUpdateJeu->bindParam(':studio', $studio);
-		$reqUpdateJeu->bindParam(':resume', $resume);
-		$reqUpdateJeu->bindParam(':prix', $prix);
-		$reqUpdateJeu->bindParam(':nbre', $nbre);
-		$reqUpdateJeu->bindParam(':online', $online);
-		$reqUpdateJeu->bindParam(':image', $image);
-		$reqUpdateJeu->bindParam(':genre', $genre);
-		$reqUpdateJeu->bindParam(':id', $id);
-		$reqUpdateJeu->execute();
+        $updateLivre = "UPDATE livres 
+        SET titreLivre = :titre,
+        auteurLivre = :auteur,
+        resumeLivre = :resume,
+        prixLivre = :prix,
+        imageLivre = :image,
+        genreLivre = :genre
+        WHERE idLivre = :id";
+        
+		$reqUpdateLivre = $db->prepare($updateLivre);
+		$reqUpdateLivre->bindParam(':titre', $titre);
+		$reqUpdateLivre->bindParam(':auteur', $auteur);
+		$reqUpdateLivre->bindParam(':resume', $resume);
+		$reqUpdateLivre->bindParam(':prix', $prix);
+		$reqUpdateLivre->bindParam(':image', $image);
+		$reqUpdateLivre->bindParam(':genre', $genre);
+		$reqUpdateLivre->bindParam(':id', $id);
+		$reqUpdateLivre->execute();
 
 		echo '<div class="alert alert-success">Votre produit a bien été modifié</div>';
-	}
+	} else {
+        echo '<div class="alert alert-danger">Le produit existe déjà dans notre base de données</div>';
+    }
 }
 
 ?>
@@ -117,62 +113,46 @@ if(isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) 
 
     <div class="container">
 		<br>
-		<h2 class="titleForm d-flex justify-content-center">Modifier un jeu</h2>
-		<div id="modifierJeu">
-			<form method="post" class="offset-md-2 col-md-8">
+		<h2 class="titleForm d-flex justify-content-center">Modifier un livre</h2>
+		<div id="modifierLivre">
+            <form id="formLivre" method="post" class="offset-md-2 col-md-8">
 				<div class="form-group">
-					<label for="titre" class="d-flex justify-content-center">Titre du jeu</label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="titre" id="titre">
+					<label for="titre" class="d-flex justify-content-center">Titre du livre</label>
+                    <input class="form-inline d-flex mx-auto w-75" type="text" name="titre" id="titre">
 				</div>
 				<div class="form-group">
-					<label for="studio" class="d-flex justify-content-center">Studio de developpement</label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="studio" id="studio">
+					<label for="auteur" class="d-flex justify-content-center">Auteur du livre</label>
+					<input class="form-inline d-flex mx-auto w-75" type="text" name="auteur" id="auteur">
 				</div>
 				<div class="form-group">
-					<label for="resume" class="d-flex justify-content-center">Résumé du jeu</label>
+					<label for="resume" class="d-flex justify-content-center">Résumé du livre</label>
 					<textarea class="form-inline d-flex mx-auto w-75" name="resume" id="resume"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="genre" class="d-flex justify-content-center">Genre</label>
                     <select class="d-flex mx-auto w-75"name="genre" id="genre">
-                        <option value="Aventure">Aventure</option>
+                        <option value="Romance">Romance</option>
                         <option value="Science-Fiction">Science-Fiction</option>
-                        <option value="Guerre">Guerre</option>
-                        <option value="Course">Course</option>
-                        <option value="FPS">First Person Shooter</option>
-                        <option value="RPG">Role Playing Game</option>
-                        <option value="Sport">Sport</option>
-                        <option value="Plate-forme">Plate-forme</option>
-                        <option value="Gestion">Gestion</option>
-                        <option value="Jeux de société">Jeux de société</option>
-                        <option value="Combat">Combat</option>
-                        <option value="Simulation">Simulation</option>
-                        <option value="MMO">Massively Multiplayer Online</option>
+                        <option value="Aventure">Aventure</option>
+                        <option value="Fantastique">Fantastique</option>
+                        <option value="Policier">Policier</option>
+                        <option value="Anticipation">Anticipation</option>
+                        <option value="Comédie">Comédie</option>
+                        <option value="Horreur">Horreur</option>
+                        <option value="Epouvante">Epouvante</option>
+                        <option value="animation">Animation</option>
                     </select>
                 </div>
 				<div class="form-group">
-					<label for="prix" class="d-flex justify-content-center">Prix du jeu</label>
+					<label for="prix" class="d-flex justify-content-center">Prix du livre</label>
 					<input class="form-inline d-flex mx-auto w-75" type="number" name="prix" id="prix">
-                </div>
-                <div class="form-group">
-					<label for="nbre" class="d-flex justify-content-center">Nombre de joueurs maximum</label>
-					<input class="form-inline d-flex mx-auto w-75" type="number" name="nbre" id="nbre">
-                </div>
-                <div class="form-group">
-                    <label for="online" class="d-flex justify-content-center">Jeux online</label>
-                    <div class="checkbox d-flex justify-content-center">
-                        <p class="mr-2">Oui</p>
-                        <input class="mt-2 mr-2" type="radio" name="online" id="online" value="Oui">
-                        <p class="ml-2 mr-2">Non</p>
-                        <input class="mt-2" type="radio" name="online" id="online" value="Non">
-                    </div>
 				</div>
 				<div class="form-group">
-					<label for="image" class="d-flex justify-content-center">Image du jeu</label>
+					<label for="image" class="d-flex justify-content-center">Image du livre</label>
 					<input class="form-inline d-flex mx-auto w-75" type="file" name="image" id="image">
 				</div>
 				<input type="submit" value="Valider" class="btn btn-success d-flex mx-auto">
-			</form>
+			</form>>
 		</div>
     </div>
 <?php

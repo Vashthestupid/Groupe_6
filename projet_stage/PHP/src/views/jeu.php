@@ -70,7 +70,7 @@ while($data = $reqSelectJeux->fetchObject()){
 					<a class="nav-link" href="panier.php">Panier</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="deconnexion.php">deconnexion</a>
+					<a class="nav-link" href="deconnexion.php">Deconnexion</a>
 				</li>
 				<?php
 			}

@@ -8,54 +8,61 @@ head();
 
 $db = connection();
 
-if (empty($_POST['titre']) || empty($_POST['studio']) || empty($_POST['resume']) || empty($_POST['genre'])|| empty($_POST['prix']) || empty($_POST['nbre']) || empty($_POST['online']) || empty($_POST['image'])) {
-	echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
+session_start();
+if(isset($_SESSION['login'])){
+    $mail = $_SESSION['login'];
+} else {
+    $email = "";
 }
 
-if(isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['nbre']) && isset($_POST['online']) && isset($_POST['image'])){
-	
-	$titre = htmlspecialchars(trim($_POST['titre']));
-	$studio = htmlspecialchars(trim($_POST['studio']));
-	$resume = htmlspecialchars(trim($_POST['resume']));
-	$genre = htmlspecialchars(trim($_POST['genre']));
-	$prix = intval($_POST['prix']);
-	$nbre = intval($_POST['nbre']);
-	$online = intval($_POST['online']);
-	$image = htmlspecialchars(trim($_POST['image']));
+if (isset($_POST['valider'])) {
+    if (empty($_POST['titre']) || empty($_POST['studio']) || empty($_POST['resume']) || empty($_POST['genre'])|| empty($_POST['prix']) || empty($_POST['nbre']) || empty($_POST['online']) || empty($_POST['image'])) {
+        echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
+    } else {
+        if (isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['nbre']) && isset($_POST['online']) && isset($_POST['image'])) {
+            $titre = htmlspecialchars(trim($_POST['titre']));
+            $studio = htmlspecialchars(trim($_POST['studio']));
+            $resume = htmlspecialchars(trim($_POST['resume']));
+            $genre = htmlspecialchars(trim($_POST['genre']));
+            $prix = intval($_POST['prix']);
+            $nbre = intval($_POST['nbre']);
+            $online = intval($_POST['online']);
+            $image = htmlspecialchars(trim($_POST['image']));
 
-	// On verifie si le produit n'est pas déjà présent dans la base de données
+            // On verifie si le produit n'est pas déjà présent dans la base de données
 
-	$selectExist = "SELECT COUNT(titreJeu) AS nb
-	FROM jeux
-	WHERE jeux.titreJeu = :titreJeu";
+            $selectExist = "SELECT COUNT(titreJeu) AS nb
+			FROM jeux
+			WHERE jeux.titreJeu = :titreJeu";
 
-	$reqSelectExist = $db->prepare($selectExist);
-	$reqSelectExist->bindParam('titreJeu', $titre);
-	$reqSelectExist->execute();
+            $reqSelectExist = $db->prepare($selectExist);
+            $reqSelectExist->bindParam('titreJeu', $titre);
+            $reqSelectExist->execute();
 
-	$nb = $reqSelectExist->fetchObject();
+            $nb = $reqSelectExist->fetchObject();
 
-	// Si le résultat est égal à 0 alors on insére le produit. Sinon on affiche un message d'erreur
+            // Si le résultat est égal à 0 alors on insére le produit. Sinon on affiche un message d'erreur
 
-	if($nb->nb == 0){
+            if ($nb->nb == 0) {
+                $insertJeu = "INSERT INTO jeux (titreJeu,studioJeu,resumeJeu,prixJeu,nombreJoueurMax,onlineJeu,imageJeu,genreJeu,dateAjout) VALUES(:titre,:studio,:resume,:prix,:nbre,:online,:image,:genre, NOW())";
 
-		$insertJeu = "INSERT INTO jeux (titreJeu,studioJeu,resumeJeu,prixJeu,nombreJoueurMax,onlineJeu,imageJeu,genreJeu,dateAjout) VALUES(:titre,:studio,:resume,:prix,:nbre,:online,:image,:genre, NOW())";
+                $reqInsertJeu = $db->prepare($insertJeu);
+                $reqInsertJeu->bindParam(':titre', $titre);
+                $reqInsertJeu->bindParam(':studio', $studio);
+                $reqInsertJeu->bindParam(':resume', $resume);
+                $reqInsertJeu->bindParam(':prix', $prix);
+                $reqInsertJeu->bindParam(':nbre', $nbre);
+                $reqInsertJeu->bindParam(':online', $online);
+                $reqInsertJeu->bindParam(':image', $image);
+                $reqInsertJeu->bindParam(':genre', $genre);
+                $reqInsertJeu->execute();
 
-		$reqInsertJeu = $db->prepare($insertJeu);
-		$reqInsertJeu->bindParam(':titre', $titre);
-		$reqInsertJeu->bindParam(':studio', $studio);
-		$reqInsertJeu->bindParam(':resume', $resume);
-		$reqInsertJeu->bindParam(':prix', $prix);
-		$reqInsertJeu->bindParam(':nbre', $nbre);
-		$reqInsertJeu->bindParam(':online', $online);
-		$reqInsertJeu->bindParam(':image', $image);
-		$reqInsertJeu->bindParam(':genre', $genre);
-		$reqInsertJeu->execute();
-
-		echo '<div class="alert alert-success">Votre produit a bien été ajouté</div>';
-	} else {
-		echo '<div class="alert alert-danger">Le produit existe déjà dans la base de données</div>';
-	}
+                echo '<div class="alert alert-success">Votre produit a bien été ajouté</div>';
+            } else {
+                echo '<div class="alert alert-danger">Le produit existe déjà dans la base de données</div>';
+            }
+        }
+    }
 }
 
 ?>
@@ -77,20 +84,29 @@ if(isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) 
 			</li>
 			<li class="nav-item">
 			<a class="nav-link" href="jeu.php">Jeux Video</a>
-			</li>
-			<li class="nav-item dropdown">
-				<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					Ajouter un produit
-				</a>
-				<div class="dropdown-menu" aria-labelledby="navbarDropdown">
-					<a class="dropdown-item d-flex justify-content-center" href="ajoutLivre.php">Ajouter un livre</a>
-					<a class="dropdown-item d-flex justify-content-center" href="ajoutFilm.php">Ajouter un film</a>
-					<a class="dropdown-item d-flex justify-content-center bg-secondary text-white" href="ajoutJeu.php">Ajouter un Jeu</a>
-				</div>
-			</li>
-			<li class="nav-item">
-				<a class="nav-link" href="panier.php">Panier</a>
-			</li>
+            </li>
+            <?php
+            if ($_SESSION['login']) {
+                ?>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Ajouter un produit
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item d-flex justify-content-center" href="ajoutLivre.php">Ajouter un livre</a>
+                        <a class="dropdown-item d-flex justify-content-center" href="ajoutFilm.php">Ajouter un film</a>
+                        <a class="dropdown-item d-flex justify-content-center bg-secondary text-white" href="ajoutJeu.php">Ajouter un Jeu</a>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="panier.php">Panier</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="deconnexion.php">Deconnexion</a>
+                </li>
+                <?php
+            }
+            ?>
 		</ul>
 		<form action="recherche.php" method="post" class="form-inline my-2 my-lg-0">
 			<input class="form-control mr-sm-2" name="search" type="search" placeholder="Recherche" aria-label="Search">
@@ -102,7 +118,7 @@ if(isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) 
     <div class="container">
 		<br>
 		<h2 class="titleForm d-flex justify-content-center">Formulaire d'ajout d'un Jeu</h2>
-		<div id="ajoutLivre">
+		<div id="ajoutJeu">
 			<form method="post" class="offset-md-2 col-md-8">
 				<div class="form-group">
 					<label for="titre" class="d-flex justify-content-center">Titre du jeu</label>
@@ -155,7 +171,7 @@ if(isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) 
 					<label for="image" class="d-flex justify-content-center">Image du jeu</label>
 					<input class="form-inline d-flex mx-auto w-75" type="file" name="image" id="image">
 				</div>
-				<input type="submit" value="Valider" class="btn btn-success d-flex mx-auto">
+				<input type="submit" name="valider" value="Valider" class="btn btn-success d-flex mx-auto">
 			</form>
 		</div>
     </div>
