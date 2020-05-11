@@ -2,7 +2,6 @@
 error_reporting(E_ALL &~ E_NOTICE);
 include 'elements/header.php'; 
 include 'elements/footer.php';
-include 'elements/fonctions.php';
 include '../config/config.php';
 include '../models/connect.php';
 

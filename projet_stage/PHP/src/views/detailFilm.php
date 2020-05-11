@@ -2,7 +2,6 @@
 error_reporting(E_ALL &~ E_NOTICE);
 include 'elements/header.php'; 
 include 'elements/footer.php';
-include 'elements/fonctions.php';
 include '../config/config.php';
 include '../models/connect.php';
 
@@ -132,9 +131,10 @@ while($data = $reqSelectFilm->fetchObject()){
 		if($_SESSION['login']){
 		?>
         <div class=" mt-5 mx-auto">
-			<a href="panier.php?id=<?= $idFilm ?>">
-				<button class="btn btn-secondary">Ajouter au panier</button>
-			</a>
+			<form action="panier.php" method="get">
+				<input type="number" name="id" id="id" value="<? $idFilm ?>" hidden>
+				<input class="btn btn-secondary" type="submit" name="panier" value="Ajouter au panier">
+			</form>
 		</div>
 		<?php
 		}

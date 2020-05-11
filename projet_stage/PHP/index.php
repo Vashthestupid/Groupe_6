@@ -1,9 +1,8 @@
 <?php
 error_reporting(E_ALL &~ E_NOTICE);
-
+require 'vendor/autoload.php';
 include 'src/views/elements/header.php'; 
 include 'src/views/elements/footer.php';
-include 'src/views/elements/fonctions.php';
 include 'src/config/config.php';
 include 'src/models/connect.php';
 
@@ -17,7 +16,7 @@ if (isset($_POST['email']) && isset($_POST['mdp'])) {
 	$email = htmlspecialchars(trim($_POST['email']));
 	$mdp = htmlspecialchars(trim($_POST['mdp']));
 
-	$selectUser = "SELECT mailUser, mdpUser FROM users WHERE mailUser = :mail";
+	$selectUser = "SELECT prenomUser, mailUser, mdpUser FROM users WHERE mailUser = :mail";
 
 	$reqSelectUser = $db->prepare($selectUser);
 	$reqSelectUser->bindParam(':mail', $email);
@@ -28,17 +27,19 @@ if (isset($_POST['email']) && isset($_POST['mdp'])) {
     if (password_verify($_POST['mdp'], $data->mdpUser)) {
         session_start();
         if (isset($_SESSION['login'])) {
-            $mail = $_SESSION['login'];
+			$mail = $_SESSION['login'];
         } else {
             $_SESSION['login'] = $_POST['email'];
             $mail = $_SESSION['login'];
         }
-    }
+    }else{
+		echo "<div class='alert alert-danger'>Identifiant ou mot de passe invalide</div>";
+	}
 
     if (isset($_SESSION['login'])) {
         $mail = $_SESSION['login'];
     } else {
-        $mail = $email;
+		$mail = $email;
     }
 }
 
@@ -79,6 +80,40 @@ $listeProduits = array();
 while($data = $reqSelectProduits->fetchObject()){
 	array_push($listeProduits, $data);
 }
+
+
+// Partie Rooting
+
+$router = new AltoRouter();
+
+include 'src/views/elements/router.php';
+
+if($match['target'] === '/'){
+	require 'index.php';
+} elseif ($mactch['target'] === 'Inscription'){
+	require 'src/views/connexion.php';
+} elseif($match['target'] === 'Livre'){
+	require 'src/views/livre.php';
+} elseif($match['target'] === 'Film'){
+	require 'src/views/film.php';
+} elseif($match['target'] === 'Jeux'){
+	require 'src/views/jeu.php';
+} elseif($match['target'] === 'detailLivre'){
+	require 'src/views/detailLivre.php';
+} elseif($match['target'] === 'detailFilm'){
+	require 'src/views/detailFilm.php';
+} elseif($match['target'] === 'detailJeu'){
+	require 'src/views/detailJeu.php';
+} elseif($match['target'] === 'AjoutLivre'){
+	require 'src/views/ajoutLivre.php';
+} elseif($match['target'] === 'AjoutFilm'){
+	require 'src/views/ajoutFilm.php';
+} elseif($match['target'] === 'AjoutJeu'){
+	require 'src/views/ajoutJeu.php';
+} elseif($match['target'] === 'Panier'){
+	require 'src/views/panier.php';
+}
+
 
 ?>
 	

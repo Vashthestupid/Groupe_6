@@ -12,9 +12,8 @@ session_start();
 if(isset($_SESSION['login'])){
     $mail = $_SESSION['login'];
 } else {
-    $mail = "";
+    $email = "";
 }
-
 
 ?>
 	<nav class="navbar navbar-expand-xl navbar-light bg-light">
@@ -48,6 +47,9 @@ if(isset($_SESSION['login'])){
 			</li>
 			<li class="nav-item">
 				<a class="nav-link" href="panier.php">Panier</a>
+            </li>
+            <li class="nav-item">
+				<a class="nav-link" href="deconnexion.php">Deconnexion</a>
             </li>
 		</ul>
 		<form action="recherche.php" method="post" class="form-inline my-2 my-lg-0">
