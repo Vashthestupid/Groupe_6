@@ -12,27 +12,34 @@ head();
 $db = connection();
 
 //SESSION
-$selectUser = "SELECT * FROM users";
 
-$reqSelectUser = $db->prepare($selectUser);
-$reqSelectUser->execute();
+if (isset($_POST['email']) && isset($_POST['mdp'])) {
+	$email = htmlspecialchars(trim($_POST['email']));
+	$mdp = htmlspecialchars(trim($_POST['mdp']));
 
-$data = $reqSelectUser->fetchObject();
+	$selectUser = "SELECT mailUser, mdpUser FROM users WHERE mailUser = :mail";
 
-if(password_verify($_POST['mdp'], $data->mdpUser)){
-	session_start();
-	if(isset($_SESSION['login'])){
-		$mail = $_SESSION['login'];
-	} else {
-		$_SESSION['login'] = $_POST['email'];
-		$email = $_SESSION['login'];
-	}
-}
+	$reqSelectUser = $db->prepare($selectUser);
+	$reqSelectUser->bindParam(':mail', $email);
+	$reqSelectUser->execute();
 
-if(isset($_SESSION['login'])){
-	$mail = $_SESSION['login'];
-} else {
-	$email = "";
+	$data = $reqSelectUser->fetchObject();
+
+    if (password_verify($_POST['mdp'], $data->mdpUser)) {
+        session_start();
+        if (isset($_SESSION['login'])) {
+            $mail = $_SESSION['login'];
+        } else {
+            $_SESSION['login'] = $_POST['email'];
+            $mail = $_SESSION['login'];
+        }
+    }
+
+    if (isset($_SESSION['login'])) {
+        $mail = $_SESSION['login'];
+    } else {
+        $mail = $email;
+    }
 }
 
 // On récupère les données sur les 3 tables livres, film et jeux avec UNION

@@ -12,7 +12,7 @@ session_start();
 if(isset($_SESSION['login'])){
     $mail = $_SESSION['login'];
 } else {
-    $email = "";
+    $mail = "";
 }
 
 
