@@ -1,0 +1,16 @@
+body{
+    min-height: 100vh;
+    background-color: #f1f2f6;
+}
+
+#inscription, #connexion{
+    display: none;
+}
+
+.titleForm{
+    font-size: 18px;
+}
+
+::-webkit-scrollbar{
+    display: none;
+}

@@ -1,5 +1,4 @@
 <?php 
-
 function head(){
 ?>
 <!doctype html>

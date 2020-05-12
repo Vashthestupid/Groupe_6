@@ -1,6 +1,5 @@
 <?php
 error_reporting(E_ALL &~ E_NOTICE);
-require 'vendor/autoload.php';
 include 'src/views/elements/header.php'; 
 include 'src/views/elements/footer.php';
 include 'src/config/config.php';
@@ -81,44 +80,10 @@ while($data = $reqSelectProduits->fetchObject()){
 	array_push($listeProduits, $data);
 }
 
-
-// Partie Rooting
-
-$router = new AltoRouter();
-
-include 'src/views/elements/router.php';
-
-if($match['target'] === '/'){
-	require 'index.php';
-} elseif ($mactch['target'] === 'Inscription'){
-	require 'src/views/connexion.php';
-} elseif($match['target'] === 'Livre'){
-	require 'src/views/livre.php';
-} elseif($match['target'] === 'Film'){
-	require 'src/views/film.php';
-} elseif($match['target'] === 'Jeux'){
-	require 'src/views/jeu.php';
-} elseif($match['target'] === 'detailLivre'){
-	require 'src/views/detailLivre.php';
-} elseif($match['target'] === 'detailFilm'){
-	require 'src/views/detailFilm.php';
-} elseif($match['target'] === 'detailJeu'){
-	require 'src/views/detailJeu.php';
-} elseif($match['target'] === 'AjoutLivre'){
-	require 'src/views/ajoutLivre.php';
-} elseif($match['target'] === 'AjoutFilm'){
-	require 'src/views/ajoutFilm.php';
-} elseif($match['target'] === 'AjoutJeu'){
-	require 'src/views/ajoutJeu.php';
-} elseif($match['target'] === 'Panier'){
-	require 'src/views/panier.php';
-}
-
-
 ?>
 	
 	<nav class="navbar navbar-expand-xl navbar-light bg-light">
-		<a class="navbar-brand" href="#">DivertiBuy</a>
+		<a class="navbar-brand" href="">DivertiBuy</a>
 		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
 		</button>

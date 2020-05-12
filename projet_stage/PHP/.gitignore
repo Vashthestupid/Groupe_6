@@ -2,6 +2,5 @@
 src/config/*
 src/config/config.php 
 
-# Cache dossier Vendor
-
-vendor/
+# Cache fichier .gitignore
+.gitignore
