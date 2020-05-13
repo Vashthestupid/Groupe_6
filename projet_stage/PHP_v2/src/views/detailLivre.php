@@ -14,6 +14,14 @@ while ($data = $reqSelectLivre->fetchObject()) {
     array_push($livres, $data);
 }
 
+if(isset($_POST['ajout'])){
+    $insertPanier = "INSERT INTO panier(livre_idLivre) VALUES (:id)";
+
+    $reqInsertPanier = $db->prepare($insertPanier);
+    $reqInsertPanier->bindParam(':id',$idLivre);
+    $reqInsertPanier->execute();
+}
+
 ?>
 <br>
 <div class="container">
@@ -60,9 +68,8 @@ while ($data = $reqSelectLivre->fetchObject()) {
     </div>
     <div class="row">
         <div class=" mt-5 mx-auto">
-            <form action="panier.php" method="post">
-                <input type="number" name="id" id="id" value="<?= $livre->idLivre ?>" hidden>
-                <input type="submit" class="btn btn-secondary" value="Ajouter au panier">
+            <form method="post">
+                <input type="submit" name="ajout" class="btn btn-secondary" value="Ajouter au panier">
             </form>
         </div>
     </div>

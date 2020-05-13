@@ -1,5 +1,17 @@
 <?php
 
+$selectPanier = "SELECT livres.titreLivre,
+film.titreFilm,
+jeux.titreJeux
+FROM panier
+INNER JOIN livres ON panier.livres_idLivre = livres.idLivre
+INNER JOIN film ON panier.film_idFilm = film.idFilm
+INNER JOIN jeux On panier.jeux_idjeu = jeux.idJEu
+ORDER BY idpanier";
+
+$reqSelectPanier = $db->prepare($selectPanier);
+$reqSelectPanier->execute();
+
 ?>
 <br>
 <div class="container">
@@ -79,5 +91,3 @@
         <a href="recapitulatif.html"><button class="btn btn-secondary">Continuer</button></a>
     </div>
 </div>
-<?php
-footer();

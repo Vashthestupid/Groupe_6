@@ -62,7 +62,7 @@ while ($data = $reqSelectJeu->fetchObject()) {
             if ($_SESSION['login']) {
         ?>
             <div class=" mt-5 mx-auto">
-                <a href="panier.php?id=<?= $idJeu ?>">
+                <a href="<?= $router->generate('Panier')?>?id=<?= $idJeu ?>">
                     <button class="btn btn-secondary">Ajouter au panier</button>
                 </a>
             </div>

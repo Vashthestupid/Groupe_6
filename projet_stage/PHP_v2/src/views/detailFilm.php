@@ -63,10 +63,9 @@ while ($data = $reqSelectFilm->fetchObject()) {
 			if ($_SESSION['login']) {
 		?>
 			<div class=" mt-5 mx-auto">
-				<form action="panier.php" method="get">
-					<input type="number" name="id" id="id" value="<? $idFilm ?>" hidden>
-					<input class="btn btn-secondary" type="submit" name="panier" value="Ajouter au panier">
-				</form>
+				<a href="<?= $router->generate('Panier')?>?id=<?= $idFilm?>">
+					<button class="btn btn-secondary" type="submit">Ajouter au panier</button>
+				</a>
 			</div>
 		<?php
 			}
