@@ -1,12 +1,11 @@
 <?php
-error_reporting(E_ALL &~ E_NOTICE);
-
+error_reporting(E_ALL & ~E_NOTICE);
 
 session_start();
-if(isset($_SESSION['login'])){
-	$mail = $_SESSION['login'];
+if (isset($_SESSION['login'])) {
+    $mail = $_SESSION['login'];
 } else {
-	$email = "";
+    $email = "";
 }
 
 // La partie inscription
@@ -34,7 +33,7 @@ if (isset($_POST['valider'])) {
                 $selectUserExiste = "SELECT COUNT(mailUser) as nb
 				FROM users 
 				WHERE users.mailUser = :mailUser";
-                
+
                 $reqSelectUserExiste = $db->prepare($selectUserExiste);
                 $reqSelectUserExiste->bindParam(':mailUser', $email);
                 $reqSelectUserExiste->execute();
@@ -69,66 +68,65 @@ if (isset($_POST['valider'])) {
 }
 ?>
 
-    <div class="container">
-		<br>
-		<div class="d-flex justify-content-center">
-			<button id="btnInscription" type="button" class="btn btn-secondary mr-3">Inscription</button>
-			<button id="btnConnexion" type="button" class="btn btn-secondary">Connexion</button>
-		</div>
-		<br>
-        <div id="connexion" class="offset-md-2 col-md-8" >
+<div class="container">
+    <br>
+    <div class="d-flex justify-content-center">
+        <button id="btnInscription" type="button" class="btn btn-secondary mr-3">Inscription</button>
+        <button id="btnConnexion" type="button" class="btn btn-secondary">Connexion</button>
+    </div>
+    <br>
+    <div id="connexion" class="offset-md-2 col-md-8">
 
-            <h2 class=" titleForm d-flex justify-content-center">Formulaire de connexion</h2>
-            <form action="../../index.php" method="post" id="formConnexion">
-                <div class="form-group">
-                    <label for="email" class="d-flex justify-content-center">Email</label>
-                    <input class="form-inline d-flex mx-auto w-75" type="email" name="email" id="email">
-                </div>
-                <div class="form-group">
-                    <label for="mdp" class="d-flex justify-content-center">Mot de passe</label>
-                    <input class="form-inline d-flex mx-auto w-75" type="password" name="mdp" id="mdp">
-                </div>
-                <input type="submit" name="login" value="Valider" class="btn btn-success d-flex mx-auto">
-            </form> 
-        </div>
-		<div id="inscription">
-			<h2 class=" titleForm d-flex justify-content-center">Formulaire d'inscription</h2>
-			<form method="post" class="offset-md-2 col-md-8">
-				<div class="form-group">
-					<label for="nom" class="d-flex justify-content-center">Nom</label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="nom" id="nom">
-				</div>
-				<div class="form-group">
-					<label for="prenom" class="d-flex justify-content-center">Prenom</label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="prenom" id="prenom">
-				</div>
-				<div class="form-group">
-					<label for="email" class="d-flex justify-content-center">Email</label>
-					<input class="form-inline d-flex mx-auto w-75" type="email" name="emailInsc" id="emailInsc">
-				</div>
-				<div class="form-group">
-					<label for="mdp" class="d-flex justify-content-center">Mot de passe</label>
-					<input class="form-inline d-flex mx-auto w-75" type="password" name="mdpInsc" id="mdpInsc">
-				</div>
-				<div class="form-group">
-					<label for="mdp2" class="d-flex justify-content-center">Confirmation du mot de passe </label>
-					<input class="form-inline d-flex mx-auto w-75" type="password" name="mdp2" id="mdp2">
-				</div>
-				<div class="form-group">
-					<label for="adresse" class="d-flex justify-content-center">Adresse</label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="adresse" id="adresse">
-				</div>
-				<div class="form-group">
-					<label for="ville" class="d-flex justify-content-center">Ville</label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="ville" id="ville">
-				</div>
-				<div class="form-group">
-					<label for="pays" class="d-flex justify-content-center">Pays</label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="pays" id="pays">
-				</div>
-				<input type="submit" name="valider" value="Valider" class="btn btn-success d-flex mx-auto">
-			</form>
-		</div>
-	</div>
-<?php
-footer();
+        <h2 class=" titleForm d-flex justify-content-center">Formulaire de connexion</h2>
+        <form action="../../index.php" method="post" id="formConnexion">
+            <div class="form-group">
+                <label for="email" class="d-flex justify-content-center">Email</label>
+                <input class="form-inline d-flex mx-auto w-75" type="email" name="email" id="email">
+            </div>
+            <div class="form-group">
+                <label for="mdp" class="d-flex justify-content-center">Mot de passe</label>
+                <input class="form-inline d-flex mx-auto w-75" type="password" name="mdp" id="mdp">
+            </div>
+            <input type="submit" name="login" value="Valider" class="btn btn-success d-flex mx-auto">
+        </form>
+    </div>
+    <div id="inscription">
+        <h2 class=" titleForm d-flex justify-content-center">Formulaire d'inscription</h2>
+        <form method="post" class="offset-md-2 col-md-8">
+            <div class="form-group">
+                <label for="nom" class="d-flex justify-content-center">Nom</label>
+                <input class="form-inline d-flex mx-auto w-75" type="text" name="nom" id="nom">
+            </div>
+            <div class="form-group">
+                <label for="prenom" class="d-flex justify-content-center">Prenom</label>
+                <input class="form-inline d-flex mx-auto w-75" type="text" name="prenom" id="prenom">
+            </div>
+            <div class="form-group">
+                <label for="email" class="d-flex justify-content-center">Email</label>
+                <input class="form-inline d-flex mx-auto w-75" type="email" name="emailInsc" id="emailInsc">
+            </div>
+            <div class="form-group">
+                <label for="mdp" class="d-flex justify-content-center">Mot de passe</label>
+                <input class="form-inline d-flex mx-auto w-75" type="password" name="mdpInsc" id="mdpInsc">
+            </div>
+            <div class="form-group">
+                <label for="mdp2" class="d-flex justify-content-center">Confirmation du mot de passe </label>
+                <input class="form-inline d-flex mx-auto w-75" type="password" name="mdp2" id="mdp2">
+            </div>
+            <div class="form-group">
+                <label for="adresse" class="d-flex justify-content-center">Adresse</label>
+                <input class="form-inline d-flex mx-auto w-75" type="text" name="adresse" id="adresse">
+            </div>
+            <div class="form-group">
+                <label for="ville" class="d-flex justify-content-center">Ville</label>
+                <input class="form-inline d-flex mx-auto w-75" type="text" name="ville" id="ville">
+            </div>
+            <div class="form-group">
+                <label for="pays" class="d-flex justify-content-center">Pays</label>
+                <input class="form-inline d-flex mx-auto w-75" type="text" name="pays" id="pays">
+            </div>
+            <input type="submit" name="valider" value="Valider" class="btn btn-success d-flex mx-auto">
+        </form>
+    </div>
+</div>
+

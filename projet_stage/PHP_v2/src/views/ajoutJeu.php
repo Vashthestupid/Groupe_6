@@ -1,7 +1,7 @@
 <?php
 
 if (isset($_POST['valider'])) {
-    if (empty($_POST['titre']) || empty($_POST['studio']) || empty($_POST['resume']) || empty($_POST['genre'])|| empty($_POST['prix']) || empty($_POST['nbre']) || empty($_POST['online']) || empty($_POST['image'])) {
+    if (empty($_POST['titre']) || empty($_POST['studio']) || empty($_POST['resume']) || empty($_POST['genre']) || empty($_POST['prix']) || empty($_POST['nbre']) || empty($_POST['online']) || empty($_POST['image'])) {
         echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
     } else {
         if (isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['nbre']) && isset($_POST['online']) && isset($_POST['image'])) {
@@ -51,66 +51,64 @@ if (isset($_POST['valider'])) {
 }
 
 ?>
+<br>
+<div class="container">
     <br>
-    <div class="container">
-		<br>
-		<h2 class="titleForm d-flex justify-content-center">Formulaire d'ajout d'un Jeu</h2>
-		<div id="ajoutJeu">
-			<form method="post" class="offset-md-2 col-md-8">
-				<div class="form-group">
-					<label for="titre" class="d-flex justify-content-center">Titre du jeu</label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="titre" id="titre">
-				</div>
-				<div class="form-group">
-					<label for="studio" class="d-flex justify-content-center">Studio de developpement</label>
-					<input class="form-inline d-flex mx-auto w-75" type="text" name="studio" id="studio">
-				</div>
-				<div class="form-group">
-					<label for="resume" class="d-flex justify-content-center">Résumé du jeu</label>
-					<textarea class="form-inline d-flex mx-auto w-75" name="resume" id="resume"></textarea>
+    <h2 class="titleForm d-flex justify-content-center">Formulaire d'ajout d'un Jeu</h2>
+    <div id="ajoutJeu">
+        <form method="post" class="offset-md-2 col-md-8">
+            <div class="form-group">
+                <label for="titre" class="d-flex justify-content-center">Titre du jeu</label>
+                <input class="form-inline d-flex mx-auto w-75" type="text" name="titre" id="titre">
+            </div>
+            <div class="form-group">
+                <label for="studio" class="d-flex justify-content-center">Studio de developpement</label>
+                <input class="form-inline d-flex mx-auto w-75" type="text" name="studio" id="studio">
+            </div>
+            <div class="form-group">
+                <label for="resume" class="d-flex justify-content-center">Résumé du jeu</label>
+                <textarea class="form-inline d-flex mx-auto w-75" name="resume" id="resume"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="genre" class="d-flex justify-content-center">Genre</label>
+                <select class="d-flex mx-auto w-75" name="genre" id="genre">
+                    <option value="Aventure">Aventure</option>
+                    <option value="Science-Fiction">Science-Fiction</option>
+                    <option value="Guerre">Guerre</option>
+                    <option value="Course">Course</option>
+                    <option value="FPS">First Person Shooter</option>
+                    <option value="RPG">Role Playing Game</option>
+                    <option value="Sport">Sport</option>
+                    <option value="Plate-forme">Plate-forme</option>
+                    <option value="Gestion">Gestion</option>
+                    <option value="Jeux de société">Jeux de société</option>
+                    <option value="Combat">Combat</option>
+                    <option value="Simulation">Simulation</option>
+                    <option value="MMO">Massively Multiplayer Online</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="prix" class="d-flex justify-content-center">Prix du jeu</label>
+                <input class="form-inline d-flex mx-auto w-75" type="number" name="prix" id="prix">
+            </div>
+            <div class="form-group">
+                <label for="nbre" class="d-flex justify-content-center">Nombre de joueurs maximum</label>
+                <input class="form-inline d-flex mx-auto w-75" type="number" name="nbre" id="nbre">
+            </div>
+            <div class="form-group">
+                <label for="online" class="d-flex justify-content-center">Jeux online</label>
+                <div class="checkbox d-flex justify-content-center">
+                    <p class="mr-2">Oui</p>
+                    <input class="mt-2 mr-2" type="radio" name="online" id="online" value="Oui">
+                    <p class="ml-2 mr-2">Non</p>
+                    <input class="mt-2" type="radio" name="online" id="online" value="Non">
                 </div>
-                <div class="form-group">
-                    <label for="genre" class="d-flex justify-content-center">Genre</label>
-                    <select class="d-flex mx-auto w-75"name="genre" id="genre">
-                        <option value="Aventure">Aventure</option>
-                        <option value="Science-Fiction">Science-Fiction</option>
-                        <option value="Guerre">Guerre</option>
-                        <option value="Course">Course</option>
-                        <option value="FPS">First Person Shooter</option>
-                        <option value="RPG">Role Playing Game</option>
-                        <option value="Sport">Sport</option>
-                        <option value="Plate-forme">Plate-forme</option>
-                        <option value="Gestion">Gestion</option>
-                        <option value="Jeux de société">Jeux de société</option>
-                        <option value="Combat">Combat</option>
-                        <option value="Simulation">Simulation</option>
-                        <option value="MMO">Massively Multiplayer Online</option>
-                    </select>
-                </div>
-				<div class="form-group">
-					<label for="prix" class="d-flex justify-content-center">Prix du jeu</label>
-					<input class="form-inline d-flex mx-auto w-75" type="number" name="prix" id="prix">
-                </div>
-                <div class="form-group">
-					<label for="nbre" class="d-flex justify-content-center">Nombre de joueurs maximum</label>
-					<input class="form-inline d-flex mx-auto w-75" type="number" name="nbre" id="nbre">
-                </div>
-                <div class="form-group">
-                    <label for="online" class="d-flex justify-content-center">Jeux online</label>
-                    <div class="checkbox d-flex justify-content-center">
-                        <p class="mr-2">Oui</p>
-                        <input class="mt-2 mr-2" type="radio" name="online" id="online" value="Oui">
-                        <p class="ml-2 mr-2">Non</p>
-                        <input class="mt-2" type="radio" name="online" id="online" value="Non">
-                    </div>
-				</div>
-				<div class="form-group">
-					<label for="image" class="d-flex justify-content-center">Image du jeu</label>
-					<input class="form-inline d-flex mx-auto w-75" type="file" name="image" id="image">
-				</div>
-				<input type="submit" name="valider" value="Valider" class="btn btn-success d-flex mx-auto">
-			</form>
-		</div>
+            </div>
+            <div class="form-group">
+                <label for="image" class="d-flex justify-content-center">Image du jeu</label>
+                <input class="form-inline d-flex mx-auto w-75" type="file" name="image" id="image">
+            </div>
+            <input type="submit" name="valider" value="Valider" class="btn btn-success d-flex mx-auto">
+        </form>
     </div>
-<?php
-footer();
+</div>

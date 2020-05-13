@@ -60,10 +60,22 @@ if($match['target'] === '/'){
 	require 'src/views/jeu.php';
 } elseif($match['target'] === 'detailLivre'){
 	require 'src/views/detailLivre.php';
+} elseif($match['target'] === "modifierLivre"){
+	require 'src/views/modifierLivre.php';
+} elseif($match['target'] === "supprimerLivre"){
+	require 'src/views/supprimerLivre.php';
 } elseif($match['target'] === 'detailFilm'){
 	require 'src/views/detailFilm.php';
+} elseif($match['target'] === "modifierFilm"){
+	require 'src/views/modifierFilm.php';
+} elseif($match['target'] === "supprimerFilm" ){
+	require 'src/views/supprimerFilm.php';
 } elseif($match['target'] === 'detailJeu'){
 	require 'src/views/detailJeu.php';
+} elseif($match['target'] === 'modifierJeu'){
+	require "src/views/modifierJeu.php";
+} elseif($match['target'] === 'supprimerJeu'){
+	require "src/views/supprimerJeu.php";
 } elseif($match['target'] === 'AjoutLivre'){
 	require 'src/views/ajoutLivre.php';
 } elseif($match['target'] === 'AjoutFilm'){
@@ -74,6 +86,9 @@ if($match['target'] === '/'){
 	require 'src/views/panier.php';
 } elseif($match['target'] === 'Deconnexion'){
 	require 'src/views/deconnexion.php';
+} elseif($match['target'] === 'Recherche'){
+	require "src/views/recherche.php";
 }
 
 footer();
+

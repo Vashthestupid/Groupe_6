@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL &~ E_NOTICE);
+error_reporting(E_ALL & ~E_NOTICE);
 // On récupère les données sur les 3 tables livres, film et jeux avec UNION
 
 $selectProduits = "SELECT
@@ -34,20 +34,19 @@ $reqSelectProduits->execute();
 
 $listeProduits = array();
 
-while($data = $reqSelectProduits->fetchObject()){
+while ($data = $reqSelectProduits->fetchObject()) {
 	array_push($listeProduits, $data);
 }
 
 ?>
-	
-	<br>
-	<div class="container">
-		<!-- <h1 class="titleForm">Bienvenue sur DIVERTIBUY</h1> -->
-		<p class="d-flex justify-content-center lead">Voici les 6 derniers produits ajoutés</p>
-		<div class="row">
+
+<br>
+<div class="container">
+	<p class="d-flex justify-content-center lead">Voici les 6 derniers produits ajoutés</p>
+	<div class="row">
 		<?php
-		foreach($listeProduits as $produit){
-			?>
+		foreach ($listeProduits as $produit) {
+		?>
 			<div class="mt-5 col-sm-12 col-md-6 col-lg-4">
 				<div class="card h-100">
 					<img src="../../public/image/<?= $produit->imageLivre ?>" alt="<?= $produit->imageLivre ?>" class="card-img-top w-50 h-50 mx-auto">
@@ -56,14 +55,13 @@ while($data = $reqSelectProduits->fetchObject()){
 						<p class="card-text"><?= $produit->resumeLivre ?></p>
 					</div>
 					<div class="card-footer">
-						<p class="d-flex justify-content-center">Ajouté le <?= $produit->dateAjout?></p>
+						<p class="d-flex justify-content-center">Ajouté le <?= $produit->dateAjout ?></p>
 					</div>
 				</div>
 			</div>
 		<?php
 		}
 		?>
-		</div>
 	</div>
-<?php
-footer();
+</div>
+
