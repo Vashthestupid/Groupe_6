@@ -14,6 +14,16 @@ while ($data = $reqSelectFilm->fetchObject()) {
 	array_push($films, $data);
 }
 
+if (isset($_POST['ajout'])) {
+	$insertPanier = "INSERT INTO panier(film_idFilm) VALUES (:id)";
+
+	$reqInsertPanier = $db->prepare($insertPanier);
+	$reqInsertPanier->bindParam(':id', $idFilm);
+	$reqInsertPanier->execute();
+
+	echo "<div class='alert alert-success'>Le produit a été ajouté au panier</div>";
+}
+
 ?>
 <br>
 <div class="container">
@@ -63,9 +73,9 @@ while ($data = $reqSelectFilm->fetchObject()) {
 			if ($_SESSION['login']) {
 		?>
 			<div class=" mt-5 mx-auto">
-				<a href="<?= $router->generate('Panier')?>?id=<?= $idFilm?>">
-					<button class="btn btn-secondary" type="submit">Ajouter au panier</button>
-				</a>
+				<form method="post">
+					<input type="submit" name="ajout" class="btn btn-secondary" value="Ajouter au panier">
+				</form>
 			</div>
 		<?php
 			}

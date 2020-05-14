@@ -15,11 +15,13 @@ while ($data = $reqSelectLivre->fetchObject()) {
 }
 
 if(isset($_POST['ajout'])){
-    $insertPanier = "INSERT INTO panier(livre_idLivre) VALUES (:id)";
+    $insertPanier = "INSERT INTO panier(livres_idLivre) VALUES (:id)";
 
     $reqInsertPanier = $db->prepare($insertPanier);
     $reqInsertPanier->bindParam(':id',$idLivre);
     $reqInsertPanier->execute();
+
+    echo "<div class='alert alert-success'>Le produit a été ajouté au panier</div>";
 }
 
 ?>

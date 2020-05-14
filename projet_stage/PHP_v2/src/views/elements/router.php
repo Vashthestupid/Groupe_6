@@ -30,3 +30,4 @@ $router->map('GET', '/Panier', 'Panier', 'Panier');
 $router->map('GET', '/Panier/[i:id]', 'Panier#id', 'Panier#id');
 $router->map('GET', '/Deconnexion', 'Deconnexion', 'Deconnexion');
 $router->map('GET|POST', '/Recherche', 'Recherche', 'Recherche');
+
