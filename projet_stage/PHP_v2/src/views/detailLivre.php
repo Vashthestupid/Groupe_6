@@ -14,11 +14,13 @@ while ($data = $reqSelectLivre->fetchObject()) {
     array_push($livres, $data);
 }
 
-if(isset($_POST['ajout'])){
-    $insertPanier = "INSERT INTO panier(livres_idLivre) VALUES (:id)";
+if (isset($_POST['ajout'])) {
+    $prix = intval($_POST['prix']);
+    $insertPanier = "INSERT INTO panier(livres_idLivre, prix) VALUES (:id, :prix )";
 
     $reqInsertPanier = $db->prepare($insertPanier);
-    $reqInsertPanier->bindParam(':id',$idLivre);
+    $reqInsertPanier->bindParam(':id', $idLivre);
+    $reqInsertPanier->bindParam(':prix', $prix);
     $reqInsertPanier->execute();
 
     echo "<div class='alert alert-success'>Le produit a été ajouté au panier</div>";
@@ -71,6 +73,7 @@ if(isset($_POST['ajout'])){
     <div class="row">
         <div class=" mt-5 mx-auto">
             <form method="post">
+                <input type="number" name="prix" id="prix" value="<?= $livre->prixLivre ?>" hidden>
                 <input type="submit" name="ajout" class="btn btn-secondary" value="Ajouter au panier">
             </form>
         </div>

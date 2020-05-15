@@ -30,6 +30,20 @@ while ($data = $reqSelectPanier->fetchObject()) {
     array_push($produits, $data);
 }
 
+// Afficher le prix total
+// On récupère la somme totale de tous les produits présents dans le panier 
+$total = "SELECT SUM(prix) AS montant FROM panier";
+ 
+$reqTotal = $db->prepare($total);
+$reqTotal->execute();
+
+$total = array();
+
+while ($donnees = $reqTotal->fetchObject()) {
+    array_push($total, $donnees);
+}
+
+
 ?>
 <br>
 <div class="container">
@@ -67,10 +81,16 @@ while ($data = $reqSelectPanier->fetchObject()) {
                     </tr>
                 </thead>
                 <tbody>
+                    <?php
+                    foreach ($total as $montant) {
+                        ?>
                     <tr>
-                        <th></th>
                         <td></td>
+                        <td><?= $montant->montant?>€</td>
                     </tr>
+                    <?php
+                    }
+                    ?>
                 </tbody>
             </table>
         </div>

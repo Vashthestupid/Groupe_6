@@ -13,10 +13,12 @@ while ($data = $reqSelectJeu->fetchObject()) {
     array_push($jeux, $data);
 }
 if (isset($_POST['ajout'])) {
-    $insertPanier = "INSERT INTO panier(jeux_idJeu) VALUES(:id)";
+    $prix = intval($_POST['prix']);
+    $insertPanier = "INSERT INTO panier(jeux_idJeu, prix) VALUES(:id, :prix)";
 
     $reqInsertPanier = $db->prepare($insertPanier);
     $reqInsertPanier->bindParam(':id', $idJeu);
+    $reqInsertPanier->bindParam(':prix', $prix);
     $reqInsertPanier->execute();
 
     echo "<div class='alert alert-success'>Le produit a été ajouté au panier</div>";
@@ -73,6 +75,7 @@ if (isset($_POST['ajout'])) {
         ?>
             <div class=" mt-5 mx-auto">
                 <form method="post">
+                    <input type="number" name="prix" id="prix" value="<?= $jeu->prixJeu ?>" hidden>
                     <input type="submit" name="ajout" class="btn btn-secondary" value="Ajouter au panier">
                 </form>
             </div>
