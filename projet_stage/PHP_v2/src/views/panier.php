@@ -31,9 +31,9 @@ while ($data = $reqSelectPanier->fetchObject()) {
 }
 
 // Afficher le prix total
-// On récupère la somme totale de tous les produits présents dans le panier 
+// On fait l'addition des prix des différents produits présents dans le panier
 $total = "SELECT SUM(prix) AS montant FROM panier";
- 
+
 $reqTotal = $db->prepare($total);
 $reqTotal->execute();
 
@@ -43,6 +43,19 @@ while ($donnees = $reqTotal->fetchObject()) {
     array_push($total, $donnees);
 }
 
+// On récupère l'adresse et la ville de l'utilisateur connecté
+$mailUser = $_SESSION['login'];
+$selectInfoUser = "SELECT adresseUser, ville FROM users WHERE mailUser = :login";
+
+$reqSelectInfoUser = $db->prepare($selectInfoUser);
+$reqSelectInfoUser->bindParam(':login', $mailUser);
+$reqSelectInfoUser->execute();
+
+$adresses = array();
+
+while ($infos = $reqSelectInfoUser->fetchObject()) {
+    array_push($adresses, $infos);
+}
 
 ?>
 <br>
@@ -83,11 +96,11 @@ while ($donnees = $reqTotal->fetchObject()) {
                 <tbody>
                     <?php
                     foreach ($total as $montant) {
-                        ?>
-                    <tr>
-                        <td></td>
-                        <td><?= $montant->montant?>€</td>
-                    </tr>
+                    ?>
+                        <tr>
+                            <td></td>
+                            <td><?= $montant->montant ?>€</td>
+                        </tr>
                     <?php
                     }
                     ?>
@@ -100,13 +113,15 @@ while ($donnees = $reqTotal->fetchObject()) {
             <div class="adresseLivraison border border-secondary rounded bg-white">
                 <br>
                 <p class="lead d-flex justify-content-center">Votre adresse de livraison</p>
-                <div class="informations">
-                    <p>Adresse : 3 rue Berlioz</p>
-                    <p>Code Postal : 62000</p>
-                    <p>Ville : ARRAS</p>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <a href="modifierAdresseLivraison.html">modifier votre adresse de livraison</a>
+                <div class="informations col-sm-12 col-md-12">
+                    <?php
+                    foreach ($adresses as $adresse) {
+                    ?>
+                        <p>Adresse : <?= $adresse->adresseUser ?></p>
+                        <p>Ville : <?= $adresse->ville ?></p>
+                    <?php
+                    }
+                    ?>
                 </div>
             </div>
         </div>
@@ -117,7 +132,7 @@ while ($donnees = $reqTotal->fetchObject()) {
             <div class="coordBanc border border-secondary rounded bg-white">
                 <br>
                 <p class="lead d-flex justify-content-center mt-10">Coordonnées bancaires</p>
-                <div class="informationsBancaires">
+                <div class="informationsBancaires col-sm-12 col-md-12">
                     <p>Titulaire de la carte : Tauveron Loïc</p>
                     <p>N° de la carte : 4*** **** **** **87</p>
                 </div>
@@ -126,6 +141,8 @@ while ($donnees = $reqTotal->fetchObject()) {
     </div>
     <br>
     <div class="button d-flex justify-content-center">
-        <a href="recapitulatif.php"><button class="btn btn-secondary">Continuer</button></a>
+        <form method="post">
+            <input class="btn btn-secondary" type="submit" name="confirmer" value="Confirmer la commande">
+        </form>
     </div>
 </div>

@@ -16,48 +16,33 @@ if (isset($_POST['titre']) && isset($_POST['studio']) && isset($_POST['resume'])
 	$image = htmlspecialchars(trim($_POST['image']));
 	$id = intval($_GET['id']);
 
-	// On verifie si le produit n'est pas déjà présent dans la base de données
 
-	$selectExist = "SELECT COUNT(titreJeu) AS nb
-	FROM jeux
-	WHERE jeux.titreJeu = :titreJeu";
+	$updateJeu = "UPDATE jeux 
+	SET titreJeu = :titre,
+	studioJeu = :studio,
+	resumeJeu = :resume,
+	prixJeu = :prix,
+	nombreJoueurMax = :nbre,
+	onlineJeu = :online,
+	imageJeu = :image,
+	genreJeu = :genre
+	WHERE idJeu = :id";
 
-	$reqSelectExist = $db->prepare($selectExist);
-	$reqSelectExist->bindParam('titreJeu', $titre);
-	$reqSelectExist->execute();
+	$reqUpdateJeu = $db->prepare($updateJeu);
+	$reqUpdateJeu->bindParam(':titre', $titre);
+	$reqUpdateJeu->bindParam(':studio', $studio);
+	$reqUpdateJeu->bindParam(':resume', $resume);
+	$reqUpdateJeu->bindParam(':prix', $prix);
+	$reqUpdateJeu->bindParam(':nbre', $nbre);
+	$reqUpdateJeu->bindParam(':online', $online);
+	$reqUpdateJeu->bindParam(':image', $image);
+	$reqUpdateJeu->bindParam(':genre', $genre);
+	$reqUpdateJeu->bindParam(':id', $id);
+	$reqUpdateJeu->execute();
 
-	$nb = $reqSelectExist->fetchObject();
-
-	// Si le résultat est égal à 0 alors on insére le produit. Sinon on affiche un message d'erreur
-
-	if ($nb->nb == 0) {
-
-		$updateJeu = "UPDATE jeux 
-        SET titreJeu = :titre,
-        studioJeu = :studio,
-        resumeJeu = :resume,
-        prixJeu = :prix,
-        nombreJoueurMax = :nbre,
-        onlineJeu = :online,
-        imageJeu = :image,
-        genreJeu = :genre
-        WHERE idJeu = :id";
-
-		$reqUpdateJeu = $db->prepare($updateJeu);
-		$reqUpdateJeu->bindParam(':titre', $titre);
-		$reqUpdateJeu->bindParam(':studio', $studio);
-		$reqUpdateJeu->bindParam(':resume', $resume);
-		$reqUpdateJeu->bindParam(':prix', $prix);
-		$reqUpdateJeu->bindParam(':nbre', $nbre);
-		$reqUpdateJeu->bindParam(':online', $online);
-		$reqUpdateJeu->bindParam(':image', $image);
-		$reqUpdateJeu->bindParam(':genre', $genre);
-		$reqUpdateJeu->bindParam(':id', $id);
-		$reqUpdateJeu->execute();
-
-		echo '<div class="alert alert-success">Votre produit a bien été modifié</div>';
-	}
+	echo '<div class="alert alert-success">Votre produit a bien été modifié</div>';
 }
+
 
 ?>
 <br>

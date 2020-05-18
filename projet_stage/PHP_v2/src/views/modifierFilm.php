@@ -14,46 +14,31 @@ if (isset($_POST['titre']) && isset($_POST['realisateur']) && isset($_POST['resu
 	$image = htmlspecialchars(trim($_POST['image']));
 	$id = intval($_GET['id']);
 
-	// On verifie si le produit n'est pas déjà présent dans la base de données
 
-	$selectExist = "SELECT COUNT(titreFilm) AS nb
-	FROM film
-	WHERE film.titreFilm = :titreFilm";
+	$updateFilm = "UPDATE film 
+	SET titreFilm = :titre,
+	realisateurFilm = :realisateur,
+	resumeFilm = :resume,
+	prixFilm = :prix,
+	imageFilm = :image,
+	genreFilm = :genre
+	WHERE idFilm = :id";
 
-	$reqSelectExist = $db->prepare($selectExist);
-	$reqSelectExist->bindParam('titreFilm', $titre);
-	$reqSelectExist->execute();
+	$reqUpdateFilm = $db->prepare($updateFilm);
+	$reqUpdateFilm->bindParam(':titre', $titre);
+	$reqUpdateFilm->bindParam(':realisateur', $realisateur);
+	$reqUpdateFilm->bindParam(':resume', $resume);
+	$reqUpdateFilm->bindParam(':prix', $prix);
+	$reqUpdateFilm->bindParam(':image', $image);
+	$reqUpdateFilm->bindParam(':genre', $genre);
+	$reqUpdateFilm->bindParam(':id', $id);
+	$reqUpdateFilm->execute();
 
-	$nb = $reqSelectExist->fetchObject();
-
-	// Si le résultat est égal à 0 alors on insére le produit. Sinon on affiche un message d'erreur
-
-	if ($nb->nb == 0) {
-
-		$updateFilm = "UPDATE film 
-        SET titreFilm = :titre,
-        realisateurFilm = :realisateur,
-        resumeFilm = :resume,
-        prixFilm = :prix,
-        imageFilm = :image,
-        genreFilm = :genre
-        WHERE idFilm = :id";
-
-		$reqUpdateFilm = $db->prepare($updateFilm);
-		$reqUpdateFilm->bindParam(':titre', $titre);
-		$reqUpdateFilm->bindParam(':realisateur', $realisateur);
-		$reqUpdateFilm->bindParam(':resume', $resume);
-		$reqUpdateFilm->bindParam(':prix', $prix);
-		$reqUpdateFilm->bindParam(':image', $image);
-		$reqUpdateFilm->bindParam(':genre', $genre);
-		$reqUpdateFilm->bindParam(':id', $id);
-		$reqUpdateFilm->execute();
-
-		echo '<div class="alert alert-success">Votre produit a bien été modifié</div>';
-	} else {
-		echo '<div class="alert alert-danger">Le produit existe déjà dans notre base de données</div>';
-	}
+	echo '<div class="alert alert-success">Votre produit a bien été modifié</div>';
+} else {
+	echo '<div class="alert alert-danger">Le produit existe déjà dans notre base de données</div>';
 }
+
 
 ?>
 <br>
