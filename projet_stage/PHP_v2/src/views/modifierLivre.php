@@ -1,40 +1,40 @@
 <?php
 
+if (isset($_POST['valider'])) {
+    if (empty($_POST['titre']) || empty($_POST['auteur']) || empty($_POST['resume']) || empty($_POST['genre']) || empty($_POST['prix']) || empty($_POST['image'])) {
+        echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
+    } else {
+        if (isset($_POST['titre']) && isset($_POST['auteur']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['image']) && isset($_GET['id'])) {
+            $titre = htmlspecialchars(trim($_POST['titre']));
+            $auteur = htmlspecialchars(trim($_POST['auteur']));
+            $resume = htmlspecialchars(trim($_POST['resume']));
+            $genre = htmlspecialchars(trim($_POST['genre']));
+            $prix = intval($_POST['prix']);
+            $image = htmlspecialchars(trim($_POST['image']));
+            $id = intval($_GET['id']);
 
-if (empty($_POST['titre']) || empty($_POST['auteur']) || empty($_POST['resume']) || empty($_POST['genre']) || empty($_POST['prix']) || empty($_POST['image'])) {
-	echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
-}
+            $updateLivre = "UPDATE livres 
+			SET titreLivre = :titre,
+			auteurLivre = :auteur,
+			resumeLivre = :resume,
+			prixLivre = :prix,
+			imageLivre = :image,
+			genreLivre = :genre
+			WHERE idLivre = :id";
 
-if (isset($_POST['titre']) && isset($_POST['auteur']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['image']) && isset($_GET['id'])) {
+            $reqUpdateLivre = $db->prepare($updateLivre);
+            $reqUpdateLivre->bindParam(':titre', $titre);
+            $reqUpdateLivre->bindParam(':auteur', $auteur);
+            $reqUpdateLivre->bindParam(':resume', $resume);
+            $reqUpdateLivre->bindParam(':prix', $prix);
+            $reqUpdateLivre->bindParam(':image', $image);
+            $reqUpdateLivre->bindParam(':genre', $genre);
+            $reqUpdateLivre->bindParam(':id', $id);
+            $reqUpdateLivre->execute();
 
-	$titre = htmlspecialchars(trim($_POST['titre']));
-	$auteur = htmlspecialchars(trim($_POST['auteur']));
-	$resume = htmlspecialchars(trim($_POST['resume']));
-	$genre = htmlspecialchars(trim($_POST['genre']));
-	$prix = intval($_POST['prix']);
-	$image = htmlspecialchars(trim($_POST['image']));
-	$id = intval($_GET['id']);
-
-	$updateLivre = "UPDATE livres 
-	SET titreLivre = :titre,
-	auteurLivre = :auteur,
-	resumeLivre = :resume,
-	prixLivre = :prix,
-	imageLivre = :image,
-	genreLivre = :genre
-	WHERE idLivre = :id";
-
-	$reqUpdateLivre = $db->prepare($updateLivre);
-	$reqUpdateLivre->bindParam(':titre', $titre);
-	$reqUpdateLivre->bindParam(':auteur', $auteur);
-	$reqUpdateLivre->bindParam(':resume', $resume);
-	$reqUpdateLivre->bindParam(':prix', $prix);
-	$reqUpdateLivre->bindParam(':image', $image);
-	$reqUpdateLivre->bindParam(':genre', $genre);
-	$reqUpdateLivre->bindParam(':id', $id);
-	$reqUpdateLivre->execute();
-
-	echo '<div class="alert alert-success">Votre produit a bien été modifié</div>';
+            echo '<div class="alert alert-success">Votre produit a bien été modifié</div>';
+        }
+    }
 }
 
 ?>
@@ -79,7 +79,7 @@ if (isset($_POST['titre']) && isset($_POST['auteur']) && isset($_POST['resume'])
 				<label for="image" class="d-flex justify-content-center">Image du livre</label>
 				<input class="form-inline d-flex mx-auto w-75" type="file" name="image" id="image">
 			</div>
-			<input type="submit" value="Valider" class="btn btn-success d-flex mx-auto">
+			<input type="submit" name="valider" value="Valider" class="btn btn-success d-flex mx-auto">
 		</form>>
 	</div>
 </div>

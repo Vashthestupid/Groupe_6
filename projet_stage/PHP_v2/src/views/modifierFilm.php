@@ -1,42 +1,43 @@
 <?php
 
-if (empty($_POST['titre']) || empty($_POST['realisateur']) || empty($_POST['resume']) || empty($_POST['genre']) || empty($_POST['prix']) || empty($_POST['image'])) {
-	echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
-}
+if (isset($_POST['valider'])) {
+    if (empty($_POST['titre']) || empty($_POST['realisateur']) || empty($_POST['resume']) || empty($_POST['genre']) || empty($_POST['prix']) || empty($_POST['image'])) {
+        echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
+    } else {
+        if (isset($_POST['titre']) && isset($_POST['realisateur']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['image']) && isset($_GET['id'])) {
+            $titre = htmlspecialchars(trim($_POST['titre']));
+            $realisateur = htmlspecialchars(trim($_POST['realisateur']));
+            $resume = htmlspecialchars(trim($_POST['resume']));
+            $genre = htmlspecialchars(trim($_POST['genre']));
+            $prix = intval($_POST['prix']);
+            $image = htmlspecialchars(trim($_POST['image']));
+            $id = intval($_GET['id']);
 
-if (isset($_POST['titre']) && isset($_POST['realisateur']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['image']) && isset($_GET['id'])) {
 
-	$titre = htmlspecialchars(trim($_POST['titre']));
-	$realisateur = htmlspecialchars(trim($_POST['realisateur']));
-	$resume = htmlspecialchars(trim($_POST['resume']));
-	$genre = htmlspecialchars(trim($_POST['genre']));
-	$prix = intval($_POST['prix']);
-	$image = htmlspecialchars(trim($_POST['image']));
-	$id = intval($_GET['id']);
+            $updateFilm = "UPDATE film 
+			SET titreFilm = :titre,
+			realisateurFilm = :realisateur,
+			resumeFilm = :resume,
+			prixFilm = :prix,
+			imageFilm = :image,
+			genreFilm = :genre
+			WHERE idFilm = :id";
 
+            $reqUpdateFilm = $db->prepare($updateFilm);
+            $reqUpdateFilm->bindParam(':titre', $titre);
+            $reqUpdateFilm->bindParam(':realisateur', $realisateur);
+            $reqUpdateFilm->bindParam(':resume', $resume);
+            $reqUpdateFilm->bindParam(':prix', $prix);
+            $reqUpdateFilm->bindParam(':image', $image);
+            $reqUpdateFilm->bindParam(':genre', $genre);
+            $reqUpdateFilm->bindParam(':id', $id);
+            $reqUpdateFilm->execute();
 
-	$updateFilm = "UPDATE film 
-	SET titreFilm = :titre,
-	realisateurFilm = :realisateur,
-	resumeFilm = :resume,
-	prixFilm = :prix,
-	imageFilm = :image,
-	genreFilm = :genre
-	WHERE idFilm = :id";
-
-	$reqUpdateFilm = $db->prepare($updateFilm);
-	$reqUpdateFilm->bindParam(':titre', $titre);
-	$reqUpdateFilm->bindParam(':realisateur', $realisateur);
-	$reqUpdateFilm->bindParam(':resume', $resume);
-	$reqUpdateFilm->bindParam(':prix', $prix);
-	$reqUpdateFilm->bindParam(':image', $image);
-	$reqUpdateFilm->bindParam(':genre', $genre);
-	$reqUpdateFilm->bindParam(':id', $id);
-	$reqUpdateFilm->execute();
-
-	echo '<div class="alert alert-success">Votre produit a bien été modifié</div>';
-} else {
-	echo '<div class="alert alert-danger">Le produit existe déjà dans notre base de données</div>';
+            echo '<div class="alert alert-success">Votre produit a bien été modifié</div>';
+        } else {
+            echo '<div class="alert alert-danger">Le produit existe déjà dans notre base de données</div>';
+        }
+    }
 }
 
 
@@ -82,7 +83,7 @@ if (isset($_POST['titre']) && isset($_POST['realisateur']) && isset($_POST['resu
 				<label for="image" class="d-flex justify-content-center">Image du film</label>
 				<input class="form-inline d-flex mx-auto w-75" type="file" name="image" id="imageFilm">
 			</div>
-			<input type="submit" value="Valider" class="btn btn-success d-flex mx-auto">
+			<input name="valider" type="submit" value="Valider" class="btn btn-success d-flex mx-auto">
 		</form>>
 	</div>
 </div>

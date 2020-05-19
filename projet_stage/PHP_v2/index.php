@@ -5,17 +5,16 @@ require 'src/views/elements/header.php';
 require 'src/views/elements/footer.php';
 require 'src/config/config.php';
 require 'src/model//connect.php';
-
+ 
 
 $db = connection();
 
 // Partie connexion
-
 if (isset($_POST['email']) && isset($_POST['mdp'])) {
 	$email = htmlspecialchars(trim($_POST['email']));
 	$mdp = htmlspecialchars(trim($_POST['mdp']));
 
-	$selectUser = "SELECT mailUser, mdpUser FROM users WHERE mailUser = :mail";
+	$selectUser = "SELECT * FROM users WHERE mailUser = :mail";
 
 	$reqSelectUser = $db->prepare($selectUser);
 	$reqSelectUser->bindParam(':mail', $email);
@@ -23,9 +22,15 @@ if (isset($_POST['email']) && isset($_POST['mdp'])) {
 
 	$data = $reqSelectUser->fetchObject();
 
+	$_SESSION['prenom'] = $data->prenomUser;
+	$_SESSION['role'] = $data->user_type;
+
+	
     if (password_verify($_POST['mdp'], $data->mdpUser)) {
-        if (isset($_SESSION['login'])) {
+		 if (isset($_SESSION['login'])) {
 			$mail = $_SESSION['login'];
+			$prenom = $_SESSION['prenom'];
+			
         } else {
             $_SESSION['login'] = $_POST['email'];
             $mail = $_SESSION['login'];
@@ -35,7 +40,8 @@ if (isset($_POST['email']) && isset($_POST['mdp'])) {
     }
 
     if (isset($_SESSION['login'])) {
-        $mail = $_SESSION['login'];
+		$mail = $_SESSION['login'];
+		
     } else {
 		$mail = '';
     }

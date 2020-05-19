@@ -30,7 +30,7 @@ if (isset($_POST['ajout'])) {
 <br>
 <div class="container">
     <?php
-    if ($_SESSION['login']) {
+    if ($_SESSION['login'] && $_SESSION['role'] === 'admin') {
     ?>
         <div class="d-flex justify-content-center">
             <a class="mr-2" href="<?= $router->generate('modifierLivre') ?>?id=<?= $idLivre ?>">
@@ -71,12 +71,18 @@ if (isset($_POST['ajout'])) {
         </div>
     </div>
     <div class="row">
-        <div class=" mt-5 mx-auto">
-            <form method="post">
-                <input type="number" name="prix" id="prix" value="<?= $livre->prixLivre ?>" hidden>
-                <input type="submit" name="ajout" class="btn btn-secondary" value="Ajouter au panier">
-            </form>
-        </div>
+        <?php
+            if ($_SESSION['login']) {
+        ?>
+            <div class=" mt-5 mx-auto">
+                <form method="post">
+                    <input type="number" name="prix" id="prix" value="<?= $livre->prixLivre ?>" hidden>
+                    <input type="submit" name="ajout" class="btn btn-secondary" value="Ajouter au panier">
+                </form>
+            </div>
+        <?php
+            }
+        ?>
     </div>
 <?php
         }

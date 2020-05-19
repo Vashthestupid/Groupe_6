@@ -27,7 +27,7 @@ if (isset($_POST['ajout'])) {
 ?>
 <div class="container">
     <?php
-    if ($_SESSION['login']) {
+    if ($_SESSION['login'] && $_SESSION['role'] === 'admin') {
     ?>
         <div class=" mt-2 d-flex justify-content-center">
             <a class="mr-2" href="<?= $router->generate('modifierJeu') ?>?id=<?= $idJeu ?>">
