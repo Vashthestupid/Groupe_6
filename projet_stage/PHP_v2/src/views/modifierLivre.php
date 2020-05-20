@@ -80,6 +80,6 @@ if (isset($_POST['valider'])) {
 				<input class="form-inline d-flex mx-auto w-75" type="file" name="image" id="image">
 			</div>
 			<input type="submit" name="valider" value="Valider" class="btn btn-success d-flex mx-auto">
-		</form>>
+		</form>
 	</div>
 </div>

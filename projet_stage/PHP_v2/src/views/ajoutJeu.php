@@ -11,7 +11,7 @@ if (isset($_POST['valider'])) {
             $genre = htmlspecialchars(trim($_POST['genre']));
             $prix = intval($_POST['prix']);
             $nbre = intval($_POST['nbre']);
-            $online = intval($_POST['online']);
+            $online = htmlspecialchars(trim($_POST['online']));
             $image = htmlspecialchars(trim($_POST['image']));
 
             // On verifie si le produit n'est pas déjà présent dans la base de données

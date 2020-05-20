@@ -4,8 +4,8 @@ require 'vendor/autoload.php';
 require 'src/views/elements/header.php';
 require 'src/views/elements/footer.php';
 require 'src/config/config.php';
-require 'src/model//connect.php';
- 
+require 'src/model/connect.php';
+
 
 $db = connection();
 
@@ -25,26 +25,25 @@ if (isset($_POST['email']) && isset($_POST['mdp'])) {
 	$_SESSION['prenom'] = $data->prenomUser;
 	$_SESSION['role'] = $data->user_type;
 
-	
-    if (password_verify($_POST['mdp'], $data->mdpUser)) {
-		 if (isset($_SESSION['login'])) {
+
+	if (password_verify($_POST['mdp'], $data->mdpUser)) {
+		if (isset($_SESSION['login'])) {
 			$mail = $_SESSION['login'];
-			$prenom = $_SESSION['prenom'];
-			
-        } else {
-            $_SESSION['login'] = $_POST['email'];
-            $mail = $_SESSION['login'];
+		} else {
+			$_SESSION['login'] = $_POST['email'];
+			$mail = $_SESSION['login'];
 
-            header('Location: /');
-        }
-    }
+			header('Location: /');
+		}
+	} else {
+		echo '<div class="alert alert-danger">Identifiant ou mot de passe incorrect</div>';
+	}
 
-    if (isset($_SESSION['login'])) {
+	if (isset($_SESSION['login'])) {
 		$mail = $_SESSION['login'];
-		
-    } else {
+	} else {
 		$mail = '';
-    }
+	}
 }
 
 head();
@@ -54,47 +53,50 @@ include 'src/views/elements/router.php';
 
 $match = $router->match();
 
-if($match['target'] === '/'){
+if ($match['target'] === '/') {
 	require 'src/views/home.php';
-} elseif ($match['target'] === 'Inscription'){
+} elseif ($match['target'] === 'Inscription') {
 	require 'src/views/connexion.php';
-} elseif($match['target'] === 'Livres'){
+} elseif ($match['target'] === 'Livres') {
 	require 'src/views/livre.php';
-} elseif($match['target'] === 'Films'){
+} elseif ($match['target'] === 'Films') {
 	require 'src/views/film.php';
-} elseif($match['target'] === 'Jeux'){
+} elseif ($match['target'] === 'Jeux') {
 	require 'src/views/jeu.php';
-} elseif($match['target'] === 'detailLivre'){
+} elseif ($match['target'] === 'detailLivre') {
 	require 'src/views/detailLivre.php';
-} elseif($match['target'] === "modifierLivre"){
+} elseif ($match['target'] === "modifierLivre") {
 	require 'src/views/modifierLivre.php';
-} elseif($match['target'] === "supprimerLivre"){
+} elseif ($match['target'] === "supprimerLivre") {
 	require 'src/views/supprimerLivre.php';
-} elseif($match['target'] === 'detailFilm'){
+} elseif ($match['target'] === 'detailFilm') {
 	require 'src/views/detailFilm.php';
-} elseif($match['target'] === "modifierFilm"){
+} elseif ($match['target'] === "modifierFilm") {
 	require 'src/views/modifierFilm.php';
-} elseif($match['target'] === "supprimerFilm" ){
+} elseif ($match['target'] === "supprimerFilm") {
 	require 'src/views/supprimerFilm.php';
-} elseif($match['target'] === 'detailJeu'){
+} elseif ($match['target'] === 'detailJeu') {
 	require 'src/views/detailJeu.php';
-} elseif($match['target'] === 'modifierJeu'){
+} elseif ($match['target'] === 'modifierJeu') {
 	require "src/views/modifierJeu.php";
-} elseif($match['target'] === 'supprimerJeu'){
+} elseif ($match['target'] === 'supprimerJeu') {
 	require "src/views/supprimerJeu.php";
-} elseif($match['target'] === 'AjoutLivre'){
+} elseif ($match['target'] === 'AjoutLivre') {
 	require 'src/views/ajoutLivre.php';
-} elseif($match['target'] === 'AjoutFilm'){
+} elseif ($match['target'] === 'AjoutFilm') {
 	require 'src/views/ajoutFilm.php';
-} elseif($match['target'] === 'AjoutJeu'){
+} elseif ($match['target'] === 'AjoutJeu') {
 	require 'src/views/ajoutJeu.php';
-} elseif($match['target'] === 'Panier'){
+} elseif ($match['target'] === 'Panier') {
 	require 'src/views/panier.php';
-} elseif($match['target'] === 'Deconnexion'){
+} elseif ($match['target'] === 'Deconnexion') {
 	require 'src/views/deconnexion.php';
-} elseif($match['target'] === 'Recherche'){
+} elseif ($match['target'] === 'Recherche') {
 	require "src/views/recherche.php";
+} elseif ($match['target'] === 'Recapitulatif') {
+	require "src/views/recap.php";
+} elseif($match['target'] === "Supprimer_du_panier"){
+	require "src/views/supprimerPanier.php";
 }
 
 footer();
-

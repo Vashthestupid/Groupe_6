@@ -11,7 +11,8 @@ if (isset($_POST['valider'])) {
             $genre = htmlspecialchars(trim($_POST['genre']));
             $prix = intval($_POST['prix']);
             $nbre = intval($_POST['nbre']);
-            $online = intval($_POST['online']);
+			$online = htmlspecialchars(trim($_POST['online']));
+			echo $_POST['online'];
             $image = htmlspecialchars(trim($_POST['image']));
             $id = intval($_GET['id']);
 

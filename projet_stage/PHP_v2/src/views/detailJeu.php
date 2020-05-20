@@ -56,8 +56,8 @@ if (isset($_POST['ajout'])) {
                     <p>Studio de Développement: <?= $jeu->studioJeu ?></p>
                     <p>Genre: <?= $jeu->genreJeu ?></p>
                     <p>Prix: <?= $jeu->prixJeu ?> €</p>
-                    <p>Nombre de joueurs maximum: <?= $jeu->nombreJoueurMax ?> personne(s)</p>
-                    <p>Jeu Online: <?= $jeu->onlineJeu ?></p>
+                    <p>Nombre de joueurs maximum: <?= $jeu->nombreJoueurMax?> personne(s)</p>
+                    <p>Jeu Online : <?= $jeu->onlineJeu?></p>
                 </div>
             </div>
     </div>

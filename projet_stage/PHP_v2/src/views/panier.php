@@ -1,6 +1,7 @@
 <?php
 
 $selectPanier = "SELECT
+panier.idPanier,
 jeux.idJeu AS id,
 jeux.titreJeu AS titre,
 jeux.prixJeu AS prix
@@ -8,6 +9,7 @@ FROM panier
 INNER JOIN jeux ON panier.jeux_idJeu = jeux.idJeu
 UNION 
 SELECT 
+panier.idPanier,
 film.idFilm AS id,
 film.titreFilm AS titre,
 film.prixFilm AS prix
@@ -15,6 +17,7 @@ FROM panier
 INNER JOIN film ON panier.film_idFilm = film.idFilm
 UNION 
 SELECT
+panier.idPanier,
 livres.idLivre AS id,
 livres.titreLivre AS titre,
 livres.prixLivre AS prix
@@ -39,8 +42,8 @@ $reqTotal->execute();
 
 $total = array();
 
-while ($donnees = $reqTotal->fetchObject()) {
-    array_push($total, $donnees);
+while ($data = $reqTotal->fetchObject()) {
+    array_push($total, $data);
 }
 
 // On récupère l'adresse et la ville de l'utilisateur connecté
@@ -53,8 +56,21 @@ $reqSelectInfoUser->execute();
 
 $adresses = array();
 
-while ($infos = $reqSelectInfoUser->fetchObject()) {
-    array_push($adresses, $infos);
+while ($data = $reqSelectInfoUser->fetchObject()) {
+    array_push($adresses, $data);
+}
+
+//supprimer un produit du panier
+
+if($_POST['supprimer']){
+    if(isset($_POST['id'])){
+        $id = intval($_POST['id']);
+
+        $delete = "DELETE FROM panier WHERE idPanier = $id";
+
+        $reqDelete = $db->prepare($delete);
+        $reqDelete->execute();
+    }
 }
 
 ?>
@@ -63,12 +79,13 @@ while ($infos = $reqSelectInfoUser->fetchObject()) {
     <h2 class="titleForm d-flex justify-content-center">Votre Panier</h2>
     <br>
     <div class="row">
-        <div class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-8">
             <table class="table">
                 <thead class="thead-dark">
                     <tr>
                         <th scope="col">Produits</th>
                         <th scope="col">Prix</th>
+                        <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -78,6 +95,11 @@ while ($infos = $reqSelectInfoUser->fetchObject()) {
                         <tr>
                             <th scope="row"><?= $produit->titre ?></th>
                             <td><?= $produit->prix ?>€</td>
+                            <td>
+                                <a href="<?= $router->generate('Supprimer_du_panier')?>?id=<?= $produit->idPanier?>">
+                                    <button class="btn btn-danger" type="submit">Supprimer</button>
+                                </a>
+                            </td>
                         </tr>
                 </tbody>
             <?php
@@ -85,7 +107,7 @@ while ($infos = $reqSelectInfoUser->fetchObject()) {
             ?>
             </table>
         </div>
-        <div class="col-sm-12 col-md-6">
+        <div class="col-sm-12 col-md-4">
             <table class="table">
                 <thead class="thead thead-dark">
                     <tr>
@@ -141,8 +163,8 @@ while ($infos = $reqSelectInfoUser->fetchObject()) {
     </div>
     <br>
     <div class="button d-flex justify-content-center">
-        <form method="post">
-            <input class="btn btn-secondary" type="submit" name="confirmer" value="Confirmer la commande">
-        </form>
+        <a href="Recapitulatif">
+            <button class="btn btn-secondary" type="submit">Passer à la commande</button>
+        </a>
     </div>
 </div>

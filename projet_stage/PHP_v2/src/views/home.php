@@ -44,9 +44,9 @@ while ($data = $reqSelectProduits->fetchObject()) {
 <div class="container">
 	<?php
 	if ($_SESSION['login'] && $_SESSION['role'] === 'admin') {
-		echo "Bienvenue " . $_SESSION['prenom'] ;
-	} elseif($_SESSION['login']) {
-		echo "Bienvenue ". $_SESSION['prenom'];
+		echo "<div class='alert alert-success w-25 d-flex justify-content-center'>Bienvenue " . $_SESSION['prenom'] . "</div>";
+	} elseif ($_SESSION['login']) {
+		echo "<div class='alert alert-success w-25 d-flex justify-content-center'>Bienvenue " . $_SESSION['prenom'] . "</div>";
 	}
 	?>
 	<p class="d-flex justify-content-center lead">Voici les 6 derniers produits ajoutés</p>
