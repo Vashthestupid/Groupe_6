@@ -32,6 +32,12 @@ function head()
 							<a class="nav-link" href="Inscription">Inscription/Connexion</a>
 						</li>
 					<?php
+					} else {
+						?>
+						<li class="nav-item">
+							<a class="nav-link" href="Deconnexion">Deconnexion</a>
+						</li>
+						<?php
 					}
 					?>
 					<li class="nav-item">
@@ -64,15 +70,6 @@ function head()
 					?>
 						<li class="nav-item">
 							<a class="nav-link" href="Panier">Panier</a>
-						</li>
-					<?php
-					}
-					?>
-					<?php
-					if ($_SESSION['login']) {
-					?>
-						<li class="nav-item">
-							<a class="nav-link" href="Deconnexion">Deconnexion</a>
 						</li>
 					<?php
 					}
