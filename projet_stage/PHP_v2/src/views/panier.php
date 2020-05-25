@@ -22,7 +22,9 @@ livres.idLivre AS id,
 livres.titreLivre AS titre,
 livres.prixLivre AS prix
 FROM panier
-INNER JOIN livres ON panier.livres_idLivre = livres.idLivre";
+INNER JOIN livres ON panier.livres_idLivre = livres.idLivre
+ORDER BY prix
+DESC";
 
 $reqSelectPanier = $db->prepare($selectPanier);
 $reqSelectPanier->execute();
@@ -62,8 +64,8 @@ while ($data = $reqSelectInfoUser->fetchObject()) {
 
 //supprimer un produit du panier
 
-if($_POST['supprimer']){
-    if(isset($_POST['id'])){
+if ($_POST['supprimer']) {
+    if (isset($_POST['id'])) {
         $id = intval($_POST['id']);
 
         $delete = "DELETE FROM panier WHERE idPanier = $id";
@@ -79,56 +81,62 @@ if($_POST['supprimer']){
     <h2 class="titleForm d-flex justify-content-center">Votre Panier</h2>
     <br>
     <div class="row">
-        <div class="col-sm-12 col-md-8">
-            <table class="table">
-                <thead class="thead-dark">
-                    <tr>
-                        <th scope="col">Produits</th>
-                        <th scope="col">Prix</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    foreach ($produits as $produit) {
-                    ?>
+        <?php
+        if (empty($produits)) {
+            echo "<div class='alert alert-danger d-flex justify-content-center mx-auto'>Votre panier est vide</div>";
+        } else {
+        ?>
+            <div class="col-sm-12 col-md-8">
+                <table class="table">
+                    <thead class="thead-dark">
                         <tr>
-                            <th scope="row"><?= $produit->titre ?></th>
-                            <td><?= $produit->prix ?>€</td>
-                            <td>
-                                <a href="<?= $router->generate('Supprimer_du_panier')?>?id=<?= $produit->idPanier?>">
-                                    <button class="btn btn-danger" type="submit">Supprimer</button>
-                                </a>
-                            </td>
+                            <th scope="col">Produits</th>
+                            <th scope="col">Prix</th>
+                            <th scope="col">Action</th>
                         </tr>
-                </tbody>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach ($produits as $produit) {
+                        ?>
+                            <tr>
+                                <th scope="row"><?= $produit->titre ?></th>
+                                <td><?= $produit->prix ?>€</td>
+                                <td>
+                                    <a href="<?= $router->generate('Supprimer_du_panier') ?>?id=<?= $produit->idPanier ?>">
+                                        <button class="btn btn-danger" type="submit">Supprimer</button>
+                                    </a>
+                                </td>
+                            </tr>
+                    </tbody>
+                <?php
+                        } ?>
+                </table>
+            </div>
+            <div class="col-sm-12 col-md-4">
+                <table class="table">
+                    <thead class="thead thead-dark">
+                        <tr>
+                            <th>Total</th>
+                            <th>Montant</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        foreach ($total as $montant) {
+                        ?>
+                            <tr>
+                                <td></td>
+                                <td><?= $montant->montant ?>€</td>
+                            </tr>
+                        <?php
+                        } ?>
+                    </tbody>
+                </table>
             <?php
-                    }
+        }
             ?>
-            </table>
-        </div>
-        <div class="col-sm-12 col-md-4">
-            <table class="table">
-                <thead class="thead thead-dark">
-                    <tr>
-                        <th>Total</th>
-                        <th>Montant</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php
-                    foreach ($total as $montant) {
-                    ?>
-                        <tr>
-                            <td></td>
-                            <td><?= $montant->montant ?>€</td>
-                        </tr>
-                    <?php
-                    }
-                    ?>
-                </tbody>
-            </table>
-        </div>
+            </div>
     </div>
     <div class="row">
         <div class="col-sm-12 offset-md-3 col-md-6">
