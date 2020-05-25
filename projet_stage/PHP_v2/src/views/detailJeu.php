@@ -45,7 +45,7 @@ if (isset($_POST['ajout'])) {
         foreach ($jeux as $jeu) {
         ?>
             <div class="image d-flex justify-content-center col-sm-12 col-md-7">
-                <img class="w-50" src="../../public/image/<?= $jeu->imageJeu ?>" alt="Jaquette <?= $jeu->titreJeu ?>">
+                <img class="imageDetail" src="../../public/image/<?= $jeu->imageJeu ?>" alt="Jaquette <?= $jeu->titreJeu ?>">
             </div>
             <div class="titre&description col-sm-12 col-md-5">
                 <div class="titre col-sm-12 col-md-12">

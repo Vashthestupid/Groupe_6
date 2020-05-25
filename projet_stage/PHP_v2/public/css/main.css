@@ -14,3 +14,12 @@ body{
 ::-webkit-scrollbar{
     display: none;
 }
+
+.imageDetail{
+    width: 222px;
+}
+
+.imageCard{
+    width: 60%;
+    height: 50%;
+}

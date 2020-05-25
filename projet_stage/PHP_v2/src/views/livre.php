@@ -33,7 +33,7 @@ while ($data = $reqSelectLivres->fetchObject()) {
 		?>
 			<div class="col-sm-12 col-md-6 col-lg-4">
 				<div class="card h-100">
-					<img src="../../public/image/<?= $livre->imageLivre ?>" alt="<?= $livre->imageLivre ?>" class="card-img-top w-50 h-50 mx-auto">
+					<img src="../../public/image/<?= $livre->imageLivre ?>" alt="<?= $livre->imageLivre ?>" class="card-img-top mx-auto imageCard">
 					<div class="card-body">
 						<h5 class="card-title d-flex justify-content-center "><?= $livre->titreLivre ?></h5>
 						<p class="card-text"><?= $livre->resumeLivre ?></p>

@@ -43,10 +43,8 @@ while ($data = $reqSelectProduits->fetchObject()) {
 <br>
 <div class="container">
 	<?php
-	if ($_SESSION['login'] && $_SESSION['role'] === 'admin') {
-		echo "<div class='alert alert-success w-25 d-flex justify-content-center'>Bienvenue " . $_SESSION['prenom'] . "</div>";
-	} elseif ($_SESSION['login']) {
-		echo "<div class='alert alert-success w-25 d-flex justify-content-center'>Bienvenue " . $_SESSION['prenom'] . "</div>";
+	if ($_SESSION['login']) {
+		echo "<div class='alert alert-success d-flex justify-content-center col-sm-12 col-md-3''>Bienvenue " . $_SESSION['prenom'] . "</div>";
 	}
 	?>
 	<p class="d-flex justify-content-center lead">Voici les 6 derniers produits ajoutés</p>
@@ -54,9 +52,9 @@ while ($data = $reqSelectProduits->fetchObject()) {
 		<?php
 		foreach ($listeProduits as $produit) {
 		?>
-			<div class="mt-5 col-sm-12 col-md-6 col-lg-4">
+			<div class="mt-2 col-sm-12 col-md-6 col-lg-4">
 				<div class="card h-100">
-					<img src="../../public/image/<?= $produit->imageLivre ?>" alt="<?= $produit->imageLivre ?>" class="card-img-top w-50 h-50 mx-auto">
+					<img src="../../public/image/<?= $produit->imageLivre ?>" alt="<?= $produit->imageLivre ?>" class="card-img-top mx-auto imageCard">
 					<div class="card-body">
 						<h5 class="card-title d-flex justify-content-center "><?= $produit->titreLivre ?></h5>
 						<p class="card-text"><?= $produit->resumeLivre ?></p>

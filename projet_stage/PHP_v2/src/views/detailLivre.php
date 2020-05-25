@@ -48,11 +48,11 @@ if (isset($_POST['ajout'])) {
         foreach ($livres as $livre) {
         ?>
             <div class="image d-flex justify-content-center col-sm-12 col-md-7">
-                <img class="w-50" src="../../public/image/<?= $livre->imageLivre ?>" alt="Jaquette <?= $livre->titreLivre ?>">
+                <img class="imageDetail" src="../../public/image/<?= $livre->imageLivre ?>" alt="Jaquette <?= $livre->titreLivre ?>">
             </div>
             <div class="titre&description col-sm-12 col-md-5">
                 <div class="titre col-sm-12 col-md-12">
-                    <p class="d-flex mt-2 justify-content-center"><?= $livre->titreLivre ?></p>
+                    <p class="d-flex mt-2 justify-content-center "><?= $livre->titreLivre ?></p>
                 </div>
                 <div class="desc mt-5 border border-secondary rounded bg-white col-sm-12 col-md-12">
                     <p class="d-flex justify-content-center">Description</p>

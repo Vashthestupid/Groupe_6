@@ -47,8 +47,8 @@ if (isset($_POST['ajout'])) {
 		<?php
 		foreach ($films as $film) {
 		?>
-			<div class="image d-flex justify-content-center col-sm-12 col-md-7">
-				<img class="w-50" src="../../public/image/<?= $film->imageFilm ?>" alt="Jaquette <?= $film->titreFilm ?>">
+			<div class="image d-flex justify-content-center col-sm-12 col-md-5">
+				<img class="imageDetail" src="../../public/image/<?= $film->imageFilm ?>" alt="Jaquette <?= $film->titreFilm ?>">
 			</div>
 			<div class="titre&description col-sm-12 col-md-5">
 				<div class="titre col-sm-12 col-md-12">
