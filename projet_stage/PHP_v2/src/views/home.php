@@ -44,7 +44,7 @@ while ($data = $reqSelectProduits->fetchObject()) {
 <div class="container">
 	<?php
 	if ($_SESSION['login']) {
-		echo "<div class='alert alert-success d-flex justify-content-center col-sm-12 col-md-3''>Bienvenue " . $_SESSION['prenom'] . "</div>";
+		echo "<div class='alert alert-success d-flex justify-content-center col-sm-12 col-md-3''>Bienvenue " . $_SESSION['prenom']. "</div>";
 	}
 	?>
 	<p class="d-flex justify-content-center lead">Voici les 6 derniers produits ajoutés</p>
@@ -54,9 +54,9 @@ while ($data = $reqSelectProduits->fetchObject()) {
 		?>
 			<div class="mt-2 col-sm-12 col-md-6 col-lg-4">
 				<div class="card h-100">
-					<img src="../../public/image/<?= $produit->imageLivre ?>" alt="<?= $produit->imageLivre ?>" class="card-img-top mx-auto imageCard">
+					<img src="/public/image/<?= $produit->imageLivre ?>" alt="<?= $produit->imageLivre ?>" class="card-img-top mx-auto imageCard">
 					<div class="card-body">
-						<h5 class="card-title d-flex justify-content-center "><?= $produit->titreLivre ?></h5>
+						<h6 class="card-title d-flex justify-content-center "><?= $produit->titreLivre ?></h6>
 						<p class="card-text"><?= $produit->resumeLivre ?></p>
 					</div>
 					<div class="card-footer">

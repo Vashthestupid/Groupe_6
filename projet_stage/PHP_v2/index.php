@@ -21,9 +21,9 @@ if (isset($_POST['email']) && isset($_POST['mdp'])) {
 	$reqSelectUser->execute();
 
 	$data = $reqSelectUser->fetchObject();
-
 	$_SESSION['prenom'] = $data->prenomUser;
 	$_SESSION['role'] = $data->user_type;
+	$_SESSION['user'] = $data->idUser;
 
 
 	if (password_verify($_POST['mdp'], $data->mdpUser)) {

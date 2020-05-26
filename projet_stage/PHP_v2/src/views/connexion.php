@@ -1,5 +1,5 @@
 <?php
-error_reporting(E_ALL & ~E_NOTICE);
+//error_reporting(E_ALL & ~E_NOTICE);
 
 session_start();
 if (isset($_SESSION['login'])) {

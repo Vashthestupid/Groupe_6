@@ -62,18 +62,6 @@ while ($data = $reqSelectInfoUser->fetchObject()) {
     array_push($adresses, $data);
 }
 
-//supprimer un produit du panier
-
-if ($_POST['supprimer']) {
-    if (isset($_POST['id'])) {
-        $id = intval($_POST['id']);
-
-        $delete = "DELETE FROM panier WHERE idPanier = $id";
-
-        $reqDelete = $db->prepare($delete);
-        $reqDelete->execute();
-    }
-}
 
 ?>
 <br>
@@ -83,10 +71,10 @@ if ($_POST['supprimer']) {
     <div class="row">
         <?php
         if (empty($produits)) {
-            echo "<div class='alert alert-danger d-flex justify-content-center mx-auto'>Votre panier est vide</div>";
+            echo "<div class='alert alert-danger d-flex justify-content-center mx-auto'>Votre panier est vide.</div>";
         } else {
         ?>
-            <div class="col-sm-12 col-md-8">
+            <div class="col-sm-12 offset-md-2 col-md-5">
                 <table class="table">
                     <thead class="thead-dark">
                         <tr>
@@ -100,7 +88,7 @@ if ($_POST['supprimer']) {
                         foreach ($produits as $produit) {
                         ?>
                             <tr>
-                                <th scope="row"><?= $produit->titre ?></th>
+                                <td><?= $produit->titre ?></th>
                                 <td><?= $produit->prix ?>€</td>
                                 <td>
                                     <a href="<?= $router->generate('Supprimer_du_panier') ?>?id=<?= $produit->idPanier ?>">
@@ -113,12 +101,11 @@ if ($_POST['supprimer']) {
                         } ?>
                 </table>
             </div>
-            <div class="col-sm-12 col-md-4">
+            <div class="col-sm-12 offset-md-1 col-md-2">
                 <table class="table">
                     <thead class="thead thead-dark">
                         <tr>
-                            <th>Total</th>
-                            <th>Montant</th>
+                            <th class="d-flex">Montant Total</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -126,8 +113,7 @@ if ($_POST['supprimer']) {
                         foreach ($total as $montant) {
                         ?>
                             <tr>
-                                <td></td>
-                                <td><?= $montant->montant ?>€</td>
+                                <td class="d-flex justify-content-center"><?= $montant->montant ?>€</td>
                             </tr>
                         <?php
                         } ?>

@@ -33,7 +33,7 @@ while ($data = $reqSelectJeux->fetchObject()) {
 		?>
 			<div class="col-sm-12 col-md-6 col-lg-4">
 				<div class="card h-100">
-					<img src="../../public/image/<?= $jeu->imageJeu ?>" alt="<?= $jeu->imageJeu ?>" class="card-img-top mx-auto imageCard">
+					<img src="public/image/<?= $jeu->imageJeu ?>" alt="<?= $jeu->imageJeu ?>" class="card-img-top mx-auto imageCard">
 					<div class="card-body">
 						<h5 class="card-title d-flex justify-content-center "><?= $jeu->titreJeu ?></h5>
 						<p class="card-text"><?= $jeu->resumeJeu ?></p>

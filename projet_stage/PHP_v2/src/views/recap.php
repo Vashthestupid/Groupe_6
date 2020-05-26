@@ -31,6 +31,23 @@ $infos = array();
 while ($data = $reqSelectPrixFromPanier->fetchObject()) {
     array_push($infos, $data);
 }
+
+// Partie envoie dans la table commande
+
+if (isset($_POST['commander'])) {
+    $insert = "INSERT INTO commandes(panier_idPanier,livres_idLivre,film_idFilm,jeux_idJeu)
+    SELECT panier.idPanier,
+    panier.livres_idLivre,
+    panier.film_idFilm,
+    panier.jeux_idJeu
+    FROM panier";
+
+    $reqInsert = $db->prepare($insert);
+    $reqInsert->execute();
+
+    echo "Votre commande a bien été passée.";
+
+}
 ?>
 <br>
 <div class="container">
@@ -68,6 +85,12 @@ while ($data = $reqSelectPrixFromPanier->fetchObject()) {
                     ?>
                 </tbody>
             </table>
-        </div>
+        </div>   
     </div>
+    <div class="row">
+        <div class="mt-5 d-flex mx-auto">
+            <form method="post">
+                <input class="btn btn-secondary" name="commander" type="submit" value="Valider la commande">
+            </form>
+        </div>
 </div>
