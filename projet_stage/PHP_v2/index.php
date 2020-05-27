@@ -97,6 +97,8 @@ if ($match['target'] === '/') {
 	require "src/views/recap.php";
 } elseif($match['target'] === "Supprimer_du_panier"){
 	require "src/views/supprimerPanier.php";
+} elseif($match['target'] === "Historique_des_commandes"){
+	require "src/views/histo_cmd.php";
 }
 
 footer();

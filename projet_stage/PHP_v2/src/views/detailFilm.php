@@ -16,11 +16,12 @@ while ($data = $reqSelectFilm->fetchObject()) {
 
 if (isset($_POST['ajout'])) {
 	$prix = intval($_POST['prix']);
-	$insertPanier = "INSERT INTO panier(film_idFilm, prix) VALUES (:id, :prix)";
+	$insertPanier = "INSERT INTO panier(film_idFilm, prix, users_idUser) VALUES (:id, :prix, :idUser)";
 
 	$reqInsertPanier = $db->prepare($insertPanier);
 	$reqInsertPanier->bindParam(':id', $idFilm);
 	$reqInsertPanier->bindParam(':prix', $prix);
+	$reqInsertPanier->bindParam(':idUser', $_SESSION['user']);
 	$reqInsertPanier->execute();
 
 	echo "<div class='alert alert-success'>Le produit a été ajouté au panier</div>";

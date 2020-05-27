@@ -35,11 +35,11 @@ while ($data = $reqSelectPrixFromPanier->fetchObject()) {
 // Partie envoie dans la table commande
 
 if (isset($_POST['commander'])) {
-    $insert = "INSERT INTO commandes(panier_idPanier,livres_idLivre,film_idFilm,jeux_idJeu)
-    SELECT panier.idPanier,
-    panier.livres_idLivre,
+    $insert = "INSERT INTO commandes(livres_idLivre,film_idFilm,jeux_idJeu,users_idUser)
+    SELECT panier.livres_idLivre,
     panier.film_idFilm,
-    panier.jeux_idJeu
+    panier.jeux_idJeu,
+    panier.users_idUser
     FROM panier";
 
     $reqInsert = $db->prepare($insert);

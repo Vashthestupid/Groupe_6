@@ -32,4 +32,5 @@ $router->map('GET', '/Deconnexion', 'Deconnexion', 'Deconnexion');
 $router->map('GET|POST', '/Recherche', 'Recherche', 'Recherche');
 $router->map('GET|POST', '/Recapitulatif', 'Recapitulatif', 'Recapitulatif');
 $router->map('GET', '/Supprimer_du_panier', 'Supprimer_du_panier', 'Supprimer_du_panier');
+$router->map('GET|POST', '/Historique_des_commandes', 'Historique_des_commandes', 'Historique_des_commandes');
 

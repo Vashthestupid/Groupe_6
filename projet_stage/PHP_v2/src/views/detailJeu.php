@@ -14,11 +14,12 @@ while ($data = $reqSelectJeu->fetchObject()) {
 }
 if (isset($_POST['ajout'])) {
     $prix = intval($_POST['prix']);
-    $insertPanier = "INSERT INTO panier(jeux_idJeu, prix) VALUES(:id, :prix)";
+    $insertPanier = "INSERT INTO panier(jeux_idJeu, prix, users_idUser) VALUES(:id, :prix, :idUser)";
 
     $reqInsertPanier = $db->prepare($insertPanier);
     $reqInsertPanier->bindParam(':id', $idJeu);
     $reqInsertPanier->bindParam(':prix', $prix);
+    $reqInsertPanier->bindParam(':idUser', $_SESSION['user']);
     $reqInsertPanier->execute();
 
     echo "<div class='alert alert-success'>Le produit a été ajouté au panier</div>";

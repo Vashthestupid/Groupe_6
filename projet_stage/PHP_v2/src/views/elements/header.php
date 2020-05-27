@@ -73,7 +73,15 @@ function head()
 						</li>
 					<?php
 					}
+                    if ($_SESSION['login']) {
+                        ?>
+						<li class="nav-item">
+							<a class="nav-link" href="Historique_des_commandes" >Historique des commandes</a>
+						</li>
+						<?php
+                    }
 					?>
+
 				</ul>
 				<form action="Recherche" method="post" class="form-inline my-2 my-lg-0">
 					<input class="form-control mr-sm-2" name="search" type="search" placeholder="Recherche" aria-label="Search">
