@@ -1,5 +1,6 @@
 <?php
 error_reporting(E_ALL & ~E_NOTICE);
+
 // On récupère les données sur les 3 tables livres, film et jeux avec UNION
 
 $selectProduits = "SELECT
@@ -42,9 +43,19 @@ while ($data = $reqSelectProduits->fetchObject()) {
 
 <br>
 <div class="container">
+	<!-- Souhaite la bienvenue à l'utilisateur en cas de connexion  -->
 	<?php
 	if ($_SESSION['login']) {
-		echo "<div class='alert alert-success d-flex justify-content-center col-sm-12 col-md-3''>Bienvenue " . $_SESSION['prenom']. "</div>";
+		echo "<div class='alert alert-success d-flex justify-content-center col-sm-12 col-md-3''>Bienvenue " . $_SESSION['prenom'] . "</div>";
+	}
+	// $_GET provenant de la page 'Recaptulatif'
+	// En cas de validation de commande
+	// Envoi ce message de validation
+	if (isset($_GET['ok'])) {
+		$message = htmlspecialchars(trim($_GET['ok']));
+	?>
+		<div class='alert alert-success d-flex justify-content-center col-sm-12 col-md-3'><?= $message ?></div>
+	<?php
 	}
 	?>
 	<p class="d-flex justify-content-center lead">Voici les 6 derniers produits ajoutés</p>

@@ -1,6 +1,7 @@
 <?php
 error_reporting(E_ALL & ~E_NOTICE);
 
+// On récupère l'id via le $_GET provenant de la page "film.php"
 $idFilm = $_GET['id'];
 $selectFilm = "SELECT * FROM film WHERE idFilm = :id";
 
@@ -14,6 +15,8 @@ while ($data = $reqSelectFilm->fetchObject()) {
 	array_push($films, $data);
 }
 
+// Si on clique sur le bouton ajout et qu'il existe,
+// alors oon l'insert dans la table panier
 if (isset($_POST['ajout'])) {
 	$prix = intval($_POST['prix']);
 	$insertPanier = "INSERT INTO panier(film_idFilm, prix, users_idUser) VALUES (:id, :prix, :idUser)";
@@ -31,6 +34,8 @@ if (isset($_POST['ajout'])) {
 <br>
 <div class="container">
 	<?php
+	// Si la personne connectée est admin 
+	// alors on affiche les boutons modifier et supprimer
 	if ($_SESSION['login'] && $_SESSION['role'] === 'admin') {
 	?>
 		<div class="d-flex justify-content-center">

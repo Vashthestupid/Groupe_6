@@ -32,7 +32,7 @@ while ($data = $reqSelectPrixFromPanier->fetchObject()) {
     array_push($infos, $data);
 }
 
-// Partie envoie dans la table commande
+// Insertion des éléments présents dans le panier vers la table "commandes"
 
 if (isset($_POST['commander'])) {
     $insert = "INSERT INTO commandes(livres_idLivre,film_idFilm,jeux_idJeu,users_idUser)
@@ -44,9 +44,7 @@ if (isset($_POST['commander'])) {
 
     $reqInsert = $db->prepare($insert);
     $reqInsert->execute();
-
-    echo "Votre commande a bien été passée.";
-
+    header('Location: /?ok=Votre commande a été passée :)');
 }
 ?>
 <br>

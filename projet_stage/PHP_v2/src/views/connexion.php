@@ -1,12 +1,4 @@
 <?php
-//error_reporting(E_ALL & ~E_NOTICE);
-
-session_start();
-if (isset($_SESSION['login'])) {
-    $mail = $_SESSION['login'];
-} else {
-    $email = "";
-}
 
 // La partie inscription
 // On verifie si les champs ne sont pas vides
@@ -139,4 +131,3 @@ if (isset($_POST['valider'])) {
         </form>
     </div>
 </div>
-

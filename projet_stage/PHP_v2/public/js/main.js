@@ -5,7 +5,6 @@ $(document).ready(function(){
         $('#btnConnexion').removeClass('btn-primary').addClass('btn-secondary');
         $('#inscription').show();
         $('#connexion').hide();
-        
     });
 
    $('#btnConnexion').click(function(){

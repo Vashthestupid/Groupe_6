@@ -1,5 +1,4 @@
 <?php
-error_reporting(E_ALL & ~E_NOTICE);
 
 function head()
 {
@@ -11,9 +10,9 @@ function head()
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<link rel="icon" href="../../public/image/divertiBuy.png">
+		<link rel="icon" href="public/image/divertiBuy.png">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-		<link rel="stylesheet" href="../../public/css/main.css">
+		<link rel="stylesheet" href="public/css/main.css">
 		<title>DivertiBuy</title>
 	</head>
 
@@ -73,15 +72,7 @@ function head()
 						</li>
 					<?php
 					}
-                    if ($_SESSION['login']) {
-                        ?>
-						<li class="nav-item">
-							<a class="nav-link" href="Historique_des_commandes" >Historique des commandes</a>
-						</li>
-						<?php
-                    }
 					?>
-
 				</ul>
 				<form action="Recherche" method="post" class="form-inline my-2 my-lg-0">
 					<input class="form-control mr-sm-2" name="search" type="search" placeholder="Recherche" aria-label="Search">

@@ -1,4 +1,7 @@
 <?php
+
+// Si l'utilisateur est connecté alors on récupère les éléments du panier en fonction de son identifiant
+
 if ($_SESSION['login']) {
 
     $selectPanier = "SELECT
@@ -75,8 +78,15 @@ if ($_SESSION['login']) {
     <br>
     <div class="row">
         <?php
+        // Si le panier est vide alors
+        // il doit afficher à l'utilisateur
+        // qu'il n'y a pas de produit
+        //  dans celui-ci
         if (empty($produits)) {
             echo "<div class='alert alert-danger d-flex justify-content-center mx-auto'>Votre panier est vide.</div>";
+            // Dans le cas contraire
+            // il affichera tout dans
+            // un tableau 
         } else {
         ?>
             <div class="col-sm-12 offset-md-2 col-md-5">
@@ -163,9 +173,15 @@ if ($_SESSION['login']) {
         </div>
     </div>
     <br>
-    <div class="button d-flex justify-content-center">
-        <a href="Recapitulatif">
-            <button class="btn btn-secondary" type="submit">Passer à la commande</button>
-        </a>
-    </div>
+    <?php
+    if (!empty($produit)) {
+    ?>
+        <div class="button d-flex justify-content-center">
+            <a href="Recapitulatif">
+                <button class="btn btn-secondary" type="submit">Passer à la commande</button>
+            </a>
+        </div>
+    <?php
+    }
+    ?>
 </div>

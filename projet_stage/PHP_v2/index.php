@@ -1,4 +1,5 @@
 <?php
+error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 require 'vendor/autoload.php';
 require 'src/views/elements/header.php';
@@ -9,7 +10,7 @@ require 'src/model/connect.php';
 
 $db = connection();
 
-// Partie connexion
+// Partie connexion de l'administrateur ou de l'utilisateur
 if (isset($_POST['email']) && isset($_POST['mdp'])) {
 	$email = htmlspecialchars(trim($_POST['email']));
 	$mdp = htmlspecialchars(trim($_POST['mdp']));
@@ -20,11 +21,11 @@ if (isset($_POST['email']) && isset($_POST['mdp'])) {
 	$reqSelectUser->bindParam(':mail', $email);
 	$reqSelectUser->execute();
 
+	// Je récupère les informations présentes dans la base de données pour les utiliser plus tard 
 	$data = $reqSelectUser->fetchObject();
 	$_SESSION['prenom'] = $data->prenomUser;
 	$_SESSION['role'] = $data->user_type;
 	$_SESSION['user'] = $data->idUser;
-
 
 	if (password_verify($_POST['mdp'], $data->mdpUser)) {
 		if (isset($_SESSION['login'])) {
@@ -97,8 +98,6 @@ if ($match['target'] === '/') {
 	require "src/views/recap.php";
 } elseif($match['target'] === "Supprimer_du_panier"){
 	require "src/views/supprimerPanier.php";
-} elseif($match['target'] === "Historique_des_commandes"){
-	require "src/views/histo_cmd.php";
 }
 
 footer();

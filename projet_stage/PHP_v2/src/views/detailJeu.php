@@ -1,6 +1,6 @@
 <?php
-error_reporting(E_ALL & ~E_NOTICE);
 
+// On récupère l'id via le $_GET provenant de la page "jeu.php"
 $idJeu = $_GET['id'];
 $selectJeu = "SELECT * FROM jeux WHERE idJeu = :id";
 $reqSelectJeu = $db->prepare($selectJeu);
@@ -12,6 +12,9 @@ $jeux = array();
 while ($data = $reqSelectJeu->fetchObject()) {
     array_push($jeux, $data);
 }
+
+// Si on clique sur le bouton ajout et s'il existe,
+// alors on l'insert dans la table panier
 if (isset($_POST['ajout'])) {
     $prix = intval($_POST['prix']);
     $insertPanier = "INSERT INTO panier(jeux_idJeu, prix, users_idUser) VALUES(:id, :prix, :idUser)";
@@ -28,6 +31,8 @@ if (isset($_POST['ajout'])) {
 ?>
 <div class="container">
     <?php
+    // Si la personne connectée est admin 
+	// alors on affiche les boutons modifier et supprimer
     if ($_SESSION['login'] && $_SESSION['role'] === 'admin') {
     ?>
         <div class=" mt-2 d-flex justify-content-center">

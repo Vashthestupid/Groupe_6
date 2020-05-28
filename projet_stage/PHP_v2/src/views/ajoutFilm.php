@@ -1,6 +1,9 @@
 <?php
 
+// Si le bouton valider ets cliqué et qu'il existe
 if (isset($_POST['valider'])) {
+	// Si les champs envoyés sont vide
+    // alors on affiche un message d'erreur
 	if (empty($_POST['titre']) || empty($_POST['realisateur']) || empty($_POST['resume']) || empty($_POST['genre']) || empty($_POST['prix']) || empty($_POST['image'])) {
 		echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
 	} else {

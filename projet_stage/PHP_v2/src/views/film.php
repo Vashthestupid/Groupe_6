@@ -1,14 +1,7 @@
 <?php
 error_reporting(E_ALL & ~E_NOTICE);
 
-if (isset($_SESSION['login'])) {
-	$mail = $_SESSION['login'];
-} else {
-	$mail = "";
-}
-
 // On récupère les données de la table film
-
 $selectFilm = "SELECT film.idFilm,
 				film.titreFilm,
 				film.resumeFilm,

@@ -1,9 +1,13 @@
 <?php
 
+// Si le bouton valider est cliqué et qu'il existe
 if (isset($_POST['valider'])) {
+	// Si les champs envoyés sont vides
     if (empty($_POST['titre']) || empty($_POST['realisateur']) || empty($_POST['resume']) || empty($_POST['genre']) || empty($_POST['prix']) || empty($_POST['image'])) {
-        echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
+		// On affiche un message d'erreur indiquant que tous les champs ne sont pas remplis
+		echo '<div class="alert alert-danger">Vous devez renseigner tous les champs demandés</div>';
     } else {
+		// Si les champs envoyé ne sont pas vides et qu'ils existent alors on effectue la modification
         if (isset($_POST['titre']) && isset($_POST['realisateur']) && isset($_POST['resume']) && isset($_POST['genre']) && isset($_POST['prix']) && isset($_POST['image']) && isset($_GET['id'])) {
             $titre = htmlspecialchars(trim($_POST['titre']));
             $realisateur = htmlspecialchars(trim($_POST['realisateur']));
@@ -33,10 +37,9 @@ if (isset($_POST['valider'])) {
             $reqUpdateFilm->bindParam(':id', $id);
             $reqUpdateFilm->execute();
 
+			// Si tous c'est bien passé on affiche un message de succés
             echo '<div class="alert alert-success">Votre produit a bien été modifié</div>';
-        } else {
-            echo '<div class="alert alert-danger">Le produit existe déjà dans notre base de données</div>';
-        }
+        } 
     }
 }
 
