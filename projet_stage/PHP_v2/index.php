@@ -4,6 +4,7 @@ session_start();
 require 'vendor/autoload.php';
 require 'src/views/elements/header.php';
 require 'src/views/elements/footer.php';
+require 'src/views/elements/fonctions.php';
 require 'src/config/config.php';
 require 'src/model/connect.php';
 
