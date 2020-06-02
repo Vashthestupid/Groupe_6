@@ -148,3 +148,4 @@ function formulaireJeux()
     </form>
 <?php
 }
+

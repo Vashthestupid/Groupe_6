@@ -43,9 +43,9 @@ if ($_SESSION['login']) {
 
     // Afficher le prix total
     // On fait l'addition des prix des différents produits présents dans le panier
-    $total = "SELECT SUM(prix) AS montant FROM panier";
+    $selectSumPrix = "SELECT SUM(prix) AS montant FROM panier";
 
-    $reqTotal = $db->prepare($total);
+    $reqTotal = $db->prepare($selectSumPrix);
     $reqTotal->execute();
 
     $total = array();

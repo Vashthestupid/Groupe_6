@@ -32,11 +32,11 @@ function head()
 						</li>
 					<?php
 					} else {
-						?>
+					?>
 						<li class="nav-item">
 							<a class="nav-link" href="Deconnexion">Deconnexion</a>
 						</li>
-						<?php
+					<?php
 					}
 					?>
 					<li class="nav-item">
