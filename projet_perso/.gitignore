@@ -1,0 +1,6 @@
+# dossier vendor
+vendor/
+
+# dossier config avec fichier config.php
+src/config/config.php
+src/config

@@ -1,0 +1,38 @@
+// modifier la couleur de la navbar
+.navbar {
+    background-color: #0f760f;
+    .navbar-brand{
+        font-family: 'Press Start 2P', cursive;
+    }
+    // modifier la couleur du texte
+    .nav-link  {
+        color: #FFF;
+    }
+}
+
+// modifier les proportions de mes card et images
+.card{
+    width: 220px;
+    height: 448px;
+    img{
+        width: 218px;
+        height: 289px;
+    }
+}
+
+#btn-valid{
+    transform: rotate(-40deg);
+    -webkit-transform: rotate(-40deg);
+    -moz-transform: rotate(-40deg);
+    -ms-transform: rotate(-40deg);
+    -o-transform: rotate(-40deg);
+    margin-top: 50px;
+    width: 87px;
+    height: 24px;
+    outline: none;
+}
+
+#nameButton{
+    margin-top: 30px;
+    letter-spacing: 3px;
+}
