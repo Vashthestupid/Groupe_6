@@ -2,6 +2,7 @@
 
 function head()
 {
+    
 ?>
     <!doctype html>
     <html lang="fr">
@@ -30,18 +31,36 @@ function head()
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="Inscription">Inscription</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Connexion">Connexion</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Ajouter_un_jeu">Ajouter un jeu</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="Ma_page">Ma page</a>
-                    </li>
+                    <?php
+                    if (!$_SESSION['login']) {
+                    ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Inscription">Inscription</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Connexion">Connexion</a>
+                        </li>
+                    <?php
+                    } else {
+                    ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Deconnexion">Deconnexion</a>
+                        </li>
+                    <?php
+                    }
+                    ?>
+                    <?php
+                    if ($_SESSION['login']) {
+                    ?>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Ajouter_un_jeu">Ajouter un jeu</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="Ma_page">Ma page</a>
+                        </li>
+                    <?php
+                    }
+                    ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Consoles

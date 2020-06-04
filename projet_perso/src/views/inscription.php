@@ -46,7 +46,7 @@ if (isset($_POST['valider'])) {
                     $reqInsert->execute();
 
                     // et on affiche une message de validation
-                    echo "Votre inscription a bien été effectuée";
+                    echo "Votre inscription à bien été effectuée";
                    
                 } else {
                     // sinon on affiche un message d'erreur
@@ -66,38 +66,39 @@ if (isset($_POST['valider'])) {
         <form method="post" class="offset-md-2 col-md-8">
             <div class="form-group">
                 <label class="d-flex justify-content-center" for="name">Nom</label>
-                <input type="text" class="form-control w-75 d-flex mx-auto" name="nom" id="name">
+                <input type="text" class="form-control w-75 d-flex mx-auto rounded-pill" name="nom" id="name">
             </div>
             <div class="form-group">
                 <label class="d-flex justify-content-center" for="firstname">Prénom</label>
-                <input type="text" class="form-control w-75 d-flex mx-auto" name="prenom" id="firstname">
+                <input type="text" class="form-control w-75 d-flex mx-auto rounded-pill" name="prenom" id="firstname">
             </div>
             <div class="form-group">
                 <label class="d-flex justify-content-center" for="email">Adresse E-mail</label>
-                <input type="email" class="form-control w-75 d-flex mx-auto" name="mail" id="email">
+                <input type="email" class="form-control w-75 d-flex mx-auto rounded-pill" name="mail" id="email">
             </div>
             <div class="form-group">
                 <label class="d-flex justify-content-center" for="mot_de_passe">Mot de passe</label>
-                <input type="password" class="form-control w-75 d-flex mx-auto" name="mdp" id="mot_de_passe">
+                <input type="password" class="form-control w-75 d-flex mx-auto rounded-pill" name="mdp" id="mot_de_passe">
             </div>
             <div class="form-group">
                 <label class="d-flex justify-content-center" for="conf_mot_de_passe">Confirmation du mot de passe</label>
-                <input type="password" class="form-control w-75 d-flex mx-auto" name="mdp2" id="conf_mot_de_passe">
+                <input type="password" class="form-control w-75 d-flex mx-auto rounded-pill" name="mdp2" id="conf_mot_de_passe">
             </div>
             <div class="form-group">
                 <label class="d-flex justify-content-center" for="adresse">Adresse Postale</label>
-                <input type="text" class="form-control w-75 d-flex mx-auto" name="adresse" id="adresse">
+                <input type="text" class="form-control w-75 d-flex mx-auto rounded-pill" name="adresse" id="adresse">
             </div>
             <div class="form-group">
                 <label class="d-flex justify-content-center" for="code_postal">Code Postal</label>
-                <input type="number" class="form-control w-75 d-flex mx-auto" name="cp" id="code_postal">
+                <input type="number" class="form-control w-75 d-flex mx-auto rounded-pill" name="cp" id="code_postal">
             </div>
             <div class="form-group">
                 <label class="d-flex justify-content-center" for="ville">Ville</label>
-                <input type="text" class="form-control w-75 d-flex mx-auto" name="ville" id="ville">
+                <input type="text" class="form-control w-75 d-flex mx-auto rounded-pill" name="ville" id="ville">
             </div>
-            <input id="btn-valid" class="d-flex justify-content-center mx-auto rounded-pill bg-secondary " type="submit" name="valider" value="">
-            <small id="nameButton" class="form-text text-muted d-flex justify-content-center">VALIDER</small>
+            <?php
+            btnValider();
+            ?>
         </form>
     </div>
 </div>

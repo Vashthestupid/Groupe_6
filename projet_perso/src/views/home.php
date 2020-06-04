@@ -21,6 +21,11 @@ while ($data = $reqSelectAll->fetchObject()) {
 
 ?>
 <div class="container">
+    <?php
+    if($_SESSION['login']){
+        echo "Bienvenue ". $_SESSION['prenom'];
+    }
+    ?>
     <h3 class="d-flex justify-content-center mt-5 ">Voici la liste des produits</h3>
     <div class="row">
         <?php
