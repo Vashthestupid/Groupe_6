@@ -39,8 +39,6 @@ if (isset($_POST['mail']) && isset($_POST['mdp'])) {
 
             header('Location: /');
         }
-    } else {
-        echo "Identifiant ou mot de passe incorrect";
     }
 
     if (isset($_SESSION['login'])) {
@@ -68,6 +66,8 @@ if ($match['target'] === '/') {
     require "src/views/deconnexion.php";
 } elseif ($match['target'] === 'Ajouter_un_jeu') {
     require "src/views/ajout.php";
+} elseif ($match['target'] === 'Jeux') {
+    require "src/views/infoJeu.php";
 }
 // Application du footer
 footer();

@@ -1,13 +1,11 @@
 <?php
 
 // inscription de l'utilisateur
-// Si l'utilisateur a cliqué sur le bouton "valider"
 if (isset($_POST['valider'])) {
-    // on verifie si les champs envoyés ne sont pas vides
     if (empty($_POST['nom']) || empty($_POST['prenom']) || empty($_POST['mail']) || empty($_POST['mdp']) || empty($_POST['mdp2']) || empty($_POST['adresse']) || empty($_POST['cp']) || empty($_POST['ville'])) {
-        echo "Vous devez renseigner tous les champs ! Compris jeune bâtard ?";
+        echo "Vous devez renseigner tous les champs";
     } else {
-        if (isset($_POST['nom']) || isset($_POST['prenom']) || isset($_POST['mail']) || isset($_POST['mdp']) || isset($_POST['mdp2']) || isset($_POST['adresse']) || isset($_POST['cp']) || isset($_POST['ville'])) {
+        if (isset($_POST['nom']) && isset($_POST['prenom']) && isset($_POST['mail']) && isset($_POST['mdp']) && isset($_POST['mdp2']) && isset($_POST['adresse']) && isset($_POST['cp']) && isset($_POST['ville'])) {
             $nom = htmlspecialchars(trim($_POST['nom']));
             $prenom = htmlspecialchars(trim($_POST['prenom']));
             $mail = htmlspecialchars(trim($_POST['mail']));
@@ -47,17 +45,19 @@ if (isset($_POST['valider'])) {
 
                     // et on affiche une message de validation
                     echo "Votre inscription à bien été effectuée";
-                   
                 } else {
                     // sinon on affiche un message d'erreur
                     echo "L'adresse email est déjà utilisée";
                 }
             } else {
-                echo "Les mots de passe ne sont pas identiques ! Décidément plus con que toi tu meurs (èé)";
+                echo "Les mots de passe ne sont pas identiques !";
             }
+        } else {
+            echo "Vous devez renseigner tous les champs";
         }
     }
 }
+
 
 ?>
 <div class="container">
