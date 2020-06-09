@@ -1,7 +1,8 @@
 <?php
 
 // On va récupérer la totalité des jeux 
-$selectAll = "SELECT jeux.titreJeu,
+$selectAll = "SELECT jeux.idJeu,
+jeux.titreJeu,
 jeux.imageJeu,
 users.nomUser,
 users.prenomUser
@@ -21,7 +22,7 @@ while ($data = $reqSelectAll->fetchObject()) {
 <div class="container">
     <?php
     if ($_SESSION['login']) {
-        echo "Bienvenue " . $_SESSION['prenom'];
+        echo "<p class='mt-3'>Bienvenue " . $_SESSION['prenom']. "</p>";
     }
     ?>
     <h3 class="d-flex justify-content-center mt-5 ">Voici la liste des produits</h3>
@@ -37,10 +38,11 @@ while ($data = $reqSelectAll->fetchObject()) {
                     </div>
                     <div class="card-footer">
                         <p class="d-flex justify-content-center">Ajouté par <?= $jeu->prenomUser ?> <?= $jeu->nomUser ?></p>
-                        <a href="<?= $router->generate('Jeux')?>?id=<?=$jeu->idJeu?>">
-                            <button class="w-100">Voir plus</button>
+                        <a href="<?=$router->generate('Jeux')?>?id=<?= $jeu->idJeu?>">
+                            <button type="submit" class="w-100">Voir +</button>
                         </a>
                     </div>
+
                 </div>
             </div>
         <?php

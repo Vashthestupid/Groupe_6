@@ -1,26 +1,26 @@
 // modifier la couleur de la navbar
 .navbar {
     background-color: #0f760f;
-    .navbar-brand{
-        font-family: 'Press Start 2P', cursive;
+    .navbar-brand {
+        font-family: "Press Start 2P", cursive;
     }
     // modifier la couleur du texte
-    .nav-link  {
-        color: #FFF;
+    .nav-link {
+        color: #fff;
     }
 }
 
 // modifier les proportions de mes card et images
-.card{
+.card {
     width: 220px;
     height: 448px;
-    img{
+    img {
         width: 218px;
         height: 289px;
     }
 }
 
-#btn-valid{
+#btn-valid {
     transform: rotate(-40deg);
     -webkit-transform: rotate(-40deg);
     -moz-transform: rotate(-40deg);
@@ -32,7 +32,15 @@
     outline: none;
 }
 
-#nameButton{
+#nameButton {
     margin-top: 30px;
     letter-spacing: 3px;
+}
+
+.imageDetail {
+    width: 289px;
+}
+
+.titreJeu {
+    font-size : 17px;
 }

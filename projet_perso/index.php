@@ -67,7 +67,9 @@ if ($match['target'] === '/') {
 } elseif ($match['target'] === 'Ajouter_un_jeu') {
     require "src/views/ajout.php";
 } elseif ($match['target'] === 'Jeux') {
-    require "src/views/infoJeu.php";
-}
+    require "src/views/info.php";
+} elseif ($match['target'] === 'Ma_Page') {
+    require "src/views/mapage.php";
+} 
 // Application du footer
 footer();
