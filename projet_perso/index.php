@@ -2,6 +2,8 @@
 error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 require "vendor/autoload.php";
+require "src/classes/jeux.php";
+require "src/classes/users.php";
 require "src/views/elements/header.php";
 require "src/views/elements/footer.php";
 require "src/views/elements/fonctions.php";
@@ -70,6 +72,6 @@ if ($match['target'] === '/') {
     require "src/views/info.php";
 } elseif ($match['target'] === 'Ma_Page') {
     require "src/views/mapage.php";
-} 
+}
 // Application du footer
 footer();

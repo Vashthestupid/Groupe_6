@@ -1,33 +1,54 @@
 <?php
 
-// Ajouter le jeu dans la base de données
+var_dump($db);
+
+$jeux = new Jeux($db);
+
 if (isset($_POST['valider'])) {
-    if (empty($_POST['titre']) || empty($_POST['console']) || empty($_POST['prix']) || empty($_POST['image']) || empty($_POST['commentaire'])) {
-        echo "Vous devez renseigner tous les champs";
-    } else {
-        if (isset($_POST['titre']) && isset($_POST['console']) && isset($_POST['prix']) && isset($_POST['image']) && isset($_POST['commentaire'])) {
-            $titre = htmlspecialchars(trim($_POST['titre']));
-            $console = strtoupper(htmlspecialchars(trim($_POST['console'])));
-            $prix = intval($_POST['prix']);
-            $image = htmlspecialchars(trim($_POST['image']));
-            $commentaire = htmlspecialchars(trim($_POST['commentaire']));
+    if(isset($_POST['titre']) && isset($_POST['console']) && isset($_POST['prix']) && isset($_POST['image']) && isset($_POST['commentaire'])){
+        $jeux->setTitre($_POST['titre']);
+        $jeux->setConsole($_POST['console']);
+        $jeux->setPrix($_POST['prix']);
+        $jeux->setImage($_POST['image']);
+        $jeux->setCommentaire($_POST['commentaire']);
+        $jeux->setIdUser($_SESSION['idUser']);
+        $jeux->insert();
 
-            // On va ajouter le jeu . A savoir que je ne suis pas contre les doublons
-            $insertJeu = "INSERT INTO jeux (titreJeu,consoleJeu,prixJeu,imageJeu,commentaireJeu,dateAjout,users_idUser) VALUES(:titre,:console,:prix,:image,:commentaire,NOW(),:user)";
-
-            $reqInsert = $db->prepare($insertJeu);
-            $reqInsert->bindParam(':titre', $titre);
-            $reqInsert->bindParam(':console', $console);
-            $reqInsert->bindParam(':prix', $prix);
-            $reqInsert->bindParam(':image', $image);
-            $reqInsert->bindParam(':commentaire', $commentaire);
-            $reqInsert->bindParam(':user', $_SESSION['idUser']);
-            $reqInsert->execute();
-
-            echo $_SESSION['prenom'] . " votre jeu a bien été ajouté.";
-        }
     }
 }
+
+
+
+
+
+// Ajouter le jeu dans la base de données
+// if (isset($_POST['valider'])) {
+//     if (empty($_POST['titre']) || empty($_POST['console']) || empty($_POST['prix']) || empty($_POST['image']) || empty($_POST['commentaire'])) {
+//         echo "Vous devez renseigner tous les champs";
+//     } else {
+//         if (isset($_POST['titre']) && isset($_POST['console']) && isset($_POST['prix']) && isset($_POST['image']) && isset($_POST['commentaire'])) {
+//             $titre = htmlspecialchars(trim($_POST['titre']));
+//             $console = strtoupper(htmlspecialchars(trim($_POST['console'])));
+//             $prix = intval($_POST['prix']);
+//             $image = htmlspecialchars(trim($_POST['image']));
+//             $commentaire = htmlspecialchars(trim($_POST['commentaire']));
+
+//             // On va ajouter le jeu . A savoir que je ne suis pas contre les doublons
+//             $insertJeu = "INSERT INTO jeux (titreJeu,consoleJeu,prixJeu,imageJeu,commentaireJeu,dateAjout,users_idUser) VALUES(:titre,:console,:prix,:image,:commentaire,NOW(),:user)";
+
+//             $reqInsert = $db->prepare($insertJeu);
+//             $reqInsert->bindParam(':titre', $titre);
+//             $reqInsert->bindParam(':console', $console);
+//             $reqInsert->bindParam(':prix', $prix);
+//             $reqInsert->bindParam(':image', $image);
+//             $reqInsert->bindParam(':commentaire', $commentaire);
+//             $reqInsert->bindParam(':user', $_SESSION['idUser']);
+//             $reqInsert->execute();
+
+//             echo $_SESSION['prenom'] . " votre jeu a bien été ajouté.";
+//         }
+//     }
+// }
 
 ?>
 <div class="container">
