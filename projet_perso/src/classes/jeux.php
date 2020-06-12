@@ -47,11 +47,14 @@ class Jeux
         return $result->fetchAll();
     }
 
+    
+
 
     public function selectJeu()
     {
 
-        $selectJeu = "SELECT titreJeu,
+        $selectJeu = "SELECT idJeu,
+        titreJeu,
          consoleJeu,
          prixJeu,
          imageJeu,
@@ -70,28 +73,17 @@ class Jeux
         return $req->fetchAll();
     }
 
-
-
-    /**
-     * Get the value of idUser
-     */
-    public function getIdUser()
+    public function deleteJeu()
     {
-        return $this->idUser;
+        $delete = "DELETE FROM jeux WHERE idJeu = :id";
+
+        $req = $this->db->prepare($delete);
+        $req->bindParam(':id', $this->id);
+        $req->execute();
+
+        return $req->fetchAll();
     }
 
-    /**
-     * Set the value of idUser
-     *
-     * @return  self
-     */
-    public function setIdUser($idUser)
-    {
-        $this->idUser = (int) $idUser;
-
-
-        return $this;
-    }
 
     /**
      * Get the value of image
@@ -213,43 +205,4 @@ class Jeux
         return $this;
     }
 
-    /**
-     * Get the value of prenomUser
-     */
-    public function getPrenomUser()
-    {
-        return $this->prenomUser;
-    }
-
-    /**
-     * Set the value of prenomUser
-     *
-     * @return  self
-     */
-    public function setPrenomUser($prenomUser)
-    {
-        $this->prenomUser = htmlspecialchars(trim($prenomUser));
-
-        return $this;
-    }
-
-    /**
-     * Get the value of nomUser
-     */
-    public function getNomUser()
-    {
-        return $this->nomUser;
-    }
-
-    /**
-     * Set the value of nomUser
-     *
-     * @return  self
-     */
-    public function setNomUser($nomUser)
-    {
-        $this->nomUser = htmlspecialchars(trim($nomUser));
-
-        return $this;
-    }
 }

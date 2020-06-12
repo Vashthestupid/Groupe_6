@@ -42,4 +42,8 @@
   font-size: 17px;
 }
 
+.informations li {
+  list-style-type: none;
+}
+
 /*# sourceMappingURL=main.css.map */

@@ -26,7 +26,7 @@ $infosJeux = $infoProduit->selectJeu();
                     <?php
                     } else {
                     ?>
-                        <p>Possesseur:<a name="lien" href="<?= $router->generate('Ma_Page') ?>?nom=<?= $infoJeu['nomUser'] ?>&prenom=<?= $infoJeu['prenomUser'] ?>"><?= $infoJeu['prenomUser'] ?> <?= $infoJeu['nomUser'] ?></a></p>
+                        <p>Possesseur:<a href="<?= $router->generate('Ma_Page') ?>?nom=<?= $infoJeu['nomUser'] ?>&prenom=<?= $infoJeu['prenomUser'] ?>"><?= $infoJeu['prenomUser'] ?> <?= $infoJeu['nomUser'] ?></a></p>
                     <?php
                     }
                     ?>

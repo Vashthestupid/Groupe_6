@@ -56,7 +56,7 @@ function head()
                             <a class="nav-link" href="Ajouter_un_jeu">Ajouter un jeu</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="Ma_page">Ma page</a>
+                            <a class="nav-link" href="Ma_Page">Ma page</a>
                         </li>
                     <?php
                     }

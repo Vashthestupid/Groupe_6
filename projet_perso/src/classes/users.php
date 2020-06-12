@@ -2,6 +2,7 @@
 
 class Users
 {
+    private $id;
     private $nom;
     private $prenom;
     private $mail;
@@ -32,6 +33,80 @@ class Users
         $req->bindParam(':ville', $this->ville);
         $req->execute();
     }
+
+    public function selectUserGET()
+    {
+        $select = "SELECT nomUser,
+        prenomUser,
+        mailUser,
+        adresseUser,
+        cpUser,
+        villeUser
+        FROM users
+        WHERE nomUser = :nom AND prenomUser = :prenom";
+
+        $req = $this->db->prepare($select);
+        $req->bindParam(':nom', $this->nom);
+        $req->bindParam(':prenom', $this->prenom);
+        $req->execute();
+
+        return $req->fetchAll();
+    }
+
+    // On récupère les jeux vendus par le revendeur.
+    
+
+    public function selectUserSession()
+    {
+        $select = "SELECT nomUser,
+        prenomUser,
+        mailUser,
+        adresseUser,
+        cpUser,
+        villeUser
+        FROM users
+        WHERE idUser = :id";
+
+        $req = $this->db->prepare($select);
+        $req->bindParam(':id', $this->id);
+        $req->execute();
+
+        return $req->fetchAll();
+    }
+
+    public function selectJeuAVendre()
+    {
+        $select = "SELECT titreJeu,
+        consoleJeu,
+        prixJeu
+        FROM jeux 
+        INNER JOIN users ON jeux.users_idUser = users.idUser
+        WHERE nomUser = :nom AND prenomUser = :prenom";
+
+        $req = $this->db->prepare($select);
+        $req->bindParam(':nom', $this->nom);
+        $req->bindParam(':prenom', $this->prenom);
+        $req->execute();
+
+        return $req->fetchAll();
+    }
+    
+    public function selectJeuUser(){
+        $select = "SELECT idJeu, 
+        titreJeu,
+        prixJeu 
+        FROM jeux
+        INNER JOIN users ON jeux.users_idUser = users.idUser
+        WHERE idUser = :id";
+
+        $req = $this->db->prepare($select);
+        $req->bindParam(':id', $this->id);
+        $req->execute();
+
+        return $req->fetchAll();
+    }
+
+
 
     /**
      * Get the value of nom
@@ -170,6 +245,26 @@ class Users
     public function setVille($ville)
     {
         $this->ville = htmlspecialchars(trim($ville));
+
+        return $this;
+    }
+
+    /**
+     * Get the value of id
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set the value of id
+     *
+     * @return  self
+     */
+    public function setId($id)
+    {
+        $this->id = (int) $id;
 
         return $this;
     }
