@@ -1,54 +1,41 @@
 <?php
+
 error_reporting(E_ALL & ~E_NOTICE);
 session_start();
 require "vendor/autoload.php";
-require "src/classes/jeux.php";
-require "src/classes/users.php";
 require "src/views/elements/header.php";
 require "src/views/elements/footer.php";
 require "src/views/elements/fonctions.php";
 require "src/config/config.php";
-require "src/model/connect.php";
+require "src/config/connect.php";
 
 //Connexion à la base de données 
 $db = connection();
 
+use App\Model\Users;
+
+$conn = new Users($db);
+
 // Partie création de session
 // Si les champs envoyés existent
 if (isset($_POST['mail']) && isset($_POST['mdp'])) {
-    $mail = htmlspecialchars(trim($_POST['mail']));
-    $mdp = htmlspecialchars(trim($_POST['mdp']));
+    $conn->setMail($_POST['mail']);
+    $req = $conn->connexion();
+    $mailUser = $req->mailUser;
+    $_SESSION['prenom'] = $req->prenomUser;
+    $_SESSION['nom'] = $req->nomUser;
+    $_SESSION['idUser'] = $req->id;
 
-    // on selectionne toutes les données de la table "users" où l'adresse email est égal à la valeur du champ "mail" envoyé
-    $selectUser = "SELECT * FROM users WHERE users.mailUser = :mail ";
+    $passwordValid = password_verify($_POST['mdp'], $req->mdpUser);
 
-    $reqSelectUser = $db->prepare($selectUser);
-    $reqSelectUser->bindParam(':mail', $mail);
-    $reqSelectUser->execute();
-
-    // On récupère les information pour les utiliser dans des variables de session
-    $data = $reqSelectUser->fetchObject();
-    $_SESSION['prenom'] = $data->prenomUser;
-    $_SESSION['idUser'] = $data->idUser;
-
-    // On verifie si le mot de passe est bien celui de l'utilisateur
-    if (password_verify($_POST['mdp'], $data->mdpUser)) {
-        if (isset($_SESSION['login'])) {
-            $email = $_SESSION['login'];
-        } else {
-            $_SESSION['login'] = $_POST['mail'];
-            $email = $_SESSION['login'];
-
-            header('Location: /');
-        }
-    }
-
-    if (isset($_SESSION['login'])) {
-        $email = $_SESSION['login'];
+    if (!$passwordValid) {
+        header('Location: /?erreur=Identifiant ou mot de passe incorrect');
     } else {
-        $email = "";
+        $_SESSION['login'] = $mailUser;
+        header('Location: /');
     }
 }
+
 
 //Application du header
 head();
@@ -68,12 +55,26 @@ if ($match['target'] === '/') {
     require "src/views/deconnexion.php";
 } elseif ($match['target'] === 'Ajouter_un_jeu') {
     require "src/views/ajout.php";
-} elseif ($match['target'] === 'Jeux') {
+} elseif ($match['target'] === 'Detail_du_jeu') {
     require "src/views/info.php";
 } elseif ($match['target'] === 'Ma_Page') {
     require "src/views/user.php";
+} elseif ($match['target'] === 'Modifier_Jeu'){
+    require "src/views/updateJeu.php";
+} elseif ($match['target'] === 'Modifier_Utilisateur'){
+    require "src/views/updateUser.php";
+} elseif ($match['target'] === 'Recherche'){
+    require "src/views/recherche.php";
 }
-
 
 // Application du footer
 footer();
+
+// Log
+use App\Log\Logger;
+
+$file = fopen('log.txt', 'a+');
+$logger = new Logger($file);
+$logger->setPrenom($_SESSION['prenom']);
+$logger->write();
+fclose($file);

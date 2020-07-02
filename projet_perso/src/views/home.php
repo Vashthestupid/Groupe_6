@@ -1,14 +1,21 @@
 <?php
 
-$produits = new Jeux($db);
-$listeJeux = $produits->selectAll();
-// var_dump($listeJeux);
+use App\Model\Jeux;
+use App\Model\Users;
+
+$jeux = new Jeux($db);
+$listeJeux = $jeux->selectAll();
 
 ?>
 <div class="container">
     <?php
     if ($_SESSION['login']) {
-        echo "<p class='mt-3'>Bienvenue " . $_SESSION['prenom'] . "</p>";
+        echo "<p class=' alert alert-success mt-3'>Bienvenue " . $_SESSION['prenom'] .  "</p>";
+    }
+    if(isset($_GET['erreur'])){
+        $erreur = new Users($db);
+        $erreur->setErreur($_GET['erreur']);
+        $erreur->erreur();
     }
     ?>
     <h3 class="d-flex justify-content-center mt-5 ">Voici la liste des produits</h3>
@@ -23,8 +30,8 @@ $listeJeux = $produits->selectAll();
                         <h6 class="card-title d-flex justify-content-center "><?= $jeux['titreJeu']?></h6>
                     </div>
                     <div class="card-footer">
-                        <p class="d-flex justify-content-center">Ajouté par <?= $jeux['prenomUser'] ?> <?= $jeux['nomUser'] ?></p>
-                        <a href="<?= $router->generate('Jeux') ?>?id=<?= $jeux['idJeu'] ?>">
+                        <p id="ajoutBy"class="d-flex justify-content-center">Ajouté par <?= $jeux['prenomUser'] ?> <?= $jeux['nomUser'] ?></p>
+                        <a href="<?= $router->generate('Detail_du_jeu') ?>?id=<?= $jeux['id'] ?>">
                             <button type="submit" class="w-100">Voir +</button>
                         </a>
                     </div>

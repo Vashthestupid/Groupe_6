@@ -1,3 +1,7 @@
+body {
+  background-color: #ecf0f1;
+}
+
 .navbar {
   background-color: #0f760f;
 }
@@ -42,8 +46,16 @@
   font-size: 17px;
 }
 
+#ajoutBy {
+  font-size: smaller;
+}
+
 .informations li {
   list-style-type: none;
+}
+
+.alert {
+  width: fit-content;
 }
 
 /*# sourceMappingURL=main.css.map */

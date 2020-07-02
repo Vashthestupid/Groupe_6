@@ -1,60 +1,30 @@
 <?php
 
-var_dump($db);
+use App\Model\Jeux;
+// var_dump($_SESSION['idUser']);
+$jeu = new Jeux($db);
 
-$jeux = new Jeux($db);
-
-if (isset($_POST['valider'])) {
-    if(isset($_POST['titre']) && isset($_POST['console']) && isset($_POST['prix']) && isset($_POST['image']) && isset($_POST['commentaire'])){
-        $jeux->setTitre($_POST['titre']);
-        $jeux->setConsole($_POST['console']);
-        $jeux->setPrix($_POST['prix']);
-        $jeux->setImage($_POST['image']);
-        $jeux->setCommentaire($_POST['commentaire']);
-        $jeux->setIdUser($_SESSION['idUser']);
-        $jeux->insert();
-
+if(isset($_POST['valider'])){
+    if(empty($_POST['titre']) || empty($_POST['console']) || empty($_POST['prix']) || empty($_POST['image']) || empty($_POST['commentaire'])){
+        echo "Vous devez renseigner tous les champs";
+    } else {
+        if(isset($_POST['titre']) && isset($_POST['console']) && isset($_POST['prix']) && isset($_POST['image']) && isset($_POST['commentaire'])){           
+            $jeu->setTitre($_POST['titre']);
+            $jeu->setConsole($_POST['console']);
+            $jeu->setPrix($_POST['prix']);
+            $jeu->setImage($_POST['image']);
+            $jeu->setCommentaire($_POST['commentaire']);
+            $jeu->setId($_SESSION['idUser']);
+            $jeu->insert();
+            echo "Votre jeu a bien été ajouté";
+        }
     }
 }
-
-
-
-
-
-// Ajouter le jeu dans la base de données
-// if (isset($_POST['valider'])) {
-//     if (empty($_POST['titre']) || empty($_POST['console']) || empty($_POST['prix']) || empty($_POST['image']) || empty($_POST['commentaire'])) {
-//         echo "Vous devez renseigner tous les champs";
-//     } else {
-//         if (isset($_POST['titre']) && isset($_POST['console']) && isset($_POST['prix']) && isset($_POST['image']) && isset($_POST['commentaire'])) {
-//             $titre = htmlspecialchars(trim($_POST['titre']));
-//             $console = strtoupper(htmlspecialchars(trim($_POST['console'])));
-//             $prix = intval($_POST['prix']);
-//             $image = htmlspecialchars(trim($_POST['image']));
-//             $commentaire = htmlspecialchars(trim($_POST['commentaire']));
-
-//             // On va ajouter le jeu . A savoir que je ne suis pas contre les doublons
-//             $insertJeu = "INSERT INTO jeux (titreJeu,consoleJeu,prixJeu,imageJeu,commentaireJeu,dateAjout,users_idUser) VALUES(:titre,:console,:prix,:image,:commentaire,NOW(),:user)";
-
-//             $reqInsert = $db->prepare($insertJeu);
-//             $reqInsert->bindParam(':titre', $titre);
-//             $reqInsert->bindParam(':console', $console);
-//             $reqInsert->bindParam(':prix', $prix);
-//             $reqInsert->bindParam(':image', $image);
-//             $reqInsert->bindParam(':commentaire', $commentaire);
-//             $reqInsert->bindParam(':user', $_SESSION['idUser']);
-//             $reqInsert->execute();
-
-//             echo $_SESSION['prenom'] . " votre jeu a bien été ajouté.";
-//         }
-//     }
-// }
-
 ?>
 <div class="container">
     <h3 class="d-flex justify-content-center mt-5 ">Ajouter un jeu</h3>
-    <div id="inscription">
-        <form method="post" class="offset-md-2 col-md-8">
+    <div id="insertGame">
+        <form id="ajoutJeu" method="post" class="offset-md-2 col-md-8">
             <div class="form-group">
                 <label class="d-flex justify-content-center" for="title">Titre du jeu</label>
                 <input type="text" class="form-control w-75 d-flex mx-auto rounded-pill" name="titre" id="title">
@@ -78,6 +48,7 @@ if (isset($_POST['valider'])) {
             <?php
             btnValider();
             ?>
+            <small id="nameButton" name="ajouterJeu" class="form-text text-muted d-flex justify-content-center">VALIDER</small>
         </form>
     </div>
 </div>

@@ -1,16 +1,17 @@
-// modifier la couleur de la navbar
+body{
+    background-color: #ecf0f1;
+}
+
 .navbar {
     background-color: #0f760f;
     .navbar-brand {
         font-family: "Press Start 2P", cursive;
     }
-    // modifier la couleur du texte
     .nav-link {
         color: #fff;
     }
 }
 
-// modifier les proportions de mes card et images
 .card {
     width: 220px;
     height: 448px;
@@ -45,8 +46,16 @@
     font-size : 17px;
 }
 
+#ajoutBy{
+    font-size: smaller;
+}
+
 .informations{
     li{
         list-style-type: none;
     }
+}
+
+.alert{
+    width: fit-content;
 }

@@ -2,7 +2,7 @@
 
 function head()
 {
-    
+
 ?>
     <!doctype html>
     <html lang="fr">
@@ -61,39 +61,10 @@ function head()
                     <?php
                     }
                     ?>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Consoles
-                        </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <div class="dropdow-divider bg-secondary text-light d-flex justify-content-center">Nintendo</div>
-                            <a class="dropdown-item" href="Nintendo_64">Nintendo 64</a>
-                            <a class="dropdown-item" href="GameCube">GameCube</a>
-                            <a class="dropdown-item" href="Wii">Wii</a>
-                            <a class="dropdown-item" href="WiiU">WiiU</a>
-                            <a class="dropdown-item" href="GameCube">GameCube</a>
-                            <div class="dropdow-divider bg-secondary text-light d-flex justify-content-center">SEGA</div>
-                            <a class="dropdown-item" href="Master_System">Master System</a>
-                            <a class="dropdown-item" href="MegaDrive">MegaDriv</a>
-                            <a class="dropdown-item" href="Saturn">Saturn</a>
-                            <a class="dropdown-item" href="DreamCast">DreamCast</a>
-                            <div class="dropdow-divider bg-secondary text-light d-flex justify-content-center">Sony</div>
-                            <a class="dropdown-item" href="Playstation">Playstation</a>
-                            <a class="dropdown-item" href="Playstation_2">Playstation 2</a>
-                            <a class="dropdown-item" href="Playstation_3">Playstation 3</a>
-                            <a class="dropdown-item" href="Playstation_4">Playstation 4 </a>
-                            <a class="dropdown-item" href="PSP">PSP</a>
-                            <div class="dropdow-divider bg-secondary text-light d-flex justify-content-center">Microsoft/PC</div>
-                            <a class="dropdown-item" href="Xbox">Xbox</a>
-                            <a class="dropdown-item" href="Xbox_360">Xbox 360</a>
-                            <a class="dropdown-item" href="Xbox_One">Xbox One</a>
-                            <a class="dropdown-item" href="PC">PC</a>
-                        </div>
-                    </li>
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-success btn-outline-light my-2 my-sm-0" type="submit">Search</button>
+                <form action="Recherche" method="post" class="form-inline my-2 my-lg-0">
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="recherche">
+                    <button class="btn btn-success btn-outline-light my-2 my-sm-0" name="search" type="submit">Search</button>
                 </form>
             </div>
         </nav>
