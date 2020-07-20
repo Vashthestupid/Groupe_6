@@ -1,0 +1,12 @@
+#connexion, #inscription{
+    display : none;
+}
+
+.nomProduit{
+    text-decoration: underline;
+}
+
+#infoUser li {
+    list-style-type: none;
+    margin-top: 30px;
+}
