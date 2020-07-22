@@ -4330,7 +4330,7 @@ function head()
                     <li class="nav-item dropdown">
                         <a class="nav-link link  dropdown-toggle text-black display-4" data-toggle="dropdown-submenu" aria-expanded="false">Explore</a>
                         <div class="dropdown-menu">
-                            <a class="dropdown-item text-black display-4" href="#">Sunglasses</a>
+                            <a class="dropdown-item text-black display-4" href="/lunettes">Sunglasses</a>
                             <a class="dropdown-item text-black display-4" href="#">Belts</a><a class="text-black dropdown-item display-4" href="#" aria-expanded="false">Accessories </a>
                         </div>
                     </li>
@@ -4426,7 +4426,7 @@ function head()
                             <li class="nav-item dropdown">
                                 <a class="nav-link link  dropdown-toggle text-black display-4" data-toggle="dropdown" aria-expanded="false">Explore</a>
                                 <div class="dropdown-menu">
-                                    <a class="dropdown-item text-black display-4" href="#">Sunglasses</a>
+                                    <a class="dropdown-item text-black display-4" href="/lunettes">Sunglasses</a>
                                     <a class="dropdown-item text-black display-4" href="#">Belts</a>
                                     <a class="text-black dropdown-item display-4" href="#" aria-expanded="false">Accessories </a>
                                 </div>

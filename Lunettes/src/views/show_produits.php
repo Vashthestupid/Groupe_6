@@ -38,7 +38,7 @@ if (isset($_POST['ajout'])) {
             <p><?= $row->descProduit ?></p>
             <form class="mt-5 w-50 d-flex mx-auto" action="" method="post">
                 <input type="number" value="<?= $row->id ?>" hidden>
-                <input type="submit" name="ajout" value="Ajouter au panier">
+                <input class="btn btn-sm btn-outline-dark" type="submit" name="ajout" value="Ajouter au panier">
                 <input class='ml-2' type="number" name="quantite" value="1">
             </form>
         </div>
