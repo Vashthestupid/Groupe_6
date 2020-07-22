@@ -211,7 +211,7 @@ while ($data = $req->fetchObject()) {
                     <h4 class="mbr-section-subtitle mbr-fonts-style align-center display-4">GIFT GUIDE</h4>
                     <h3 class="mbr-section-title mbr-fonts-style align-center mbr-pb-4 display-2">Shop All Gifts</h3>
 
-                    <div class="mbr-section-btn align-center"><a class="btn btn-lg btn-black display-4" href="#">Shop</a></div>
+                    <div class="mbr-section-btn align-center"><a class="btn btn-lg btn-black display-4" href="/lunettes">Shop</a></div>
                 </div>
             </div>
 
@@ -274,7 +274,7 @@ while ($data = $req->fetchObject()) {
                         <!--Item-->
                         <div class="item-wrapper">
                             <div class="item-content mbr-pb-3">
-                                <h4 class="item-title mbr-fonts-style mbr-bold text-success mbr-pb-1 display-4"><? $produit->nomProduit?></h4>
+                                <h4 class="item-title mbr-fonts-style mbr-bold text-success mbr-pb-1 display-4"><?= $produit->nomProduit?></h4>
                                 <span class="cur mbr-fonts-style display-4">$</span>
                                 <span class="item-price mbr-fonts-style display-4"><?= $produit->prixProduit?></span>
 
@@ -438,7 +438,7 @@ while ($data = $req->fetchObject()) {
                     <p class="mbr-fonts-style mbr-text align-left mbr-pb-5  display-7">Lorem ipsum dolor sit amet,
                         consectetur adipiscing elit. Nunc commodo ligula eget ex accumsan, in ultricies tellus vehicula
                     </p>
-                    <div class="mbr-section-btn align-left"><a class="btn btn-md btn-warning-outline display-4" href="#"><span class="mobi-mbri mobi-mbri-right mbr-iconfont mbr-iconfont-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="19" height="19">
+                    <div class="mbr-section-btn align-left"><a class="btn btn-md btn-warning-outline display-4" href="/lunettes"><span class="mobi-mbri mobi-mbri-right mbr-iconfont mbr-iconfont-btn"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="19" height="19">
                                     <path d="M24 11l-6.7 6.7-1.4-1.4 4.3-4.3H0v-2h20.2l-4.3-4.3 1.4-1.4L24 11z"></path>
                                 </svg></span>Shop Now</a>
                     </div>
