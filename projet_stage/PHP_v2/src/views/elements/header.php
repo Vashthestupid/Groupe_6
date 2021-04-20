@@ -43,7 +43,7 @@ function head()
 						<a class="nav-link" href="Livres">Livres</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="Films">Film</a>
+						<a class="nav-link" href="Films">Films</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="Jeux">Jeux Video</a>

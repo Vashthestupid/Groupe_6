@@ -189,7 +189,7 @@ class Users extends Model
         $req->bindParam(':mail', $mail);
         $req->execute();
 
-        return $req->fetchObject();
+    return $req->fetchObject();
 
 
         //

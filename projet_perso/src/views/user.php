@@ -1,7 +1,5 @@
 <?php
 
-echo $_POST['id'];
-
 use App\Model\Users;
 use App\Model\Jeux;
 
